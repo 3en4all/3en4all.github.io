@@ -1,6 +1,6 @@
 .gawra-fixed-text {
   position: fixed;
-  top: 60%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -12,14 +12,13 @@
 }
 
 .gawra-fixed-text h1 {
-  color: #d4af37;
   font-family: 'Orbitron', sans-serif;
-  font-size: clamp(1.5rem, 6vw, 3.5rem);
+  font-size: clamp(2rem, 5vw, 4rem);
   margin-bottom: 0.5em;
 }
 
 .gawra-fixed-text p {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: clamp(1rem, 2.5vw, 1.5rem);
 }
 
@@ -52,10 +51,17 @@
   }
 }
 
+/* Poprawka: menu mobilne zawsze na wierzchu */
+nav.menu {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999 !important;
+}
 
-
-
-.gawra-logo-text {
-  color: #d4af37 !important;
-  font-family: 'Share Tech Mono', monospace !important;
+/* Logo i nagłówek pod spodem */
+.logo, .site-title, header {
+    position: relative;
+    z-index: 10 !important;
 }
