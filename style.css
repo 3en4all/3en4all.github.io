@@ -1,0 +1,61 @@
+.gawra-fixed-text {
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 99999;
+  pointer-events: none;
+  padding: 2rem;
+  background: transparent;
+}
+
+.gawra-fixed-text h1 {
+  color: #d4af37;
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.5rem, 6vw, 3.5rem);
+  margin-bottom: 0.5em;
+}
+
+.gawra-fixed-text p {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.gawra-fixed-text .highlight {
+  color: #00ffff;
+}
+
+
+.footer-link-special {
+    color: #66ccff;
+    margin-top: 12px;
+    display: inline-block;
+}
+
+
+.mobile-link-special a {
+    color: #ffcc66;
+    margin-top: 8px;
+    display: inline-block;
+}
+
+@media (max-width: 991px) {
+    color: #ffc107 !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .navbar-nav .highlight-link {
+    color: #ffc107 !important;
+  }
+}
+
+
+
+
+.gawra-logo-text {
+  color: #d4af37 !important;
+  font-family: 'Share Tech Mono', monospace !important;
+}
