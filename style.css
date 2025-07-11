@@ -1,3 +1,24 @@
+/* ===== Zmienne CSS ===== */
+:root {
+  --main-bg: #181717;
+  --main-text: #ffffff;
+  --accent-color: #ffcc00;
+  --spacing-small: 10px;
+  --spacing-medium: 1rem;
+  --spacing-large: 3rem;
+  --text-color-muted: #717275;
+}
+
+:root {
+  --main-bg: #181717;
+  --main-text: #ffffff;
+  --accent-color: #ffcc00;
+  --spacing-small: 10px;
+  --spacing-medium: 1rem;
+  --spacing-large: 3rem;
+  --text-color-muted: #717275;
+}
+
 .gawra-fixed-text {
   position: fixed;
   top: 50%;
@@ -51,17 +72,61 @@
   }
 }
 
-/* Poprawka: menu mobilne zawsze na wierzchu */
-nav.menu {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999 !important;
+/* === Responsywność === */
+@media (max-width: 768px) {
+  body {
+    font-size: 0.95rem;
+  }
+
+  .avatar {
+    width: 60px !important;
+    float: left;
+    margin: 10px;
+  }
+
+  .slider {
+    height: 200px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
 }
 
-/* Logo i nagłówek pod spodem */
-.logo, .site-title, header {
-    position: relative;
-    z-index: 10 !important;
+/* ===== arrow.css ===== */
+/* Styl dla animowanej strzałki pokazującej menu */
+.arrow-indicator {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    color: white;
+    text-shadow: 0 0 5px rgba(0,0,0,0.7);
+    animation: bounce 1s infinite;
+    z-index: 9999;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+/* === Responsywność === */
+@media (max-width: 768px) {
+  body { font-size: 0.95rem; }
+  .avatar {
+    width: 60px !important;
+    float: left;
+    margin: 10px;
+  }
+  .slider { height: 200px; }
+  nav ul {
+    flex-direction: column;
+    align-items: start;
+  }
+  header h1 { font-size: 1.2rem; }
 }
