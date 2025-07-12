@@ -1,4 +1,3 @@
-
 /* Panel menu */
 .side-menu {
   position: fixed;
@@ -36,20 +35,9 @@
   text-decoration: none;
 }
 
-#menu-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  backdrop-filter: blur(4px);
-  z-index: 10000;
-  display: none;
-}
 
-#menu-overlay.active {
-  display: block;
-}
+
+
 
 /* Przycisk zamykania */
 .close-button {
@@ -269,22 +257,9 @@ body.menu-open #menu-toggle {
 
 
 /* Styl dla menu-overlay */
-#menu-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
 
-#menu-overlay.active {
-  opacity: 1;
-  pointer-events: all;
-}
+
+
 
 
 /* Ostateczne style zapewniające widoczność menu */
@@ -512,4 +487,219 @@ body {
   box-shadow: none;
   border: none;
   z-index: 9999;
+}
+
+#menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#menu-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Naprawa: menu musi być nad overlayem i mieć aktywne wskaźniki */
+#side-menu {
+  position: fixed;
+  pointer-events: auto;
+  z-index: 10001 !important;
+}
+
+#side-menu a {
+  cursor: pointer;
+}
+
+.site-footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+
+/* Klasa dla końcowego rozmycia */
+.blur-end {
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+
+.site-footer, footer {
+  position: relative;
+  bottom: 0;
+  margin-top: auto;
+  z-index: 1;
+}
+
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#footer {
+  margin-top: auto;
+}
+
+.custom-video.blur-start {
+  filter: blur(8px) !important;
+  opacity: 0.5;
+  transition: filter 2s ease, opacity 2s ease;
+}
+
+.custom-video.blur-end {
+  filter: blur(0px) !important;
+  opacity: 1;
+}
+
+
+.video-wrapper.blur-start {
+  filter: blur(8px);
+  opacity: 0.5;
+  transition: filter 2s ease, opacity 2s ease;
+}
+
+.video-wrapper.blur-end {
+  filter: blur(0px);
+  opacity: 1;
+}
+
+
+.video-wrapper {
+  position: relative;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+
+.video-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.blur-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  transition: backdrop-filter 2s ease, opacity 2s ease;
+  z-index: 2;
+}
+
+.blur-overlay.blur-end {
+  backdrop-filter: blur(0px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.blur-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2); /* delikatna mgła */
+  backdrop-filter: blur(10px);
+  transition: backdrop-filter 2s ease, opacity 2s ease;
+  z-index: 2;
+}
+
+.blur-overlay.blur-end {
+  backdrop-filter: blur(0px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.custom-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+
+.blur-overlay {
+  backdrop-filter: blur(10px);
+  transition: backdrop-filter 4s ease, opacity 4s ease;
+}
+
+
+.blur-overlay {
+  backdrop-filter: blur(10px);
+  transition: backdrop-filter 7s ease, opacity 7s ease;
+}
+
+@media (min-width: 768px) {
+  .side-menu a {
+    font-size: 1.2rem !important;
+    display: block;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .side-menu {
+    width: 320px !important;
+  }
+
+  .side-menu a {
+    white-space: normal !important;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .side-menu {
+    width: 400px !important;
+  }
+
+  .side-menu a {
+    white-space: normal !important;
+  }
+}
+
+
+/* Kiedy menu jest otwarte, cała zawartość strony (poza menu) ma być rozmyta */
+
+
+body.menu-open .blur-overlay {
+  opacity: 0.3;
+}
+
+
+/* Lżejsze rozmycie i przyciemnienie tła strony po otwarciu menu */
+
+body.menu-open .page-content,
+body.menu-open #video-bg,
+body.menu-open .video-wrapper {
+  filter: blur(3px) brightness(0.9);
+  transition: filter 0.3s ease;
+  pointer-events: none;
 }

@@ -1,4 +1,3 @@
-
 console.log("menu.js uruchomiony");
 
 const menuToggle = document.getElementById("menu-toggle");
@@ -15,8 +14,6 @@ if (menuToggle && sideMenu && menuOverlay) {
     menuOverlay.classList.add("active");
     menuToggle.classList.add("active");
     document.body.classList.add("menu-open");
-    console.log("Dodano klasę .open do #side-menu");
-    console.log("Klasy side-menu:", sideMenu.classList.value);
   });
 
   const closeSideMenu = () => {
@@ -32,6 +29,17 @@ if (menuToggle && sideMenu && menuOverlay) {
   }
 
   menuOverlay.addEventListener("click", closeSideMenu);
+
+  // Zamyka menu gdy klikniesz cokolwiek poza <a> lub #menu-toggle
+  document.addEventListener("click", function (event) {
+    const path = event.composedPath();
+    const clickedLinkOrToggle = path.some(el =>
+      el.tagName === "A" || el === menuToggle
+    );
+    if (!clickedLinkOrToggle && sideMenu.classList.contains("open")) {
+      closeSideMenu();
+    }
+  });
 } else {
   console.log("Nie znaleziono elementów menu");
 }

@@ -1,10 +1,4 @@
 <!DOCTYPE html>
-<div id="menu-toggle" class="hamburger" style="background: transparent !important; display: flex; flex-direction: column; justify-content: space-between; width: 28px; height: 20px; border: none; padding: 0; cursor: pointer; z-index: 1001;">
-  <span style="display: block; height: 3px; background-color: #eeeeee !important; border-radius: 1px; opacity: 0.9; transition: all 0.3s ease;"></span>
-  <span style="display: block; height: 3px; background-color: #eeeeee !important; border-radius: 1px; opacity: 0.9; transition: all 0.3s ease;"></span>
-  <span style="display: block; height: 3px; background-color: #eeeeee !important; border-radius: 1px; opacity: 0.9; transition: all 0.3s ease;"></span>
-</div>
-
 <html lang="en">
 
  <head>
@@ -203,162 +197,48 @@ Bootstrap 5 Form Pack Template
   <link rel="stylesheet" href="css/menu.css">
  </head>
 
- <body>
-<div class="page-container">
-<div class="page-wrapper">
-
-<video autoplay muted loop class="custom-video blur-start" poster="">
-  <source src="videos/video.mp4" type="video/mp4"/>
-  Your browser does not support the video tag.
-</video>
-
-
-
-
-
-    </div>
-
-   </section>
-
-  </main>
-
-  <!-- JAVASCRIPT FILES -->
-
-  <script src="js/jquery.min.js">
-
-  </script>
-
-  <script src="js/bootstrap.bundle.min.js">
-
-  </script>
-
-  <script src="js/countdown.js">
-
-  </script>
-
-  <script src="js/init.js">
-
-  </script>
-
-  <script>
-
-const header = document.getElementById('header');
-if (header) {
-  fetch('header.html').then(r => r.text()).then(t => header.innerHTML = t);
-}
-
-
-  </script>
-
-
-  </div>
-
-
-  </script>
-
  
+<body>
 
-<h1 class="main-title" style="
+<div id="header"></div>
 
-  position: fixed;
-
-  top: 20vh;
-
-  left: 50%;
-
-  transform: translateX(-50%);
-
-  font-size: clamp(2.5rem, 7vw, 5rem);
-
-  color: #ffcc00 !important;
-
-  text-align: center;
-
-  font-family: 'Orbitron', sans-serif;
-
-  z-index: 9999;
-
-  margin: 0;
-
-  padding: 0;
-
-  pointer-events: none;
-
-">
-
-<div class="logo">
-  3EN4ALL<br>
-
-  <span style="
-
-    font-size: 0.4em;
-
-    display: block;
-
-    color: #ddd !important;
-
-    font-weight: 300;
-
-    margin-top: 0.4em;
-
-  ">Free Energy For All</span>
+<div class="video-wrapper">
+  <video autoplay muted loop class="custom-video">
+    <source src="videos/video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div class="blur-overlay blur-start"></div>
 </div>
 
-</h1>
 
 
-<!-- Menu Overlay -->
-<div id="menu-overlay"></div>
+<div id="footer"></div>
 
-<!-- Slide-in Menu Panel -->
-<div id="side-menu" class="side-menu" style="background: rgba(0, 0, 0, 0.1); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);">
-  <span id="close-menu" class="close-button">&times;</span>
-  <nav>
-    <ul>
-      <li>Fizyka
-        <ul>
-          <li><a href="fizyka_post1.html">Alchemia Rzeczywistości</a></li>
-          <li><a href="fizyka_post2.html">Post 2</a></li>
-          <li><a href="fizyka_post3.html">Post 3</a></li>
-        </ul>
-      </li>
-      <li>Astronomia
-        <ul>
-          <li><a href="#">Post 1</a></li>
-          <li><a href="fizyka_post2.html">Post 2</a></li>
-          <li><a href="fizyka_post3.html">Post 3</a></li>
-        </ul>
-      </li>
-      <li>Matematyka
-        <ul>
-          <li><a href="#">Post 1</a></li>
-          <li><a href="fizyka_post2.html">Post 2</a></li>
-          <li><a href="fizyka_post3.html">Post 3</a></li>
-        </ul>
-      </li>
-      <li><a href="rola_obserwatora.html">Rola obserwatora</a></li>
-<li style="margin-top: 40px;"><a class="menu-bottom" href="o_mnie.html">O mnie</a></li>
-<li><a class="menu-bottom" href="kontakt.html">Kontakt</a></li>
-    </ul>
-</div>
 
-<script src="js/menu.js"></script>
-</div>
-</div>
-</div>
-<nav class="footer-nav">
-  <div class="footer-links">
-    <a href="kontakt.html">Kontakt</a> |
-    <a href="o_mnie.html">O mnie</a>
-  </div>
-</nav>
-<footer class="site-footer">
-  <p style="text-align: center; color: #999; font-size: 13px;">
-    © 2025 Mój Blog – Prawda, jakakolwiek by była...
-  </p>
-</footer>
+<script>
+  fetch("header.html").then(r => r.text()).then(t => {
+    document.getElementById("header").innerHTML = t;
+    const script = document.createElement("script");
+    script.src = "js/menu.js";
+    document.body.appendChild(script);
+  });
+
+  fetch("footer.html").then(r => r.text()).then(t => {
+    document.getElementById("footer").innerHTML = t;
+  });
+
+  window.addEventListener("load", () => {
+    console.log("== BLUR LOGIC FIRED ==");
+    const overlay = document.querySelector('.blur-overlay');
+    if (overlay) {
+      console.log("== BLUR OVERLAY FOUND ==");
+      overlay.classList.remove('blur-start');
+      overlay.classList.add('blur-end');
+    } else {
+      console.log("== BLUR OVERLAY NOT FOUND ==");
+    }
+  });
+</script>
+
 </body>
-
-
-
 </html>
