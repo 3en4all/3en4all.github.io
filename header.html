@@ -1,62 +1,40 @@
-
 <header class="site-header">
-  <div class="container">
-    <div class="row justify-content-between">
-      <div class="col-lg-12 col-12 d-flex align-items-center">
-        <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="index.html">
-          <i class="bi-box animated-bounce"></i>
-        </a>
-        <a class="offcanvas-icon ms-auto" href="#offcanvasMenu" role="button" data-bs-toggle="offcanvas" aria-controls="offcanvasMenu" style="font-size: 28px; color: white; cursor: pointer;">
-          <i class="bi bi-list"></i>
-        </a>
-      </div>
-    </div>
+ <div class="container">
+  <div class="row justify-content-between">
+   <div class="col-lg-12 col-12 d-flex align-items-center">
+    <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="index.html">
+     <i class="bi-box animated-bounce">
+     </i>
+    </a>
+    <a aria-controls="offcanvasMenu" class="offcanvas-icon ms-auto" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" style="font-size: 28px; color: white; cursor: pointer;">
+     <i class="bi bi-list">
+     </i>
+    </a>
+   </div>
   </div>
+ </div>
 </header>
-
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menu</h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
-    <nav>
-      <ul class="nav flex-column text-center">
-        <li class="nav-item has-submenu">
-          <a class="nav-link" href="#">Fizyka</a>
-          <ul class="submenu list-unstyled">
-            <li><a href="fizyka_post1.html">Alchemia Rzeczywistości</a></li>
-            <li><a href="fizyka_post2.html">Post 2</a></li>
-            <li><a href="fizyka_post3.html">Post 3</a></li>
-          </ul>
-        </li>
-        <li class="nav-item has-submenu">
-          <a class="nav-link" href="#">Astronomia</a>
-          <ul class="submenu list-unstyled">
-            <li><a href="astronomia_post1.html">Post 1</a></li>
-            <li><a href="astronomia_post2.html">Post 2</a></li>
-            <li><a href="astronomia_post3.html">Post 3</a></li>
-          </ul>
-        </li>
-        <li class="nav-item has-submenu">
-          <a class="nav-link" href="#">Matematyka</a>
-          <ul class="submenu list-unstyled">
-            <li><a href="matematyka_post1.html">Post 1</a></li>
-            <li><a href="matematyka_post2.html">Post 2</a></li>
-            <li><a href="matematyka_post3.html">Post 3</a></li>
-          </ul>
-        </li>
-      
-<li class="nav-item special-link mt-4"><a class="nav-link" href="o_mnie.html">O mnie</a></li>
-<li class="nav-item special-link"><a class="nav-link" href="kontakt.html">Kontakt</a></li>
-
-</ul>
-    </nav>
-  </div>
+<div aria-labelledby="offcanvasMenuLabel" class="offcanvas offcanvas-end" id="offcanvasMenu" tabindex="-1">
+ <div class="offcanvas-header">
+  <h5 class="offcanvas-title" id="offcanvasMenuLabel">
+   Menu
+  </h5>
+  <button aria-label="Close" class="btn-close text-reset" data-bs-dismiss="offcanvas" type="button">
+  </button>
+ </div>
+ <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+  <nav>
+   <ul class="nav flex-column text-center">
+    <li class="nav-item has-submenu">
+     <a class="nav-link" href="#">
+     </a>
+    </li>
+   </ul>
+  </nav>
+ </div>
 </div>
-
 <style>
-.has-submenu > .submenu {
+ .has-submenu > .submenu {
   display: none;
   padding-left: 0;
   margin-top: 0.5rem;
@@ -77,9 +55,8 @@
   text-decoration: underline;
 }
 </style>
-
 <style>
-.special-link a {
+ .special-link a {
   color: #00ffff;
   font-weight: bold;
   font-size: 1.05rem;
