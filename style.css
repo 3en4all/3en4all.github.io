@@ -575,3 +575,65 @@ body.menu-open #side-menu,
 body.menu-open #menu-toggle {
   filter: none !important;
 }
+
+
+.main-title-alchemia {
+  margin-top: 3vh !important;
+}
+
+
+.main-title-alchemia {
+  margin-top: 3vh !important;
+}
+
+
+.alchemia-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.2rem;
+  color: #f0f0f0;
+  text-align: center;
+  margin-top: 4vh;
+  letter-spacing: 1px;
+}
+
+
+body.is-subpage .logo-wrapper,
+body.is-subpage .main-slogan {
+  display: none !important;
+}
+
+
+body.menu-open .blur-target {
+    filter: blur(4px);
+    transition: filter 0.3s ease;
+}
+
+.blur-target {
+    position: relative;
+    z-index: 9999;
+    color: #f0f0f0;
+    text-shadow: 1px 1px 2px black;
+}
+
+.post-content {
+    color: #ffffff !important;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+}
+
+.post-content {
+    color: #ffffff !important;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 10;
+}
+
+@media screen and (max-width: 768px) {
+  h1.blur-target {
+    font-size: 1.8rem !important;
+  }
+
+  .post-content {
+    font-size: 0.95rem !important;
+    padding: 0 15px !important;
+  }
+}
