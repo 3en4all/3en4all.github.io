@@ -14,6 +14,7 @@ if (menuToggle && sideMenu && menuOverlay) {
     menuOverlay.classList.add("active");
     menuToggle.classList.add("active");
     document.body.classList.add("menu-open");
+    document.querySelector("main, section.post-content")?.classList.add("blur");
   });
 
   const closeSideMenu = () => {
@@ -22,6 +23,7 @@ if (menuToggle && sideMenu && menuOverlay) {
     menuOverlay.classList.remove("active");
     menuToggle.classList.remove("active");
     document.body.classList.remove("menu-open");
+    document.querySelector("main, section.post-content")?.classList.remove("blur");
   };
 
   if (closeMenu) {

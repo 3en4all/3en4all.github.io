@@ -637,3 +637,21 @@ body.menu-open .blur-target {
     padding: 0 15px !important;
   }
 }
+
+.home-icon {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10001;
+  text-decoration: none;
+}
+.home-icon svg:hover {
+  filter: drop-shadow(0 0 5px #fff);
+}
+
+
+/* Rozmycie tekstu przy otwartym menu */
+.blur {
+  filter: blur(6px);
+  transition: filter 0.3s ease;
+}
