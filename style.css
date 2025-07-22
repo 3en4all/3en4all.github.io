@@ -655,3 +655,44 @@ body.menu-open .blur-target {
   filter: blur(6px);
   transition: filter 0.3s ease;
 }
+
+
+
+
+
+/* Styl pozycji menu */
+.nav-links a {
+  display: block;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  position: relative;
+  text-decoration: none;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255,255,255,0.1); /* separator */
+}
+
+/* Ikonka kropki przed linkiem */
+.nav-links a::before {
+  content: "•";
+  color: #00ccff;
+  font-size: 1.2em;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-left: 4px;
+}
+
+/* Efekt hover */
+.nav-links a:hover {
+  color: #00ccff;
+  text-shadow: 0 0 8px rgba(0, 204, 255, 0.8);
+  transform: translateX(4px);
+}
+
+/* Efekt kliknięcia */
+.nav-links a:active {
+  transform: translateX(2px) scale(0.98);
+  text-shadow: 0 0 5px rgba(0, 204, 255, 0.5);
+}
