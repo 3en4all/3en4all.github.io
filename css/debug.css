@@ -1,0 +1,11 @@
+
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 999999 !important;
+  position: fixed !important;
+  color: black !important;
+  font-size: 18px !important;
+  padding: 10px;
+  border: 2px solid black !important;
+}
