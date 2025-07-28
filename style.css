@@ -696,6 +696,7 @@ body.menu-open .blur-target {
   transform: translateX(2px) scale(0.98);
   text-shadow: 0 0 5px rgba(0, 204, 255, 0.5);
 }
+<<<<<<< HEAD
 
 .menu-section {
   font-weight: bold;
@@ -706,3 +707,5 @@ body.menu-open .blur-target {
   margin-bottom: 5px;
   padding-left: 10px;
 }
+=======
+>>>>>>> 0db9e0f4f757a9ec210af7bd18cf827be3a00be5

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0db9e0f4f757a9ec210af7bd18cf827be3a00be5
 console.log("menu.js uruchomiony");
 
 const menuToggle = document.getElementById("menu-toggle");
@@ -15,6 +18,7 @@ if (menuToggle && sideMenu && menuOverlay) {
     menuOverlay.classList.add("active");
     menuToggle.classList.add("active");
     document.body.classList.add("menu-open");
+<<<<<<< HEAD
 
     document.querySelectorAll(".blur-wrapper").forEach(el => {
       const id = el.id;
@@ -22,6 +26,9 @@ if (menuToggle && sideMenu && menuOverlay) {
         el.classList.add("blur");
       }
     });
+=======
+    document.querySelector("main, section.post-content")?.classList.add("blur");
+>>>>>>> 0db9e0f4f757a9ec210af7bd18cf827be3a00be5
   });
 
   const closeSideMenu = () => {
@@ -30,10 +37,14 @@ if (menuToggle && sideMenu && menuOverlay) {
     menuOverlay.classList.remove("active");
     menuToggle.classList.remove("active");
     document.body.classList.remove("menu-open");
+<<<<<<< HEAD
 
     document.querySelectorAll(".blur").forEach(el => {
       el.classList.remove("blur");
     });
+=======
+    document.querySelector("main, section.post-content")?.classList.remove("blur");
+>>>>>>> 0db9e0f4f757a9ec210af7bd18cf827be3a00be5
   };
 
   if (closeMenu) {
@@ -42,6 +53,10 @@ if (menuToggle && sideMenu && menuOverlay) {
 
   menuOverlay.addEventListener("click", closeSideMenu);
 
+<<<<<<< HEAD
+=======
+  // Zamyka menu gdy klikniesz cokolwiek poza <a> lub #menu-toggle
+>>>>>>> 0db9e0f4f757a9ec210af7bd18cf827be3a00be5
   document.addEventListener("click", function (event) {
     const path = event.composedPath();
     const clickedLinkOrToggle = path.some(el =>
@@ -53,4 +68,8 @@ if (menuToggle && sideMenu && menuOverlay) {
   });
 } else {
   console.log("Nie znaleziono elementów menu");
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 0db9e0f4f757a9ec210af7bd18cf827be3a00be5
