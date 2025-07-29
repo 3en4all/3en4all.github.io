@@ -1,3 +1,4 @@
+
 console.log("menu.js uruchomiony");
 
 const menuToggle = document.getElementById("menu-toggle");
@@ -14,7 +15,13 @@ if (menuToggle && sideMenu && menuOverlay) {
     menuOverlay.classList.add("active");
     menuToggle.classList.add("active");
     document.body.classList.add("menu-open");
-    document.querySelector("main, section.post-content")?.classList.add("blur");
+
+    document.querySelectorAll(".blur-wrapper").forEach(el => {
+      const id = el.id;
+      if (id !== "menu-toggle" && id !== "menu-overlay" && id !== "side-menu") {
+        el.classList.add("blur");
+      }
+    });
   });
 
   const closeSideMenu = () => {
@@ -23,7 +30,10 @@ if (menuToggle && sideMenu && menuOverlay) {
     menuOverlay.classList.remove("active");
     menuToggle.classList.remove("active");
     document.body.classList.remove("menu-open");
-    document.querySelector("main, section.post-content")?.classList.remove("blur");
+
+    document.querySelectorAll(".blur").forEach(el => {
+      el.classList.remove("blur");
+    });
   };
 
   if (closeMenu) {
@@ -32,7 +42,6 @@ if (menuToggle && sideMenu && menuOverlay) {
 
   menuOverlay.addEventListener("click", closeSideMenu);
 
-  // Zamyka menu gdy klikniesz cokolwiek poza <a> lub #menu-toggle
   document.addEventListener("click", function (event) {
     const path = event.composedPath();
     const clickedLinkOrToggle = path.some(el =>

@@ -696,3 +696,13 @@ body.menu-open .blur-target {
   transform: translateX(2px) scale(0.98);
   text-shadow: 0 0 5px rgba(0, 204, 255, 0.5);
 }
+
+.menu-section {
+  font-weight: bold;
+  font-size: 1.15em;
+  color: #ffaa00;
+  text-transform: uppercase;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  padding-left: 10px;
+}
