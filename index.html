@@ -154,7 +154,7 @@
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10">
           <h2 class="text-2xl font-bold font-mono text-slate-100">
-            <span class="text-emerald-400">></span> Wysłyłanie Wiadomości
+            <span class="text-emerald-400">></span> Wysyłanie Wiadomości
           </h2>
           <p class="text-slate-400 text-sm mt-2 font-mono">Formularz zapisuje zgłoszenie w Supabase i uruchamia Edge Function</p>
         </div>
@@ -228,7 +228,7 @@
 
   <!-- 3. MODAL: SZCZEGÓŁY PROJEKTU -->
   <div id="project-detail-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-slate-900 border border-emerald-500/30 rounded-2xl p-6 max-w-xl w-full text-slate-200 shadow-2xl">
+    <div class="bg-slate-900 border border-emerald-500/30 rounded-2xl p-6 max-w-2xl w-full text-slate-200 shadow-2xl">
       <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
         <h3 id="modal-project-title" class="text-lg font-bold font-mono text-emerald-400">--</h3>
         <button onclick="toggleModal('project-detail-modal', false)" class="text-slate-400 hover:text-emerald-400 font-mono text-xl">&times;</button>
@@ -239,8 +239,8 @@
           <p id="modal-project-desc" class="text-sm text-slate-300 leading-relaxed">--</p>
         </div>
         <div>
-          <span class="text-xs font-mono text-slate-400 block mb-1">Architektura & Rozwiązania:</span>
-          <p id="modal-project-arch" class="text-sm font-mono text-emerald-400/90 bg-slate-950 p-3 rounded-lg border border-slate-800">--</p>
+          <span class="text-xs font-mono text-slate-400 block mb-1">Architektura & Diagram Systemu:</span>
+          <pre id="modal-project-arch" class="text-xs font-mono text-emerald-400 bg-slate-950 p-4 rounded-xl border border-slate-800 overflow-x-auto whitespace-pre leading-snug">--</pre>
         </div>
         <div>
           <span class="text-xs font-mono text-slate-400 block mb-1">Wykorzystane technologie:</span>
@@ -253,12 +253,70 @@
   <!-- ================= SKRYPT LOGICZNY (SUPABASE & LOGIKA) ================= -->
   <script>
     // --- KONFIGURACJA SUPABASE ---
-    // Upewnij się, że poniższe zmienne wskazują na Twoją instancję Supabase
     const SUPABASE_URL = 'https://yxhxrlmydbiblpninatx.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl4aHhybG15ZGJpYmxwbmluYXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyNTA1NDMsImV4cCI6MjEwMjgyNjU0M30.dYsY5vvY5w73Q7Nl2NbGgXioz_rDdByoXJ3UB0vpYrg';
     
     // Inicjalizacja Klienta
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // --- MOCKOWE DANE ARCHITEKTURY I PROJEKTÓW (FALLBACK LUB INITIAL) ---
+    const defaultProjects = [
+      {
+        id: 101,
+        title: "TechM8 Core Cluster",
+        description: "Wielowęzłowa infrastruktura homelab oparta o Proxmox VE, zintegrowana z dyskami TrueNAS SCALE oraz przełącznikiem zarządzalnym Cisco SG350.",
+        architecture_notes: `
+┌─────────────────────────────────────────────────────────────┐
+│                    ISP / External Gateway                   │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│  Raspberry Pi 4 (OpenWrt Router / WireGuard / Pi-hole)      │
+└──────────────────────────────┬──────────────────────────────┘
+                               │ (VLAN 10 / 20 / 30)
+┌──────────────────────────────▼──────────────────────────────┐
+│  Cisco SG350-28 Managed Switch                              │
+└──────┬───────────────────────┬───────────────────────┬──────┘
+       │                       │                       │
+┌──────▼──────────────┐ ┌──────▼──────────────┐ ┌──────▼──────────────┐
+│ Proxmox VE Node 01  │ │ Proxmox VE Node 02  │ │ TrueNAS SCALE      │
+│ (Docker / Services) │ │ (Dev & AI Labs)     │ │ (ZFS Storage Pool) │
+└─────────────────────┘ └─────────────────────┘ └─────────────────────┘`,
+        tags: ["Proxmox", "TrueNAS", "Cisco", "Docker", "WireGuard"]
+      },
+      {
+        id: 102,
+        title: "Automated AI Workflow Hub",
+        description: "System automatyzacji procesów przetwarzania danych wykorzystujący Python, Supabase Edge Functions oraz Gemini API do analizy tekstów i skryptów.",
+        architecture_notes: `
+[ Client Request ] ────> [ Supabase Webhook / Edge Function ]
+                                     │
+                                     ▼
+                        [ Python Worker Engine ]
+                                     │
+                ┌────────────────────┴────────────────────┐
+                ▼                                         ▼
+     [ Gemini API Prompt Engine ]            [ Supabase Postgres DB ]
+                │                                         │
+                └────────────────────┬────────────────────┘
+                                     ▼
+                        [ Resend API / Email Notify ]`,
+        tags: ["Python", "AI Workflows", "Gemini API", "Supabase"]
+      },
+      {
+        id: 103,
+        title: "Raspberry Pi Network Gateway",
+        description: "Dedykowany router brzegowy i filtrowanie DNS oparte na sieci składającej się z Raspberry Pi 4 i Pi Zero 2 W do zadań bezpieczeństwa i VPN.",
+        architecture_notes: `
+[ WAN Internet ] ───> [ RPi 4 / OpenWrt Router ]
+                             │
+            ┌────────────────┴────────────────┐
+            ▼                                 ▼
+   [ Pi-hole Primary DNS ]           [ WireGuard VPN Tunnel ]
+   (Ads/Malware Filtering)           (Encrypted Mobile Mesh)`,
+        tags: ["Raspberry Pi", "OpenWrt", "Pi-hole", "Networking"]
+      }
+    ];
 
     // --- STAN APLIKACJI ---
     let allProjects = [];
@@ -288,15 +346,20 @@
           .select('*')
           .order('created_at', { ascending: false });
 
-        if (error) throw error;
-        allProjects = data || [];
+        if (error || !data || data.length === 0) {
+          console.warn('Używam domyślnych danych projektów (fallback).');
+          allProjects = defaultProjects;
+        } else {
+          allProjects = data;
+        }
         
         renderTagFilters();
         renderProjects();
       } catch (err) {
-        console.error('Błąd pobierania projektów:', err.message);
-        document.getElementById('projects-container').innerHTML = 
-          `<div class="col-span-full text-center text-red-400 font-mono text-sm py-8">Nie udało się pobrać projektów. Sprawdź konfigurację Supabase.</div>`;
+        console.error('Błąd pobierania projektów, ładuję wbudowane dane:', err.message);
+        allProjects = defaultProjects;
+        renderTagFilters();
+        renderProjects();
       }
     }
 
