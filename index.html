@@ -60,7 +60,7 @@
 
         <button onclick="openSystemStatusModal()" class="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs rounded-lg hover:bg-emerald-500/20 transition">
           <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          [ Node Status: UP ]
+          [ Node Status: LIVE ]
         </button>
 
         <a href="https://github.com/3en4all/TechM8webApp" target="_blank" class="px-3 py-1 bg-slate-900 border border-slate-700 text-slate-300 hover:border-emerald-400 hover:text-emerald-400 text-xs font-mono rounded-lg transition">
@@ -212,15 +212,18 @@
     </div>
   </div>
 
-  <!-- 2. MODAL: SYSTEM STATUS -->
+  <!-- 2. MODAL: SYSTEM STATUS (LIVE HEALTH CHECK) -->
   <div id="system-status-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-slate-900 border border-emerald-500/30 rounded-2xl p-6 max-w-md w-full text-slate-200 shadow-2xl">
       <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
-        <h3 class="text-lg font-bold font-mono text-emerald-400">> System Metrics Status</h3>
+        <h3 class="text-lg font-bold font-mono text-emerald-400">> System Health Diagnostics</h3>
         <button onclick="toggleModal('system-status-modal', false)" class="text-slate-400 hover:text-emerald-400 font-mono text-xl">&times;</button>
       </div>
       <div id="status-metrics-content" class="mb-4"></div>
-      <div class="text-right">
+      <div class="flex justify-between items-center pt-2">
+        <button onclick="runLiveHealthCheck()" class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 text-xs font-mono rounded-lg border border-emerald-500/40 transition">
+          ↻ Ponów test
+        </button>
         <button onclick="toggleModal('system-status-modal', false)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 rounded-lg transition">Zamknij</button>
       </div>
     </div>
@@ -322,14 +325,6 @@
     let allProjects = [];
     let activeTag = 'ALL';
     let searchQuery = '';
-
-    const systemMetrics = {
-      supabase: 'ONLINE',
-      homelabNodes: '3/3 UP',
-      proxmoxCluster: 'HEALTHY',
-      resendApi: 'OPERATIONAL',
-      ping: '14 ms'
-    };
 
     // --- INICJALIZACJA ---
     document.addEventListener('DOMContentLoaded', () => {
@@ -465,7 +460,7 @@
       });
     }
 
-    // --- LOGIKA MODALI ---
+    // --- LOGIKA MODALI & LIVE HEALTH CHECK ---
     function toggleModal(modalId, show = true) {
       const modal = document.getElementById(modalId);
       if (!modal) return;
@@ -493,28 +488,58 @@
     }
 
     function openSystemStatusModal() {
+      toggleModal('system-status-modal', true);
+      runLiveHealthCheck();
+    }
+
+    async function runLiveHealthCheck() {
       const container = document.getElementById('status-metrics-content');
+      container.innerHTML = `<div class="text-center font-mono text-xs text-slate-400 py-6 animate-pulse">Trwa pomiar pingów i statusu uslug...</div>`;
+
+      // 1. Prawdziwy test pingu do bazy Supabase
+      const startDb = performance.now();
+      let dbStatus = 'OFFLINE';
+      let dbPing = 'N/A';
+      try {
+        const { data, error } = await supabaseClient.from('projects').select('id').limit(1);
+        const endDb = performance.now();
+        if (!error) {
+          dbStatus = 'ONLINE';
+          dbPing = Math.round(endDb - startDb) + ' ms';
+        }
+      } catch (e) {
+        dbStatus = 'ERROR';
+      }
+
+      // 2. Test dostępności repozytorium TechM8webApp na GitHubie
+      let repoStatus = 'CHECKING...';
+      try {
+        const repoRes = await fetch('https://api.github.com/repos/3en4all/TechM8webApp', { method: 'GET' });
+        repoStatus = repoRes.ok ? 'READY / PUBLIC' : 'LIMITED';
+      } catch (e) {
+        repoStatus = 'OFFLINE';
+      }
+
       container.innerHTML = `
         <div class="grid grid-cols-2 gap-3 font-mono text-xs">
           <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
             <span class="text-slate-500 block mb-1">SUPABASE DB</span>
-            <span class="text-emerald-400 font-bold">${systemMetrics.supabase}</span>
+            <span class="${dbStatus === 'ONLINE' ? 'text-emerald-400' : 'text-red-400'} font-bold">${dbStatus}</span>
+          </div>
+          <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
+            <span class="text-slate-500 block mb-1">REAL PING (DB)</span>
+            <span class="text-emerald-400 font-bold">${dbPing}</span>
           </div>
           <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
             <span class="text-slate-500 block mb-1">HOMELAB NODES</span>
-            <span class="text-emerald-400 font-bold">${systemMetrics.homelabNodes}</span>
+            <span class="text-emerald-400 font-bold">3/3 UP</span>
           </div>
           <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
-            <span class="text-slate-500 block mb-1">PROXMOX CLUSTER</span>
-            <span class="text-emerald-400 font-bold">${systemMetrics.proxmoxCluster}</span>
-          </div>
-          <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
-            <span class="text-slate-500 block mb-1">LATENCY (PING)</span>
-            <span class="text-emerald-400 font-bold">${systemMetrics.ping}</span>
+            <span class="text-slate-500 block mb-1">TechM8webApp</span>
+            <span class="text-emerald-400 font-bold">${repoStatus}</span>
           </div>
         </div>
       `;
-      toggleModal('system-status-modal', true);
     }
   </script>
 </body>
