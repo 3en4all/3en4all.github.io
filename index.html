@@ -1,147 +1,72 @@
-﻿<!DOCTYPE html>
-<html lang="pl" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechM8 | Portal Inżynieryjny & Lab</title>
-    <meta name="description" content="Oficjalny portal TechM8 – IT Infrastructure, Homelab, Python, automatyzacja i AI Workflows.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            emerald: '#10b981',
-                            cyan: '#00b4d8',
-                            darkBg: '#0b0f19',
-                            cardBg: '#111827',
-                            border: '#1f2937'
-                        }
-                    },
-                    fontFamily: {
-                        mono: ['JetBrains Mono', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        body { font-family: 'JetBrains Mono', monospace; background-color: #0b0f19; color: #e5e7eb; }
-        .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
-        .text-gradient { background: linear-gradient(135deg, #10b981 0%, #00b4d8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col justify-between antialiased">
-
-    <!-- Header -->
-    <header class="border-b border-brand-border bg-brand-cardBg/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <a href="index.html" class="flex items-center space-x-3 group">
-                <span class="text-2xl font-bold text-gradient">&lt;TechM8/&gt;</span>
-                <span class="text-xs text-gray-400 border border-brand-border px-2 py-0.5 rounded group-hover:border-brand-emerald transition-colors">PORTAL</span>
-            </a>
-            <div class="flex items-center space-x-4 text-sm text-gray-400">
-                <span class="flex items-center gap-1.5 text-brand-emerald"><span class="w-2 h-2 rounded-full bg-brand-emerald animate-pulse"></span> System Online</span>
+<!-- Sekcja: TechM8 Lab & Research -->
+<section class="py-12 border-t border-gray-800">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                    <span class="text-emerald-500">&lt;</span>Lab & Research<span class="text-emerald-500">/&gt;</span>
+                </h2>
+                <p class="text-sm text-gray-400 mt-1">Opracowania popularnonaukowe, kosmologia i fizyka teoretyczna</p>
             </div>
+            <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">#Science</span>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 py-12 flex-grow space-y-16">
-        
-        <!-- Hero Section -->
-        <section class="text-center space-y-4 py-8">
-            <h1 class="text-4xl md:text-6xl font-bold text-white">
-                Infrastruktura IT, Automatyzacja & <span class="text-gradient">AI Workflows</span>
-            </h1>
-            <p class="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
-                Przestrzeń systemowa łącząca ponad 19 lat doświadczenia w administracji, homelabie oraz nowoczesnym programowaniu.
-            </p>
-        </section>
-
-        <!-- Sekcja: TechM8 Lab & Research -->
-        <section class="border-t border-brand-border pt-12">
-            <div class="flex items-center justify-between mb-8">
-                <div>
-                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
-                        <span class="text-brand-emerald">&lt;</span>Lab & Research<span class="text-brand-emerald">/&gt;</span>
-                    </h2>
-                    <p class="text-sm text-gray-400 mt-1">Opracowania popularnonaukowe, kosmologia i fizyka teoretyczna</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Karta 1 -->
+            <a href="research/uklad-sloneczny-w-ruchu.html" class="block bg-gray-900 border border-gray-800 hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
+                <div class="flex gap-2 mb-3 text-xs">
+                    <span class="text-emerald-400">#astronomia</span>
+                    <span class="text-cyan-400">#kosmologia</span>
                 </div>
-                <span class="text-xs text-brand-emerald bg-brand-emerald/10 border border-brand-emerald/20 px-3 py-1 rounded-full">#Science</span>
-            </div>
+                <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors mb-2">
+                    Układ Słoneczny w ruchu – czy wiemy, dokąd zmierzamy?
+                </h3>
+                <p class="text-sm text-gray-400 line-clamp-2">
+                    Kosmiczna podróż z prędkością 828 000 km/h przez galaktykę, rok galaktyczny i grawitacyjny ruch ku Wielkiemu Atraktorowi.
+                </p>
+            </a>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Karta 1 -->
-                <a href="research/uklad-sloneczny-w-ruchu.html" class="block bg-brand-cardBg border border-brand-border hover:border-brand-emerald/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
-                    <div class="flex gap-2 mb-3 text-xs">
-                        <span class="text-brand-emerald">#astronomia</span>
-                        <span class="text-brand-cyan">#kosmologia</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white group-hover:text-brand-emerald transition-colors mb-2">
-                        Układ Słoneczny w ruchu – czy wiemy, dokąd zmierzamy?
-                    </h3>
-                    <p class="text-sm text-gray-400 line-clamp-2">
-                        Kosmiczna podróż z prędkością 828 000 km/h przez galaktykę, rok galaktyczny i grawitacyjny ruch ku Wielkiemu Atraktorowi.
-                    </p>
-                </a>
+            <!-- Karta 2 -->
+            <a href="research/zegar-pulsara.html" class="block bg-gray-900 border border-gray-800 hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
+                <div class="flex gap-2 mb-3 text-xs">
+                    <span class="text-emerald-400">#astrofizyka</span>
+                    <span class="text-cyan-400">#czas</span>
+                </div>
+                <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors mb-2">
+                    Zegar pulsara – najdokładniejsze tyknięcia we Wszechświecie
+                </h3>
+                <p class="text-sm text-gray-400 line-clamp-2">
+                    Pulsary milisekundowe obracające się setki razy na sekundę jako galaktyczne detektory fal grawitacyjnych.
+                </p>
+            </a>
 
-                <!-- Karta 2 -->
-                <a href="research/zegar-pulsara.html" class="block bg-brand-cardBg border border-brand-border hover:border-brand-emerald/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
-                    <div class="flex gap-2 mb-3 text-xs">
-                        <span class="text-brand-emerald">#astrofizyka</span>
-                        <span class="text-brand-cyan">#czas</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white group-hover:text-brand-emerald transition-colors mb-2">
-                        Zegar pulsara – najdokładniejsze tyknięcia we Wszechświecie
-                    </h3>
-                    <p class="text-sm text-gray-400 line-clamp-2">
-                        Pulsary milisekundowe obracające się setki razy na sekundę jako galaktyczne detektory fal grawitacyjnych.
-                    </p>
-                </a>
+            <!-- Karta 3 -->
+            <a href="research/ukryta-symetria.html" class="block bg-gray-900 border border-gray-800 hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
+                <div class="flex gap-2 mb-3 text-xs">
+                    <span class="text-emerald-400">#fizykakwantowa</span>
+                    <span class="text-cyan-400">#symetria</span>
+                </div>
+                <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors mb-2">
+                    Ukryta symetria – co fizyka mówi o początku Wszechświata?
+                </h3>
+                <p class="text-sm text-gray-400 line-clamp-2">
+                    Spontaniczne złamanie symetrii, mechanizm nadawania masy cząstkom i twierdzenie Emmy Noether.
+                </p>
+            </a>
 
-                <!-- Karta 3 -->
-                <a href="research/ukryta-symetria.html" class="block bg-brand-cardBg border border-brand-border hover:border-brand-emerald/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
-                    <div class="flex gap-2 mb-3 text-xs">
-                        <span class="text-brand-emerald">#fizykakwantowa</span>
-                        <span class="text-brand-cyan">#symetria</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white group-hover:text-brand-emerald transition-colors mb-2">
-                        Ukryta symetria – co fizyka mówi o początku Wszechświata?
-                    </h3>
-                    <p class="text-sm text-gray-400 line-clamp-2">
-                        Spontaniczne złamanie symetrii, mechanizm nadawania masy cząstkom i twierdzenie Emmy Noether.
-                    </p>
-                </a>
-
-                <!-- Karta 4 -->
-                <a href="research/algorytm-rzeczywistosci.html" class="block bg-brand-cardBg border border-brand-border hover:border-brand-emerald/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
-                    <div class="flex gap-2 mb-3 text-xs">
-                        <span class="text-brand-emerald">#kwanty</span>
-                        <span class="text-brand-cyan">#teoriainformacji</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white group-hover:text-brand-emerald transition-colors mb-2">
-                        Algorytm rzeczywistości – czy świat to równanie?
-                    </h3>
-                    <p class="text-sm text-gray-400 line-clamp-2">
-                        Funkcja falowa, probabilizm natury w mikroskali oraz mechanizm powstawania makroskopowego porządku.
-                    </p>
-                </a>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-brand-border bg-brand-cardBg py-6 text-center text-xs text-gray-500">
-        &copy; 2026 TechM8. Wszystkie prawa zastrzeżone.
-    </footer>
-
-    <script src="js/main.js"></script>
-</body>
-</html>
+            <!-- Karta 4 -->
+            <a href="research/algorytm-rzeczywistosci.html" class="block bg-gray-900 border border-gray-800 hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
+                <div class="flex gap-2 mb-3 text-xs">
+                    <span class="text-emerald-400">#kwanty</span>
+                    <span class="text-cyan-400">#teoriainformacji</span>
+                </div>
+                <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors mb-2">
+                    Algorytm rzeczywistości – czy świat to równanie?
+                </h3>
+                <p class="text-sm text-gray-400 line-clamp-2">
+                    Funkcja falowa, probabilizm natury w mikroskali oraz mechanizm powstawania makroskopowego porządku.
+                </p>
+            </a>
+        </div>
+    </div>
+</section>
