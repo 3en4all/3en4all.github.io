@@ -1,10 +1,12 @@
 ﻿<!DOCTYPE html>
+<!-- TechM8 Research: Algorytm Rzeczywistosci -->
+<!DOCTYPE html>
 <html lang="pl" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algorytm rzeczywistości | TechM8 Research</title>
-    <meta name="description" content="Niskopoziomowa analiza teorii informacji kwantowej, kolapsu funkcji falowej i symulacji numerycznej w języku Python.">
+    <meta name="description" content="Czy świat to równanie? Matematyczna struktura mechaniki kwantowej, funkcja falowa i rola obserwatora.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -33,7 +35,6 @@
         body { font-family: 'JetBrains Mono', monospace; background-color: #0b0f19; color: #e5e7eb; }
         .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
         .text-gradient { background: linear-gradient(135deg, #10b981 0%, #00b4d8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        pre code { color: #38bdf8; font-size: 0.85rem; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased">
@@ -54,137 +55,54 @@
         <article class="space-y-8">
             <header class="space-y-4 border-b border-brand-border pb-8">
                 <div class="flex flex-wrap gap-2 text-xs">
-                    <span class="bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/30 px-2.5 py-1 rounded-full">#KwantowaTeoriaInformacji</span>
-                    <span class="bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 px-2.5 py-1 rounded-full">#PythonHPC</span>
-                    <span class="bg-gray-800 text-gray-300 border border-gray-700 px-2.5 py-1 rounded-full">#MonteCarlo</span>
+                    <span class="bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/30 px-2.5 py-1 rounded-full">#kwanty</span>
+                    <span class="bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 px-2.5 py-1 rounded-full">#teoriainformacji</span>
+                    <span class="bg-gray-800 text-gray-300 border border-gray-700 px-2.5 py-1 rounded-full">#fizyka</span>
                 </div>
                 <h1 class="text-3xl md:text-5xl font-bold text-white leading-tight">
-                    Algorytm rzeczywistości – fizyka kwantowa jako archiwum informacyjne
+                    Algorytm rzeczywistości – czy świat to równanie?
                 </h1>
             </header>
 
-            <!-- ARCHITEKTURA WĘZŁA -->
-            <div class="bg-brand-cardBg border border-brand-emerald/30 rounded-xl p-6 glow-emerald space-y-3">
-                <h3 class="text-sm font-semibold text-brand-emerald uppercase tracking-wider flex items-center gap-2">
-                    <i class="bi bi-cpu-fill"></i> Specyfikacja Architektury Fizyki Informacyjnej
+            <div class="bg-brand-cardBg border border-brand-emerald/30 rounded-xl p-6 glow-emerald">
+                <h3 class="text-sm font-semibold text-brand-emerald uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <i class="bi bi-lightning-charge-fill"></i> Kluczowe Koncepcje
                 </h3>
-                <div class="grid md:grid-cols-3 gap-4 text-xs text-gray-300 pt-2">
-                    <div class="bg-gray-900/60 p-3 rounded border border-gray-800">
-                        <span class="text-brand-cyan font-bold block mb-1">Ewolucja Stanu</span>
-                        Równanie Schrödingera traktowane jako czysty operator unitarny (bramka logiczna).
-                    </div>
-                    <div class="bg-gray-900/60 p-3 rounded border border-gray-800">
-                        <span class="text-brand-cyan font-bold block mb-1">Dekoherencja</span>
-                        Proces dyssypacji informacji ze stanu czystego (superpozycja) do stanu mieszanego (entropia).
-                    </div>
-                    <div class="bg-gray-900/60 p-3 rounded border border-gray-800">
-                        <span class="text-brand-cyan font-bold block mb-1">Entropia Shannona</span>
-                        Pomiary kwantowe jako konwersja prawdopodobieństwa $P(x) = |\psi(x)|^2$ na bity klasyczne.
-                    </div>
-                </div>
+                <ul class="text-sm text-gray-300 space-y-2">
+                    <li class="flex items-start gap-2">
+                        <span class="text-brand-cyan">►</span>
+                        <span>Probabilizm natury: świat w skali mikro opiera się na <strong class="text-white">prawdopodobieństwie, a nie determinizmie</strong>[cite: 2, 5, 7, 8, 9, 10].</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-brand-cyan">►</span>
+                        <span>Funkcja falowa: matematyczny opis stanu kwantowego ulegający kolapsowi podczas pomiaru[cite: 2, 5, 7, 8, 9, 10].</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-brand-cyan">►</span>
+                        <span>Zasada Nieoznaczoności Heisenberga: fundamentalne ograniczenie precyzji pomiarów[cite: 2, 5, 7, 8, 9, 10].</span>
+                    </li>
+                </ul>
             </div>
 
             <div class="space-y-6 text-gray-300 leading-relaxed text-base">
                 <p>
-                    Współczesna fizyka kwantowa odrzuca pojęcie "twardej materii" na rzecz <strong>struktury informacyjnej</strong>. Świat na poziomie cząstek elementarnych nie posiada zdefiniowanych współrzędnych bez oddziaływania ze środowiskiem — działa dokładnie jak leniwa alokacja pamięci (lazy evaluation) w systemach operacyjnych.
+                    Zwykle zakładamy, że rzeczy wokół nas są solidne, przewidywalne i mierzalne[cite: 2, 5, 7, 8, 9, 10]. Jednak schodząc na poziom atomów i cząstek elementarnych, klasyczna intuicja zawodzi[cite: 2, 5, 7, 8, 9, 10]. Pojawiają się prawdopodobieństwa, rozmycia i stan superpozycji[cite: 2, 5, 7, 8, 9, 10].
                 </p>
-
                 <h2 class="text-xl font-bold text-white border-l-4 border-brand-emerald pl-4 mt-8 mb-4">
-                    1. Równanie Schrödingera jako silnik symulacji numerycznej
+                    Funkcja Falowa i Prawdopodobieństwo
                 </h2>
                 <p>
-                    Stan kwantowy cząstki reprezentujemy wektorem stanów w przestrzeni Hilberta. Zamiana stanu opisana jest bezczasowym równaniem różniczkowym. Poniższy skrypt w języku Python rozwiązuje czasowo-zależne równanie Schrödingera dla pakietu falowego uderzającego w barierę potencjału (metoda Różnic Skończonych w Domenie Czasu — FDTD):
+                    W fizyce kwantowej stan cząstki opisuje <span class="text-brand-cyan">funkcja falowa</span> – matematyczna mapa możliwych stanów[cite: 2, 5, 7, 8, 9, 10]. Dopiero w momencie pomiaru (oddziaływania z otoczeniem) następuje tzw. kolaps funkcji falowej do jednej konkretnej wartości[cite: 2, 5, 7, 8, 9, 10]. Przed pomiarem operujemy czystym prawdopodobieństwem[cite: 2, 5, 7, 8, 9, 10].
                 </p>
-
-                <!-- KOD PYTHON -->
-                <div class="bg-gray-950 border border-gray-800 rounded-lg p-4 font-mono overflow-x-auto text-sm">
-                    <div class="flex justify-between items-center text-xs text-gray-500 border-b border-gray-800 pb-2 mb-3">
-                        <span><i class="bi bi-filetype-py"></i> quantum_wave_engine.py</span>
-                        <span>Python 3.12 + NumPy / SciPy</span>
-                    </div>
-<pre><code>import numpy as np
-import scipy.sparse as sp
-from scipy.sparse.linalg import expm_multiply
-
-def simulate_quantum_packet(N=1000, L=100.0, dt=0.05, steps=200):
-    """
-    Symulacja ewolucji pakietu falowego (FDTD) w potencjale jednowymiarowym.
-    """
-    x = np.linspace(-L/2, L/2, N)
-    dx = x[1] - x[0]
-    
-    # 1. Tworzenie początkowego pakietu falowego (Stan Gausa)
-    x0, k0, sigma = -20.0, 2.5, 3.0
-    psi = np.exp(-0.5 * ((x - x0) / sigma)**2) * np.exp(1j * k0 * x)
-    psi /= np.sqrt(np.sum(np.abs(psi)**2) * dx) # Normalizacja
-    
-    # 2. Definicja Potencjału Bariery (Laser / Pole magnetyczne)
-    V = np.zeros(N)
-    V[np.abs(x) < 2.0] = 15.0  # Bariera potencjału w centrum
-    
-    # 3. Wyznczenie Macierzy Hamiltonianu H = T + V
-    diag = np.ones(N) * (-2.0)
-    off_diag = np.ones(N - 1)
-    T = -0.5 * (sp.diags([off_diag, diag, off_diag], [-1, 0, 1]) / dx**2)
-    H = T + sp.diags([V], [0])
-    
-    # 4. Ewolucja w czasie: psi(t + dt) = exp(-i * H * dt) * psi(t)
-    H_sparse = H.tocsc()
-    for _ in range(steps):
-        psi = expm_multiply(-1j * H_sparse * dt, psi)
-        
-    # Gęstość prawdopodobieństwa |psi|^2 (Pozycja po pomiarze)
-    prob_density = np.abs(psi)**2
-    return x, prob_density
-
-if __name__ == "__main__":
-    x, density = simulate_quantum_packet()
-    print(f"[OK] Symulacja ukończona. Całkowite prawdopodobieństwo: {np.sum(density)*(x[1]-x[0]):.4f}")
-</code></pre>
-                </div>
-
+                <p>
+                    Zasada nieoznaczoności Heisenberga wskazuje, że nie możemy jednocześnie z dowolną dokładnością poznać położenia i pędu cząstki[cite: 2, 5, 7, 8, 9, 10]. Nie wynika to z niedoskonałości aparatury, lecz z natury samego Wszechświata[cite: 2, 5, 7, 8, 9, 10].
+                </p>
                 <h2 class="text-xl font-bold text-white border-l-4 border-brand-cyan pl-4 mt-8 mb-4">
-                    2. Edge Cases: Dekoherencja środowiskowa i szum HPC
-                </h2>
-                <div class="bg-gray-900/50 border-l-4 border-amber-500 p-4 rounded-r-lg space-y-2 text-sm">
-                    <div class="font-bold text-amber-400"><i class="bi bi-exclamation-triangle"></i> Problemy produkcyjne podczas symulacji kwantowych:</div>
-                    <ul class="list-disc list-inside space-y-1 text-gray-300">
-                        <li><strong>Wycieki numeryczne unitarity:</strong> Przy nieodpowiednio dobranym kroku czasowym $\Delta t$ macierz ewolucji traci unitarność, a suma prawdopodobieństw przekracza $1.0$. Rozwiązanie: Stosować integratory Crank-Nicolson.</li>
-                        <li><strong>Wpływ C-States procesora na generatory QRNG:</strong> Sprzętowe generatory liczb losowych wykorzystujące szum termiczny/kwantowy złącz p-n są podatne na wahania zegara CPU (C-states throttling). Zawsze stosuj filtrację rygorystycznymi testami Dieharder.</li>
-                    </ul>
-                </div>
-
-                <h2 class="text-xl font-bold text-white border-l-4 border-brand-emerald pl-4 mt-8 mb-4">
-                    3. Generowanie czystej losowości: Pomiar kwantowy (QRNG)
+                    Statystyka i Makroskopowy Porządek
                 </h2>
                 <p>
-                    W klasycznej informatyce nie istnieje pojęcie losowości — funkcje `rand()` to jedynie deterministyczne algorytmy PRNG. Prawdziwa losowość rodzi się wyłącznie w momencie kolapsu superpozycji kwantowej.
+                    Skoro mikroszlak jest chaotyczny i losowy, skąd bierze się stabilność świata, który widzimy?[cite: 2, 5, 7, 8, 9, 10] Odpowiedź leży w statystyce i prawie wielkich liczb[cite: 2, 5, 7, 8, 9, 10]. Miliardy cząstek dają przewidywalne średnie efekty – dlatego krzesła są twarde, a jabłka spadają na ziemię[cite: 2, 5, 7, 8, 9, 10].
                 </p>
-                <p class="text-sm text-gray-400">
-                    Poniższa architektura loguje i przetwarza pomiary kwantowe do postaci czystych kluczy kryptograficznych:
-                </p>
-
-                <!-- KOD PYTHON QRNG -->
-                <div class="bg-gray-950 border border-gray-800 rounded-lg p-4 font-mono text-sm overflow-x-auto">
-                    <div class="flex justify-between items-center text-xs text-gray-500 border-b border-gray-800 pb-2 mb-3">
-                        <span><i class="bi bi-shield-lock"></i> qrng_extractor.py</span>
-                        <span>Quantum Randomness Pipeline</span>
-                    </div>
-<pre><code>import hashlib
-
-def extract_entropy_from_measurements(quantum_densities: np.ndarray) -> str:
-    """
-    Ekstrakcja entropii z rozkładu prawdopodobieństwa pomiarów kwantowych.
-    """
-    raw_bytes = quantum_densities.tobytes()
-    # Zastosowanie funkcji haszującej SHAKE-256 jako kwantowego ekstraktora entropii
-    sha = hashlib.shake_256()
-    sha.update(raw_bytes)
-    return sha.hexdigest(32) # Sworzenie 256-bitowego klucza AES
-
-print(f"[KEY GENERATED]: {extract_entropy_from_measurements(density)}")
-</code></pre>
-                </div>
             </div>
 
             <footer class="border-t border-brand-border pt-8 mt-12 flex flex-col sm:flex-row items-center justify-between gap-4">

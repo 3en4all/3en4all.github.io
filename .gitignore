@@ -1,3 +1,6 @@
 ﻿lead_recon.py
 clean_cites.py
 recon_report.json
+.env
+__pycache__/
+*.pyc
