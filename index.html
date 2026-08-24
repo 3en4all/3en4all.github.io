@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechM8 // Infrastructure, Python & AI Workflows</title>
+    <!-- Favicon inline zapobiegający błędom 404 -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script>
+        // Wyciszenie ostrzeżenia Tailwind CDN w konsoli
         tailwind.config = {
             darkMode: 'class',
             theme: {
@@ -298,17 +301,30 @@
 
     <!-- LOGIKA JAVASCRIPT (SUPABASE & SKRYPTY) -->
     <script>
-        // PRODUKCYJNE DANIE DOSTĘPOWE SUPABASE
-        const SUPABASE_URL = 'https://xywpeqghksyqvyfuznwu.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5d3BlcWdoa3N5cXZ5ZnV6bnd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAxNzQ0ODIsImV4cCI6MjA1NTc1MDQ4Mn0.NsnN23H4qP5oO4oUu-V9Jd8P_KXZpY1K3N9h7L1M3E8';
+        // PODMIEŃ PONIŻSZE DANE NA REALNY ADRES URL I KLUCZ Z DASHBOARDU SUPABASE!
+        const SUPABASE_URL = 'https://twoj-projekt.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'twoj-anon-key-z-supabase';
 
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let supabaseClient = null;
+        if (SUPABASE_URL !== 'https://twoj-projekt.supabase.co') {
+            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
 
         let allProjects = [];
         let currentFilter = 'ALL';
 
         // POBIERANIE PROJEKTÓW Z SUPABASE
         async function fetchProjects() {
+            if (!supabaseClient) {
+                console.warn('Supabase URL nie jest skonfigurowany.');
+                document.getElementById('projects-grid').innerHTML = `
+                    <div class="col-span-full text-center py-12 text-yellow-500 text-xs">
+                        Podaj poprawny SUPABASE_URL w pliku index.html, aby załadować projekty.
+                    </div>
+                `;
+                return;
+            }
+
             try {
                 const { data, error } = await supabaseClient
                     .from('projects')
@@ -323,7 +339,7 @@
                 console.error('Błąd pobierania projektów:', err);
                 document.getElementById('projects-grid').innerHTML = `
                     <div class="col-span-full text-center py-12 text-red-400 text-xs">
-                        Nie udało się załadować projektów z bazy Supabase.
+                        Nie udało się załadować projektów z bazy Supabase. Sprawdź połączenie sieciowe lub adres URL.
                     </div>
                 `;
             }
@@ -414,6 +430,12 @@
             const indicator = document.getElementById('health-indicator');
             const text = document.getElementById('health-text');
 
+            if (!supabaseClient) {
+                indicator.className = 'w-2 h-2 rounded-full bg-yellow-500';
+                text.innerText = 'Brak URL Supabase';
+                return;
+            }
+
             text.innerText = 'Pinging...';
             indicator.className = 'w-2 h-2 rounded-full bg-yellow-500 animate-ping';
 
@@ -437,6 +459,12 @@
             e.preventDefault();
             const btn = document.getElementById('contact-submit-btn');
             const status = document.getElementById('contact-status');
+
+            if (!supabaseClient) {
+                status.innerText = 'Błąd: Supabase nie jest skonfigurowany.';
+                status.className = 'text-xs text-red-400 font-medium block';
+                return;
+            }
 
             const name = document.getElementById('contact-name').value;
             const email = document.getElementById('contact-email').value;
