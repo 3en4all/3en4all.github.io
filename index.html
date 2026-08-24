@@ -69,7 +69,7 @@
                     TechM8<span class="text-emerald-500">//</span>
                 </span>
                 <span class="hidden sm:inline-block text-xs px-2 py-0.5 rounded border border-emerald-500/30 text-emerald-400 bg-emerald-950/30">
-                    ProFree v2.4
+                    ProFree v2.5
                 </span>
             </div>
 
@@ -153,6 +153,25 @@
                     <p class="text-xs text-gray-400 leading-relaxed">
                         Poligon doświadczalny i środowisko testowe. Testowanie najnowszych rozwiązań technologicznych klasy enterprise w kontrolowanych warunkach przed ich wdrożeniem produkcyjnym.
                     </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKCJA: TECH INSIGHTS & KNOWLEDGE BASE (NOWOŚĆ DLA LINKEDIN) -->
+        <section class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-emerald-400">//</span> Tech Insights & Baza Wiedzy
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Artykuły techniczne, poradniki architektoniczne i Dobre Praktyki IT</p>
+                </div>
+            </div>
+
+            <!-- SIATKA ARTYKUŁÓW (DYNAMIECZNIE GENEROWANA) -->
+            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="col-span-full text-center py-8 text-gray-500 text-xs">
+                    Ładowanie artykułów z bazy danych...
                 </div>
             </div>
         </section>
@@ -298,6 +317,28 @@
         </div>
     </div>
 
+    <!-- MODAL: PEŁNA TREŚĆ ARTYKUŁU -->
+    <div id="article-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-3xl w-full p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <button onclick="closeArticleModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">&times;</button>
+            
+            <div class="border-b border-brand-border pb-4 space-y-2">
+                <div class="flex items-center justify-between text-xs text-emerald-400 font-mono">
+                    <span id="article-modal-tags"></span>
+                    <span id="article-modal-time" class="text-gray-500"></span>
+                </div>
+                <h3 id="article-modal-title" class="text-2xl font-bold text-white"></h3>
+            </div>
+
+            <div class="space-y-4 text-xs text-gray-300 leading-relaxed whitespace-pre-line font-sans" id="article-modal-content">
+            </div>
+
+            <div class="pt-4 border-t border-brand-border flex justify-end">
+                <button onclick="closeArticleModal()" class="px-4 py-2 bg-brand-border hover:bg-gray-700 text-white rounded-lg text-xs transition">Zamknij</button>
+            </div>
+        </div>
+    </div>
+
     <!-- LOGIKA JAVASCRIPT (SUPABASE & SKRYPTY) -->
     <script>
         const SUPABASE_URL = 'https://yxhxrlmydbiblpninatx.supabase.co';
@@ -306,7 +347,59 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let allProjects = [];
+        let allArticles = [];
         let currentFilter = 'ALL';
+
+        // POBIERANIE ARTYKUŁÓW Z SUPABASE
+        async function fetchArticles() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('articles')
+                    .select('*')
+                    .order('id', { ascending: false });
+
+                if (error) throw error;
+
+                allArticles = data || [];
+                renderArticles();
+            } catch (err) {
+                console.error('Błąd pobierania artykułów:', err);
+                document.getElementById('articles-grid').innerHTML = `
+                    <div class="col-span-full text-center py-6 text-gray-500 text-xs">
+                        Baza wiedzy jest obecnie aktualizowana.
+                    </div>
+                `;
+            }
+        }
+
+        function renderArticles() {
+            const grid = document.getElementById('articles-grid');
+            if (allArticles.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-6 text-gray-500 text-xs">
+                        Brak publikacji w bazie wiedzy.
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = allArticles.map(a => `
+                <div onclick="openArticleModal(${a.id})" class="bg-brand-card/60 border border-brand-border rounded-xl p-5 hover:border-emerald-500/50 transition duration-300 cursor-pointer flex flex-col justify-between space-y-3 group">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between text-[10px] text-emerald-400 font-mono">
+                            <span>${a.tags ? a.tags.join(' ') : ''}</span>
+                            <span class="text-gray-500">${a.read_time || '3 min read'}</span>
+                        </div>
+                        <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${a.title}</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">${a.summary}</p>
+                    </div>
+                    <div class="pt-2 border-t border-brand-border/40 flex items-center justify-between text-[11px] text-emerald-400 font-medium">
+                        <span>Czytaj poradnik</span>
+                        <span>&rarr;</span>
+                    </div>
+                </div>
+            `).join('');
+        }
 
         // POBIERANIE PROJEKTÓW Z SUPABASE
         async function fetchProjects() {
@@ -410,6 +503,22 @@
             document.getElementById('project-modal').classList.add('hidden');
         }
 
+        function openArticleModal(id) {
+            const article = allArticles.find(a => a.id === id);
+            if (!article) return;
+
+            document.getElementById('article-modal-title').innerText = article.title;
+            document.getElementById('article-modal-tags').innerText = article.tags ? article.tags.join(' ') : '';
+            document.getElementById('article-modal-time').innerText = article.read_time || '3 min read';
+            document.getElementById('article-modal-content').innerText = article.content;
+
+            document.getElementById('article-modal').classList.remove('hidden');
+        }
+
+        function closeArticleModal() {
+            document.getElementById('article-modal').classList.add('hidden');
+        }
+
         // HEALTH CHECK
         async function runHealthCheck() {
             const indicator = document.getElementById('health-indicator');
@@ -468,6 +577,7 @@
 
         // INICJALIZACJA
         window.addEventListener('DOMContentLoaded', () => {
+            fetchArticles();
             fetchProjects();
             runHealthCheck();
         });
