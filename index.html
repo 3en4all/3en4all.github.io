@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechM8 // Infrastructure, Python & AI Workflows</title>
-    <!-- Favicon inline zapobiegający błędom 404 -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -32,32 +32,6 @@
             }
         }
     </script>
-    <style>
-        body {
-            background-color: #0a0f1d;
-            color: #e5e7eb;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .glow-emerald {
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
-        }
-        .glow-cyan {
-            box-shadow: 0 0 20px rgba(0, 180, 216, 0.15);
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #0a0f1d;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #1f2937;
-            border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #10b981;
-        }
-    </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black">
 
@@ -74,13 +48,10 @@
             </div>
 
             <div class="flex items-center space-x-3">
-                <!-- Health Check Button -->
                 <button id="health-check-btn" onclick="runHealthCheck()" class="flex items-center space-x-2 text-xs px-3 py-1.5 rounded-lg border border-brand-border hover:border-emerald-500/50 bg-brand-card transition-all duration-300">
                     <span id="health-indicator" class="w-2 h-2 rounded-full bg-gray-500"></span>
                     <span id="health-text" class="text-gray-300">Node Status</span>
                 </button>
-
-                <!-- Bio Modal Trigger -->
                 <button onclick="openBioModal()" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition">
                     O mnie
                 </button>
@@ -88,161 +59,13 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
+    <!-- KONTENER MODUŁÓW DYNAMICZNYCH -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-12">
-
-        <!-- HERO SECTION -->
-        <section class="relative rounded-2xl border border-brand-border p-6 sm:p-10 bg-brand-card/50 overflow-hidden glow-emerald">
-            <div class="absolute -top-24 -right-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <div class="relative z-10 max-w-3xl space-y-4">
-                <div class="inline-flex items-center space-x-2 text-xs text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-3 py-1 rounded-full">
-                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                    <span>System Architecture & Development</span>
-                </div>
-                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-                    Infrastruktura IT, Python & <span class="text-emerald-400">Automatyzacja AI</span>
-                </h1>
-                <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
-                    Profesjonalny ekosystem technologiczny łączący 19+ lat praktyki w administracji systemami IT, środowiskach Homelab oraz nowoczesnym programowaniu i przepływach pracy AI.
-                </p>
-            </div>
-        </section>
-
-        <!-- SEKCJA DLA ODWIEDZAJĄCYCH / FB: CZYM JEST TECHM8 -->
-        <section class="rounded-2xl border border-brand-border bg-brand-card/30 p-6 sm:p-8 space-y-6">
-            <div class="border-b border-brand-border/60 pb-4">
-                <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                    <span class="text-emerald-400">//</span> Czym jest marka TechM8?
-                </h2>
-                <p class="text-xs sm:text-sm text-gray-400 mt-1">
-                    Proste omówienie misji i obszarów działania – od infrastruktury po sztuczną inteligencję.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Karta 1 -->
-                <div class="p-5 rounded-xl border border-brand-border bg-brand-card hover:border-emerald-500/40 transition duration-300 space-y-3">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-lg">
-                        🛡️
-                    </div>
-                    <h3 class="text-base font-semibold text-white">Niezawodna Infrastruktura</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">
-                        Projektowanie i utrzymanie stabilnych środowisk cyfrowych. Budowanie bezpiecznych sieci, wirtualizacji oraz systemów kopii zapasowych, które gwarantują ciągłość działania.
-                    </p>
-                </div>
-
-                <!-- Karta 2 -->
-                <div class="p-5 rounded-xl border border-brand-border bg-brand-card hover:border-cyan-500/40 transition duration-300 space-y-3">
-                    <div class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-lg">
-                        🤖
-                    </div>
-                    <h3 class="text-base font-semibold text-white">Automatyzacja & AI</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">
-                        Tworzenie dedykowanego oprogramowania w języku Python i wdrażanie asystentów AI. Przekształcanie żmudnych, powtarzalnych zadań w efektywne, automatyczne procesy.
-                    </p>
-                </div>
-
-                <!-- Karta 3 -->
-                <div class="p-5 rounded-xl border border-brand-border bg-brand-card hover:border-emerald-500/40 transition duration-300 space-y-3">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-lg">
-                        🧪
-                    </div>
-                    <h3 class="text-base font-semibold text-white">Laboratorium Homelab</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">
-                        Poligon doświadczalny i środowisko testowe. Testowanie najnowszych rozwiązań technologicznych klasy enterprise w kontrolowanych warunkach przed ich wdrożeniem produkcyjnym.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SEKCJA: TECH INSIGHTS & KNOWLEDGE BASE (NOWOŚĆ DLA LINKEDIN) -->
-        <section class="space-y-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
-                <div>
-                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                        <span class="text-emerald-400">//</span> Tech Insights & Baza Wiedzy
-                    </h2>
-                    <p class="text-xs text-gray-400 mt-0.5">Artykuły techniczne, poradniki architektoniczne i Dobre Praktyki IT</p>
-                </div>
-            </div>
-
-            <!-- SIATKA ARTYKUŁÓW (DYNAMIECZNIE GENEROWANA) -->
-            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="col-span-full text-center py-8 text-gray-500 text-xs">
-                    Ładowanie artykułów z bazy danych...
-                </div>
-            </div>
-        </section>
-
-        <!-- FILTRY I WYSZUKIWARKA PROJEKTÓW -->
-        <section class="space-y-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
-                <div>
-                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                        <span class="text-cyan-400">//</span> Rejestr Projektów
-                    </h2>
-                    <p class="text-xs text-gray-400 mt-0.5">Dynamiczna lista wdrożeń pobierana z bazy Supabase</p>
-                </div>
-
-                <!-- Wyszukiwarka -->
-                <div class="relative w-full md:w-72">
-                    <input type="text" id="search-input" oninput="filterProjects()" placeholder="Szukaj projektu..." 
-                        class="w-full bg-brand-card border border-brand-border rounded-lg px-4 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 transition">
-                </div>
-            </div>
-
-            <!-- Tagi do filtrowania -->
-            <div class="flex flex-wrap gap-2 text-xs" id="tag-filters">
-                <button onclick="setFilter('ALL')" class="tag-btn active-tag px-3 py-1 rounded-md border border-emerald-500 bg-emerald-500/20 text-emerald-300">Wszystkie</button>
-                <button onclick="setFilter('#Proxmox')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Proxmox</button>
-                <button onclick="setFilter('#Python')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Python</button>
-                <button onclick="setFilter('#TrueNAS')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#TrueNAS</button>
-                <button onclick="setFilter('#Docker')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Docker</button>
-                <button onclick="setFilter('#Raspberry Pi')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Raspberry Pi</button>
-                <button onclick="setFilter('#AI Workflows')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#AI Workflows</button>
-            </div>
-
-            <!-- SIATKA PROJEKTÓW (DYNAMIECZNIE GENEROWANA) -->
-            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="col-span-full text-center py-12 text-gray-500 text-xs">
-                    Ładowanie projektów z bazy danych...
-                </div>
-            </div>
-        </section>
-
-        <!-- FORMULARZ KONTAKTOWY -->
-        <section class="rounded-2xl border border-brand-border bg-brand-card p-6 sm:p-8 space-y-6 glow-cyan">
-            <div class="border-b border-brand-border pb-4">
-                <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                    <span class="text-emerald-400">//</span> Skontaktuj się
-                </h2>
-                <p class="text-xs text-gray-400 mt-1">Wyślij wiadomość bezpośrednio do systemu TechM8</p>
-            </div>
-
-            <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4 max-w-2xl">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-400 mb-1">Imię / Nazwa</label>
-                        <input type="text" id="contact-name" required class="w-full bg-[#0a0f1d] border border-brand-border rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-400 mb-1">Adres E-mail</label>
-                        <input type="email" id="contact-email" required class="w-full bg-[#0a0f1d] border border-brand-border rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-400 mb-1">Treść wiadomości</label>
-                    <textarea id="contact-message" rows="4" required class="w-full bg-[#0a0f1d] border border-brand-border rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 custom-scrollbar"></textarea>
-                </div>
-                <button type="submit" id="contact-submit-btn" class="px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-black font-semibold text-xs transition duration-200">
-                    Wyślij Wiadomość
-                </button>
-                <p id="contact-status" class="text-xs hidden"></p>
-            </form>
-        </section>
-
+        <div data-include="components/hero.html"></div>
+        <div data-include="components/about-brand.html"></div>
+        <div data-include="components/insights.html"></div>
+        <div data-include="components/projects.html"></div>
+        <div data-include="components/contact.html"></div>
     </main>
 
     <!-- FOOTER -->
@@ -253,334 +76,10 @@
         </div>
     </footer>
 
-    <!-- MODAL: BIO / O MNIE -->
-    <div id="bio-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <button onclick="closeBioModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">&times;</button>
-            
-            <div class="border-b border-brand-border pb-4">
-                <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                    <span class="text-emerald-400">//</span> Profil Zawodowy & Bio
-                </h3>
-                <p class="text-xs text-gray-400 mt-1">19+ lat w IT / Systems & Network Administration</p>
-            </div>
+    <!-- MODALE -->
+    <div data-include="components/modals.html"></div>
 
-            <div class="space-y-4 text-xs text-gray-300 leading-relaxed">
-                <p>
-                    Specjalista ds. wsparcia IT i administrator systemów z blisko dwudziestoletnim doświadczeniem w utrzymaniu ciągłości działania infrastruktur informatycznych, zarządzaniu Active Directory, sieciami komputerowymi oraz wsparciem użytkowników.
-                </p>
-                <p>
-                    Ekspert w budowaniu zaawansowanych środowisk Homelab (Proxmox VE, TrueNAS SCALE, Cisco, Docker, Raspberry Pi) oraz entuzjasta nowej fali automatyzacji z wykorzystaniem języka Python i architektur opartych na sztucznej inteligencji (AI Workflows, REST API, Supabase).
-                </p>
-
-                <div class="pt-2">
-                    <h4 class="text-white font-semibold mb-2 text-sm border-b border-brand-border/50 pb-1">Główne Kompetencje:</h4>
-                    <div class="grid grid-cols-2 gap-2 text-gray-400">
-                        <div>• Active Directory & Windows Server</div>
-                        <div>• Proxmox VE & Wirtualizacja</div>
-                        <div>• Python & API Integration</div>
-                        <div>• TrueNAS SCALE & ZFS</div>
-                        <div>• Sieci Cisco & OpenWrt</div>
-                        <div>• Supabase & Docker</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pt-4 border-t border-brand-border flex justify-end">
-                <button onclick="closeBioModal()" class="px-4 py-2 bg-brand-border hover:bg-gray-700 text-white rounded-lg text-xs transition">Zamknij</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: SZCZEGÓŁY PROJEKTU -->
-    <div id="project-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-3xl w-full p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <button onclick="closeProjectModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">&times;</button>
-            
-            <div class="border-b border-brand-border pb-4">
-                <span id="modal-tags" class="text-xs text-emerald-400 font-mono block mb-1"></span>
-                <h3 id="modal-title" class="text-2xl font-bold text-white"></h3>
-            </div>
-
-            <div class="space-y-4 text-xs text-gray-300 leading-relaxed">
-                <p id="modal-description"></p>
-                
-                <div class="pt-2">
-                    <h4 class="text-white font-semibold mb-2 text-sm">Architektura / Diagram Rozwiązania:</h4>
-                    <pre id="modal-diagram" class="bg-[#0a0f1d] border border-brand-border p-4 rounded-xl text-emerald-400 font-mono text-[11px] overflow-x-auto leading-tight"></pre>
-                </div>
-            </div>
-
-            <div class="pt-4 border-t border-brand-border flex justify-end">
-                <button onclick="closeProjectModal()" class="px-4 py-2 bg-brand-border hover:bg-gray-700 text-white rounded-lg text-xs transition">Zamknij</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: PEŁNA TREŚĆ ARTYKUŁU -->
-    <div id="article-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-3xl w-full p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <button onclick="closeArticleModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">&times;</button>
-            
-            <div class="border-b border-brand-border pb-4 space-y-2">
-                <div class="flex items-center justify-between text-xs text-emerald-400 font-mono">
-                    <span id="article-modal-tags"></span>
-                    <span id="article-modal-time" class="text-gray-500"></span>
-                </div>
-                <h3 id="article-modal-title" class="text-2xl font-bold text-white"></h3>
-            </div>
-
-            <div class="space-y-4 text-xs text-gray-300 leading-relaxed whitespace-pre-line font-sans" id="article-modal-content">
-            </div>
-
-            <div class="pt-4 border-t border-brand-border flex justify-end">
-                <button onclick="closeArticleModal()" class="px-4 py-2 bg-brand-border hover:bg-gray-700 text-white rounded-lg text-xs transition">Zamknij</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- LOGIKA JAVASCRIPT (SUPABASE & SKRYPTY) -->
-    <script>
-        const SUPABASE_URL = 'https://yxhxrlmydbiblpninatx.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_bp2Xrh7oGCwC55rj2JTGxQ_LmlAiabw';
-
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        let allProjects = [];
-        let allArticles = [];
-        let currentFilter = 'ALL';
-
-        // POBIERANIE ARTYKUŁÓW Z SUPABASE
-        async function fetchArticles() {
-            try {
-                const { data, error } = await supabaseClient
-                    .from('articles')
-                    .select('*')
-                    .order('id', { ascending: false });
-
-                if (error) throw error;
-
-                allArticles = data || [];
-                renderArticles();
-            } catch (err) {
-                console.error('Błąd pobierania artykułów:', err);
-                document.getElementById('articles-grid').innerHTML = `
-                    <div class="col-span-full text-center py-6 text-gray-500 text-xs">
-                        Baza wiedzy jest obecnie aktualizowana.
-                    </div>
-                `;
-            }
-        }
-
-        function renderArticles() {
-            const grid = document.getElementById('articles-grid');
-            if (allArticles.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full text-center py-6 text-gray-500 text-xs">
-                        Brak publikacji w bazie wiedzy.
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = allArticles.map(a => `
-                <div onclick="openArticleModal(${a.id})" class="bg-brand-card/60 border border-brand-border rounded-xl p-5 hover:border-emerald-500/50 transition duration-300 cursor-pointer flex flex-col justify-between space-y-3 group">
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between text-[10px] text-emerald-400 font-mono">
-                            <span>${a.tags ? a.tags.join(' ') : ''}</span>
-                            <span class="text-gray-500">${a.read_time || '3 min read'}</span>
-                        </div>
-                        <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${a.title}</h3>
-                        <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">${a.summary}</p>
-                    </div>
-                    <div class="pt-2 border-t border-brand-border/40 flex items-center justify-between text-[11px] text-emerald-400 font-medium">
-                        <span>Czytaj poradnik</span>
-                        <span>&rarr;</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // POBIERANIE PROJEKTÓW Z SUPABASE
-        async function fetchProjects() {
-            try {
-                const { data, error } = await supabaseClient
-                    .from('projects')
-                    .select('*')
-                    .order('id', { ascending: true });
-
-                if (error) throw error;
-
-                allProjects = data || [];
-                renderProjects();
-            } catch (err) {
-                console.error('Błąd pobierania projektów:', err);
-                document.getElementById('projects-grid').innerHTML = `
-                    <div class="col-span-full text-center py-12 text-red-400 text-xs">
-                        Nie udało się załadować projektów z bazy Supabase.
-                    </div>
-                `;
-            }
-        }
-
-        // RENDEROWANIE KART PROJEKTÓW
-        function renderProjects() {
-            const grid = document.getElementById('projects-grid');
-            const searchVal = document.getElementById('search-input').value.toLowerCase();
-
-            const filtered = allProjects.filter(p => {
-                const matchesTag = currentFilter === 'ALL' || (p.tags && p.tags.includes(currentFilter));
-                const matchesSearch = p.title.toLowerCase().includes(searchVal) || 
-                                      p.description.toLowerCase().includes(searchVal) ||
-                                      (p.tags && p.tags.join(' ').toLowerCase().includes(searchVal));
-                return matchesTag && matchesSearch;
-            });
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full text-center py-12 text-gray-500 text-xs">
-                        Brak projektów spełniających kryteria wyszukiwania.
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = filtered.map(p => `
-                <div onclick="openProjectModal(${p.id})" class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-emerald-500/50 transition duration-300 cursor-pointer flex flex-col justify-between space-y-4 group">
-                    <div class="space-y-2">
-                        <div class="text-[10px] text-emerald-400 font-mono flex flex-wrap gap-1">
-                            ${p.tags ? p.tags.map(t => `<span class="bg-emerald-950/40 border border-emerald-500/20 px-1.5 py-0.5 rounded">${t}</span>`).join('') : ''}
-                        </div>
-                        <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${p.title}</h3>
-                        <p class="text-xs text-gray-400 line-clamp-3 leading-relaxed">${p.description}</p>
-                    </div>
-                    <div class="pt-2 border-t border-brand-border/40 flex items-center justify-between text-[11px] text-cyan-400 font-medium">
-                        <span>Zobacz szczegóły & diagram</span>
-                        <span>&rarr;</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // FILTROWANIE
-        function setFilter(tag) {
-            currentFilter = tag;
-            document.querySelectorAll('.tag-btn').forEach(btn => {
-                if (btn.innerText.includes(tag) || (tag === 'ALL' && btn.innerText.includes('Wszystkie'))) {
-                    btn.className = 'tag-btn active-tag px-3 py-1 rounded-md border border-emerald-500 bg-emerald-500/20 text-emerald-300';
-                } else {
-                    btn.className = 'tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500';
-                }
-            });
-            renderProjects();
-        }
-
-        function filterProjects() {
-            renderProjects();
-        }
-
-        // MODALE
-        function openBioModal() {
-            document.getElementById('bio-modal').classList.remove('hidden');
-        }
-        function closeBioModal() {
-            document.getElementById('bio-modal').classList.add('hidden');
-        }
-
-        function openProjectModal(id) {
-            const project = allProjects.find(p => p.id === id);
-            if (!project) return;
-
-            document.getElementById('modal-title').innerText = project.title;
-            document.getElementById('modal-tags').innerText = project.tags ? project.tags.join(' ') : '';
-            document.getElementById('modal-description').innerText = project.description;
-            document.getElementById('modal-diagram').innerText = project.diagram || 'Brak diagramu dla tego projektu.';
-
-            document.getElementById('project-modal').classList.remove('hidden');
-        }
-
-        function closeProjectModal() {
-            document.getElementById('project-modal').classList.add('hidden');
-        }
-
-        function openArticleModal(id) {
-            const article = allArticles.find(a => a.id === id);
-            if (!article) return;
-
-            document.getElementById('article-modal-title').innerText = article.title;
-            document.getElementById('article-modal-tags').innerText = article.tags ? article.tags.join(' ') : '';
-            document.getElementById('article-modal-time').innerText = article.read_time || '3 min read';
-            document.getElementById('article-modal-content').innerText = article.content;
-
-            document.getElementById('article-modal').classList.remove('hidden');
-        }
-
-        function closeArticleModal() {
-            document.getElementById('article-modal').classList.add('hidden');
-        }
-
-        // HEALTH CHECK
-        async function runHealthCheck() {
-            const indicator = document.getElementById('health-indicator');
-            const text = document.getElementById('health-text');
-
-            text.innerText = 'Pinging...';
-            indicator.className = 'w-2 h-2 rounded-full bg-yellow-500 animate-ping';
-
-            const start = performance.now();
-            try {
-                const { data, error } = await supabaseClient.from('projects').select('id').limit(1);
-                const duration = Math.round(performance.now() - start);
-
-                if (error) throw error;
-
-                indicator.className = 'w-2 h-2 rounded-full bg-emerald-500';
-                text.innerText = `Online (${duration}ms)`;
-            } catch (err) {
-                indicator.className = 'w-2 h-2 rounded-full bg-red-500';
-                text.innerText = 'Offline';
-            }
-        }
-
-        // WYSYŁANIE WIADOMOŚCI FORMULARZA
-        async function handleContactSubmit(e) {
-            e.preventDefault();
-            const btn = document.getElementById('contact-submit-btn');
-            const status = document.getElementById('contact-status');
-
-            const name = document.getElementById('contact-name').value;
-            const email = document.getElementById('contact-email').value;
-            const message = document.getElementById('contact-message').value;
-
-            btn.disabled = true;
-            btn.innerText = 'Wysyłanie...';
-
-            try {
-                const { error } = await supabaseClient
-                    .from('messages')
-                    .insert([{ name, email, message }]);
-
-                if (error) throw error;
-
-                status.innerText = 'Wiadomość została wysłana pomyślnie!';
-                status.className = 'text-xs text-emerald-400 font-medium block';
-                document.getElementById('contact-form').reset();
-            } catch (err) {
-                console.error(err);
-                status.innerText = 'Błąd podczas wysyłania wiadomości.';
-                status.className = 'text-xs text-red-400 font-medium block';
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'Wyślij Wiadomość';
-            }
-        }
-
-        // INICJALIZACJA
-        window.addEventListener('DOMContentLoaded', () => {
-            fetchArticles();
-            fetchProjects();
-            runHealthCheck();
-        });
-    </script>
+    <!-- SKRYPT APLIKACJI -->
+    <script src="js/app.js"></script>
 </body>
 </html>

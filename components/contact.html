@@ -1,0 +1,29 @@
+<section class="rounded-2xl border border-brand-border bg-brand-card p-6 sm:p-8 space-y-6 glow-cyan">
+    <div class="border-b border-brand-border pb-4">
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="text-emerald-400">//</span> Skontaktuj się
+        </h2>
+        <p class="text-xs text-gray-400 mt-1">Wyślij wiadomość bezpośrednio do systemu TechM8</p>
+    </div>
+
+    <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4 max-w-2xl">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-medium text-gray-400 mb-1">Imię / Nazwa</label>
+                <input type="text" id="contact-name" required class="w-full bg-[#0a0f1d] border border-brand-border rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500">
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-400 mb-1">Adres E-mail</label>
+                <input type="email" id="contact-email" required class="w-full bg-[#0a0f1d] border border-brand-border rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500">
+            </div>
+        </div>
+        <div>
+            <label class="block text-xs font-medium text-gray-400 mb-1">Treść wiadomości</label>
+            <textarea id="contact-message" rows="4" required class="w-full bg-[#0a0f1d] border border-brand-border rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 custom-scrollbar"></textarea>
+        </div>
+        <button type="submit" id="contact-submit-btn" class="px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-black font-semibold text-xs transition duration-200">
+            Wyślij Wiadomość
+        </button>
+        <p id="contact-status" class="text-xs hidden"></p>
+    </form>
+</section>

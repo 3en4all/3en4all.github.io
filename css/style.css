@@ -1,0 +1,24 @@
+body {
+    background-color: #0a0f1d;
+    color: #e5e7eb;
+    font-family: 'JetBrains Mono', monospace;
+}
+.glow-emerald {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+}
+.glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 180, 216, 0.15);
+}
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #0a0f1d;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #1f2937;
+    border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #10b981;
+}

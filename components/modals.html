@@ -1,0 +1,67 @@
+<!-- MODAL: BIO -->
+<div id="bio-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto custom-scrollbar">
+        <button onclick="closeBioModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">&times;</button>
+        <div class="border-b border-brand-border pb-4">
+            <h3 class="text-xl font-bold text-white flex items-center gap-2"><span class="text-emerald-400">//</span> Profil Zawodowy & Bio</h3>
+            <p class="text-xs text-gray-400 mt-1">19+ lat w IT / Systems & Network Administration</p>
+        </div>
+        <div class="space-y-4 text-xs text-gray-300 leading-relaxed">
+            <p>Specjalista ds. wsparcia IT i administrator systemów z blisko dwudziestoletnim doświadczeniem w utrzymaniu ciągłości działania infrastruktur informatycznych, zarządzaniu Active Directory, sieciami komputerowymi oraz wsparciem użytkowników.</p>
+            <p>Ekspert w budowaniu zaawansowanych środowisk Homelab (Proxmox VE, TrueNAS SCALE, Cisco, Docker, Raspberry Pi) oraz entuzjasta nowej fali automatyzacji z wykorzystaniem języka Python i architektur opartych na sztucznej inteligencji (AI Workflows, REST API, Supabase).</p>
+            <div class="pt-2">
+                <h4 class="text-white font-semibold mb-2 text-sm border-b border-brand-border/50 pb-1">Główne Kompetencje:</h4>
+                <div class="grid grid-cols-2 gap-2 text-gray-400">
+                    <div>• Active Directory & Windows Server</div>
+                    <div>• Proxmox VE & Wirtualizacja</div>
+                    <div>• Python & API Integration</div>
+                    <div>• TrueNAS SCALE & ZFS</div>
+                    <div>• Sieci Cisco & OpenWrt</div>
+                    <div>• Supabase & Docker</div>
+                </div>
+            </div>
+        </div>
+        <div class="pt-4 border-t border-brand-border flex justify-end">
+            <button onclick="closeBioModal()" class="px-4 py-2 bg-brand-border hover:bg-gray-700 text-white rounded-lg text-xs transition">Zamknij</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: PROJEKT -->
+<div id="project-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-brand-border rounded-2xl max-w-3xl w-full p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto custom-scrollbar">
+        <button onclick="closeProjectModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">&times;</button>
+        <div class="border-b border-brand-border pb-4">
+            <span id="modal-tags" class="text-xs text-emerald-400 font-mono block mb-1"></span>
+            <h3 id="modal-title" class="text-2xl font-bold text-white"></h3>
+        </div>
+        <div class="space-y-4 text-xs text-gray-300 leading-relaxed">
+            <p id="modal-description"></p>
+            <div class="pt-2">
+                <h4 class="text-white font-semibold mb-2 text-sm">Architektura / Diagram Rozwiązania:</h4>
+                <pre id="modal-diagram" class="bg-[#0a0f1d] border border-brand-border p-4 rounded-xl text-emerald-400 font-mono text-[11px] overflow-x-auto leading-tight"></pre>
+            </div>
+        </div>
+        <div class="pt-4 border-t border-brand-border flex justify-end">
+            <button onclick="closeProjectModal()" class="px-4 py-2 bg-brand-border hover:bg-gray-700 text-white rounded-lg text-xs transition">Zamknij</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: ARTYKUŁ -->
+<div id="article-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-brand-border rounded-2xl max-w-3xl w-full p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto custom-scrollbar">
+        <button onclick="closeArticleModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">&times;</button>
+        <div class="border-b border-brand-border pb-4 space-y-2">
+            <div class="flex items-center justify-between text-xs text-emerald-400 font-mono">
+                <span id="article-modal-tags"></span>
+                <span id="article-modal-time" class="text-gray-500"></span>
+            </div>
+            <h3 id="article-modal-title" class="text-2xl font-bold text-white"></h3>
+        </div>
+        <div class="space-y-4 text-xs text-gray-300 leading-relaxed whitespace-pre-line font-sans" id="article-modal-content"></div>
+        <div class="pt-4 border-t border-brand-border flex justify-end">
+            <button onclick="closeArticleModal()" class="px-4 py-2 bg-brand-border hover:bg-gray-700 text-white rounded-lg text-xs transition">Zamknij</button>
+        </div>
+    </div>
+</div>
