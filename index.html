@@ -1,546 +1,475 @@
 <!DOCTYPE html>
 <html lang="pl" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TechM8 // IT Infrastructure & Automation Platform</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              cyan: '#00b4d8',
-              emerald: '#10b981',
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechM8 // Infrastructure, Python & AI Workflows</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0a0f1d',
+                            card: '#111827',
+                            emerald: '#10b981',
+                            cyan: '#00b4d8',
+                            border: '#1f2937'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
             }
-          },
-          fontFamily: {
-            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
-          }
         }
-      }
-    }
-  </script>
-  
-  <!-- Google Fonts: JetBrains Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Supabase JS Client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    </script>
+    <style>
+        body {
+            background-color: #0a0f1d;
+            color: #e5e7eb;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .glow-emerald {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 180, 216, 0.15);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0a0f1d;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+    </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-emerald-500/30 selection:text-emerald-400">
+<body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black">
 
-  <!-- ================= NAVBAR / HEADER ================= -->
-  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      
-      <!-- Logo / Brand -->
-      <div class="flex items-center gap-3">
-        <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
-        <a href="#" class="font-mono text-xl font-extrabold tracking-wider text-slate-100 hover:text-emerald-400 transition">
-          Tech<span class="text-emerald-400">M8</span>
-        </a>
-      </div>
-
-      <!-- Main Navigation -->
-      <nav class="hidden md:flex items-center gap-6">
-        <a href="#projects-section" class="text-sm font-mono text-slate-300 hover:text-emerald-400 transition">Projekty</a>
-        
-        <button onclick="toggleModal('bio-modal', true)" class="text-sm font-mono text-slate-300 hover:text-emerald-400 transition">
-          O mnie
-        </button>
-
-        <a href="#contact-section" class="text-sm font-mono text-slate-300 hover:text-emerald-400 transition">Kontakt</a>
-
-        <button onclick="openSystemStatusModal()" class="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs rounded-lg hover:bg-emerald-500/20 transition">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          [ Node Status: LIVE ]
-        </button>
-
-        <a href="https://github.com/3en4all/TechM8webApp" target="_blank" class="px-3 py-1 bg-slate-900 border border-slate-700 text-slate-300 hover:border-emerald-400 hover:text-emerald-400 text-xs font-mono rounded-lg transition">
-          webapp.techm8 &rarr;
-        </a>
-      </nav>
-
-      <!-- Mobile menu trigger -->
-      <div class="md:hidden flex items-center gap-2">
-        <button onclick="openSystemStatusModal()" class="px-2 py-1 bg-emerald-500/10 text-emerald-400 font-mono text-xs rounded border border-emerald-500/30">
-          STATUS
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="flex-grow">
-    <!-- ================= HERO SECTION ================= -->
-    <section class="py-16 md:py-24 border-b border-slate-800/50 bg-gradient-to-b from-slate-950 via-slate-900/40 to-slate-950">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-12">
-        <div class="space-y-6 max-w-2xl">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs">
-            <span>>_ Enterprise & Homelab Architecture</span>
-          </div>
-          <h1 class="text-4xl sm:text-5xl font-extrabold font-mono tracking-tight text-slate-100">
-            Tech<span class="text-emerald-400">M8</span> Platform
-          </h1>
-          <p class="text-slate-400 text-base sm:text-lg leading-relaxed">
-            Infrastruktura IT, wirtualizacja Proxmox, automatyzacje Python/AI oraz nowoczesny stos cloud-native. Zintegrowany ekosystem rozwiązań sysadmina i developera.
-          </p>
-          <div class="flex flex-wrap gap-4 justify-center md:justify-start pt-2">
-            <a href="#projects-section" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono text-sm font-bold rounded-xl transition shadow-lg shadow-emerald-500/20">
-              Przeglądaj Projekty
-            </a>
-            <button onclick="toggleModal('bio-modal', true)" class="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 font-mono text-sm font-semibold rounded-xl transition">
-              Specyfikacja Profilu
-            </button>
-          </div>
-        </div>
-
-        <div class="w-full md:w-auto flex justify-center">
-          <div class="w-full max-w-md bg-slate-900/90 border border-slate-800 rounded-xl p-5 font-mono text-xs text-slate-300 shadow-2xl">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
-              <span class="text-slate-400">sysinfo.sh</span>
-              <span class="text-emerald-400">ONLINE</span>
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-[#0a0f1d]/90 backdrop-blur border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                    TechM8<span class="text-emerald-500">//</span>
+                </span>
+                <span class="hidden sm:inline-block text-xs px-2 py-0.5 rounded border border-emerald-500/30 text-emerald-400 bg-emerald-950/30">
+                    ProFree v2.4
+                </span>
             </div>
-            <div class="space-y-2">
-              <p><span class="text-slate-500">HOST:</span> techm8-core-node</p>
-              <p><span class="text-slate-500">OS:</span> Proxmox VE / Debian Linux</p>
-              <p><span class="text-slate-500">STACK:</span> Python, Supabase, Docker, Resend API</p>
-              <p><span class="text-slate-500">NET:</span> OpenWrt / Pi-hole / WireGuard</p>
-              <p><span class="text-slate-500">STATUS:</span> <span class="text-emerald-400">100% Functional</span></p>
+
+            <div class="flex items-center space-x-3">
+                <!-- Health Check Button -->
+                <button id="health-check-btn" onclick="runHealthCheck()" class="flex items-center space-x-2 text-xs px-3 py-1.5 rounded-lg border border-brand-border hover:border-emerald-500/50 bg-brand-card transition-all duration-300">
+                    <span id="health-indicator" class="w-2 h-2 rounded-full bg-gray-500"></span>
+                    <span id="health-text" class="text-gray-300">Node Status</span>
+                </button>
+
+                <!-- Bio Modal Trigger -->
+                <button onclick="openBioModal()" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition">
+                    O mnie
+                </button>
             </div>
-          </div>
         </div>
-      </div>
-    </section>
+    </header>
 
-    <!-- ================= PROJEKTY, WYSZUKIWARKA & FILTRY ================= -->
-    <section id="projects-section" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        <div>
-          <h2 class="text-2xl font-bold font-mono text-slate-100 flex items-center gap-2">
-            <span class="text-emerald-400">></span> Architektura & Portfolio
-          </h2>
-          <p class="text-sm text-slate-400 mt-1">Dynamicznie ładowane zasoby z bazy Supabase</p>
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-12">
+
+        <!-- HERO SECTION -->
+        <section class="relative rounded-2xl border border-brand-border p-6 sm:p-10 bg-brand-card/50 overflow-hidden glow-emerald">
+            <div class="absolute -top-24 -right-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-3xl space-y-4">
+                <div class="inline-flex items-center space-x-2 text-xs text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-3 py-1 rounded-full">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span>System Architecture & Development</span>
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+                    Infrastruktura IT, Python & <span class="text-emerald-400">Automatyzacja AI</span>
+                </h1>
+                <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                    Profesjonalny ekosystem technologiczny łączący 19+ lat praktyki w administracji systemami IT, środowiskach Homelab oraz nowoczesnym programowaniu i przepływach pracy AI.
+                </p>
+            </div>
+        </section>
+
+        <!-- SEKCJA DLA ODWIEDZAJĄCYCH / FB: CZYM JEST TECHM8 -->
+        <section class="rounded-2xl border border-brand-border bg-brand-card/30 p-6 sm:p-8 space-y-6">
+            <div class="border-b border-brand-border/60 pb-4">
+                <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                    <span class="text-emerald-400">//</span> Czym jest marka TechM8?
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-400 mt-1">
+                    Proste omówienie misji i obszarów działania – od infrastruktury po sztuczną inteligencję.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Karta 1 -->
+                <div class="p-5 rounded-xl border border-brand-border bg-brand-card hover:border-emerald-500/40 transition duration-300 space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-lg">
+                        🛡️
+                    </div>
+                    <h3 class="text-base font-semibold text-white">Niezawodna Infrastruktura</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Projektowanie i utrzymanie stabilnych środowisk cyfrowych. Budowanie bezpiecznych sieci, wirtualizacji oraz systemów kopii zapasowych, które gwarantują ciągłość działania.
+                    </p>
+                </div>
+
+                <!-- Karta 2 -->
+                <div class="p-5 rounded-xl border border-brand-border bg-brand-card hover:border-cyan-500/40 transition duration-300 space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-lg">
+                        🤖
+                    </div>
+                    <h3 class="text-base font-semibold text-white">Automatyzacja & AI</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Tworzenie dedykowanego oprogramowania w języku Python i wdrażanie asystentów AI. Przekształcanie żmudnych, powtarzalnych zadań w efektywne, automatyczne procesy.
+                    </p>
+                </div>
+
+                <!-- Karta 3 -->
+                <div class="p-5 rounded-xl border border-brand-border bg-brand-card hover:border-emerald-500/40 transition duration-300 space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-lg">
+                        🧪
+                    </div>
+                    <h3 class="text-base font-semibold text-white">Laboratorium Homelab</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Poligon doświadczalny i środowisko testowe. Testowanie najnowszych rozwiązań technologicznych klasy enterprise w kontrolowanych warunkach przed ich wdrożeniem produkcyjnym.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FILTRY I WYSZUKIWARKA PROJEKTÓW -->
+        <section class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span class="text-cyan-400">//</span> Rejestr Projektów
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Dynamiczna lista wdrożeń pobierana z bazy Supabase</p>
+                </div>
+
+                <!-- Wyszukiwarka -->
+                <div class="relative w-full md:w-72">
+                    <input type="text" id="search-input" oninput="filterProjects()" placeholder="Szukaj projektu..." 
+                        class="w-full bg-brand-card border border-brand-border rounded-lg px-4 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 transition">
+                </div>
+            </div>
+
+            <!-- Tagi do filtrowania -->
+            <div class="flex flex-wrap gap-2 text-xs" id="tag-filters">
+                <button onclick="setFilter('ALL')" class="tag-btn active-tag px-3 py-1 rounded-md border border-emerald-500 bg-emerald-500/20 text-emerald-300">Wszystkie</button>
+                <button onclick="setFilter('#Proxmox')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Proxmox</button>
+                <button onclick="setFilter('#Python')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Python</button>
+                <button onclick="setFilter('#TrueNAS')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#TrueNAS</button>
+                <button onclick="setFilter('#Docker')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Docker</button>
+                <button onclick="setFilter('#Raspberry Pi')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Raspberry Pi</button>
+                <button onclick="setFilter('#AI Workflows')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#AI Workflows</button>
+            </div>
+
+            <!-- SIATKA PROJEKTÓW (DYNAMIECZNIE GENEROWANA) -->
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="col-span-full text-center py-12 text-gray-500 text-xs">
+                    Ładowanie projektów z bazy danych...
+                </div>
+            </div>
+        </section>
+
+        <!-- FORMULARZ KONTAKTOWY -->
+        <section class="rounded-2xl border border-brand-border bg-brand-card p-6 sm:p-8 space-y-6 glow-cyan">
+            <div class="border-b border-brand-border pb-4">
+                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <span class="text-emerald-400">//</span> Skontaktuj się
+                </h2>
+                <p class="text-xs text-gray-400 mt-1">Wyślij wiadomość bezpośrednio do systemu TechM8</p>
+            </div>
+
+            <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4 max-w-2xl">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Imię / Nazwa</label>
+                        <input type="text" id="contact-name" required class="w-full bg-[#0a0f1d] border border-brand-border rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Adres E-mail</label>
+                        <input type="email" id="contact-email" required class="w-full bg-[#0a0f1d] border border-brand-border rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">Treść wiadomości</label>
+                    <textarea id="contact-message" rows="4" required class="w-full bg-[#0a0f1d] border border-brand-border rounded-lg px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 custom-scrollbar"></textarea>
+                </div>
+                <button type="submit" id="contact-submit-btn" class="px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-black font-semibold text-xs transition duration-200">
+                    Wyślij Wiadomość
+                </button>
+                <p id="contact-status" class="text-xs hidden"></p>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-brand-border bg-[#0a0f1d] py-6 text-center text-xs text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>TechM8 &copy; 2026. Wszelkie prawa zastrzeżone.</div>
+            <div class="text-gray-600">Engineered with Python, Supabase & Tailwind</div>
         </div>
+    </footer>
 
-        <!-- SEARCHBAR & FILTRY -->
-        <div class="w-full md:w-72">
-          <input type="text" id="project-search" placeholder="Szukaj projektu lub technologii..." 
-            class="w-full bg-slate-900 border border-slate-800 focus:border-emerald-400 text-slate-200 text-xs rounded-xl px-4 py-2.5 font-mono outline-none transition">
+    <!-- MODAL: BIO / O MNIE -->
+    <div id="bio-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <button onclick="closeBioModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">&times;</button>
+            
+            <div class="border-b border-brand-border pb-4">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <span class="text-emerald-400">//</span> Profil Zawodowy & Bio
+                </h3>
+                <p class="text-xs text-gray-400 mt-1">19+ lat w IT / Systems & Network Administration</p>
+            </div>
+
+            <div class="space-y-4 text-xs text-gray-300 leading-relaxed">
+                <p>
+                    Specjalista ds. wsparcia IT i administrator systemów z blisko dwudziestoletnim doświadczeniem w utrzymaniu ciągłości działania infrastruktur informatycznych, zarządzaniu Active Directory, sieciami komputerowymi oraz wsparciem użytkowników.
+                </p>
+                <p>
+                    Ekspert w budowaniu zaawansowanych środowisk Homelab (Proxmox VE, TrueNAS SCALE, Cisco, Docker, Raspberry Pi) oraz entuzjasta nowej fali automatyzacji z wykorzystaniem języka Python i architektur opartych na sztucznej inteligencji (AI Workflows, REST API, Supabase).
+                </p>
+
+                <div class="pt-2">
+                    <h4 class="text-white font-semibold mb-2 text-sm border-b border-brand-border/50 pb-1">Główne Kompetencje:</h4>
+                    <div class="grid grid-cols-2 gap-2 text-gray-400">
+                        <div>• Active Directory & Windows Server</div>
+                        <div>• Proxmox VE & Wirtualizacja</div>
+                        <div>• Python & API Integration</div>
+                        <div>• TrueNAS SCALE & ZFS</div>
+                        <div>• Sieci Cisco & OpenWrt</div>
+                        <div>• Supabase & Docker</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-brand-border flex justify-end">
+                <button onclick="closeBioModal()" class="px-4 py-2 bg-brand-border hover:bg-gray-700 text-white rounded-lg text-xs transition">Zamknij</button>
+            </div>
         </div>
-      </div>
-
-      <!-- Dynamiczne Przyciski Tagi -->
-      <div id="tag-filters" class="flex flex-wrap gap-2 mb-8">
-        <!-- Renderowane przez JS -->
-      </div>
-
-      <!-- KONTENER NA KARTY PROJEKTÓW -->
-      <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full text-center py-12 text-slate-500 font-mono text-sm">
-          Ładowanie projektów z bazy danych...
-        </div>
-      </div>
-    </section>
-
-    <!-- ================= FORMULARZ KONTAKTOWY ================= -->
-    <section id="contact-section" class="py-16 border-t border-slate-800/60 bg-slate-900/30">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-10">
-          <h2 class="text-2xl font-bold font-mono text-slate-100">
-            <span class="text-emerald-400">></span> Wysyłanie Wiadomości
-          </h2>
-          <p class="text-slate-400 text-sm mt-2 font-mono">Formularz zapisuje zgłoszenie w Supabase i uruchamia Edge Function</p>
-        </div>
-
-        <form id="contact-form" class="space-y-4 bg-slate-900/80 border border-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl">
-          <div>
-            <label for="sender-email" class="block text-xs font-mono text-slate-400 mb-2">TWÓJ EMAIL / ADRES ZWROTNY</label>
-            <input type="email" id="sender-email" required placeholder="name@domain.com"
-              class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-400 text-slate-200 text-sm rounded-xl px-4 py-3 font-mono outline-none transition">
-          </div>
-
-          <div>
-            <label for="message-content" class="block text-xs font-mono text-slate-400 mb-2">TREŚĆ WIADOMOŚCI</label>
-            <textarea id="message-content" rows="4" required placeholder="Opisz temat lub zapytanie techniczne..."
-              class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-400 text-slate-200 text-sm rounded-xl px-4 py-3 font-mono outline-none transition"></textarea>
-          </div>
-
-          <button type="submit" id="submit-btn" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono text-sm font-bold rounded-xl transition shadow-lg shadow-emerald-500/10">
-            Wyślij Wiadomość
-          </button>
-
-          <div id="form-status" class="hidden text-center text-xs font-mono p-3 rounded-lg mt-2"></div>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="border-t border-slate-800/80 py-8 bg-slate-950">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-slate-500">
-      <div>
-        © 2026 TechM8 Platform. All systems operational.
-      </div>
-      <div class="flex items-center gap-4">
-        <a href="https://3en4all.github.io/" class="hover:text-emerald-400 transition">GitHub Pages</a>
-        <a href="https://github.com/3en4all/TechM8webApp" target="_blank" class="hover:text-emerald-400 transition">TechM8webApp Repo</a>
-      </div>
     </div>
-  </footer>
 
-  <!-- ================= MODALE INTERAKTYWNE ================= -->
+    <!-- MODAL: SZCZEGÓŁY PROJEKTU -->
+    <div id="project-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border rounded-2xl max-w-3xl w-full p-6 sm:p-8 space-y-6 relative max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <button onclick="closeProjectModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">&times;</button>
+            
+            <div class="border-b border-brand-border pb-4">
+                <span id="modal-tags" class="text-xs text-emerald-400 font-mono block mb-1"></span>
+                <h3 id="modal-title" class="text-2xl font-bold text-white"></h3>
+            </div>
 
-  <!-- 1. MODAL: O MNIE / BIO -->
-  <div id="bio-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-slate-900 border border-emerald-500/30 rounded-2xl p-6 max-w-2xl w-full text-slate-200 shadow-2xl">
-      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
-        <h3 class="text-lg font-bold font-mono text-emerald-400">> Jaco // Admin & Dev Profile</h3>
-        <button onclick="toggleModal('bio-modal', false)" class="text-slate-400 hover:text-emerald-400 font-mono text-xl">&times;</button>
-      </div>
-      <div class="space-y-4 font-mono text-sm leading-relaxed text-slate-300">
-        <p><strong class="text-emerald-400">Doświadczenie:</strong> 19+ lat w wsparciu IT, administracji systemami Active Directory oraz infrastrukturze komercyjnej i publicznej.</p>
-        <p><strong class="text-emerald-400">Homelab & Cloud:</strong> Proxmox VE, TrueNAS, klastry Docker, network routing na Raspberry Pi (OpenWrt, Pi-hole), switchowanie Cisco.</p>
-        <p><strong class="text-emerald-400">Dev Stack:</strong> Python, AI Workflows (Gemini API), Supabase, Git, Shell Automation.</p>
-      </div>
-    </div>
-  </div>
+            <div class="space-y-4 text-xs text-gray-300 leading-relaxed">
+                <p id="modal-description"></p>
+                
+                <div class="pt-2">
+                    <h4 class="text-white font-semibold mb-2 text-sm">Architektura / Diagram Rozwiązania:</h4>
+                    <pre id="modal-diagram" class="bg-[#0a0f1d] border border-brand-border p-4 rounded-xl text-emerald-400 font-mono text-[11px] overflow-x-auto leading-tight"></pre>
+                </div>
+            </div>
 
-  <!-- 2. MODAL: SYSTEM STATUS (LIVE HEALTH CHECK) -->
-  <div id="system-status-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-slate-900 border border-emerald-500/30 rounded-2xl p-6 max-w-md w-full text-slate-200 shadow-2xl">
-      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
-        <h3 class="text-lg font-bold font-mono text-emerald-400">> System Health Diagnostics</h3>
-        <button onclick="toggleModal('system-status-modal', false)" class="text-slate-400 hover:text-emerald-400 font-mono text-xl">&times;</button>
-      </div>
-      <div id="status-metrics-content" class="mb-4"></div>
-      <div class="flex justify-between items-center pt-2">
-        <button onclick="runLiveHealthCheck()" class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 text-xs font-mono rounded-lg border border-emerald-500/40 transition">
-          ↻ Ponów test
-        </button>
-        <button onclick="toggleModal('system-status-modal', false)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 rounded-lg transition">Zamknij</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 3. MODAL: SZCZEGÓŁY PROJEKTU -->
-  <div id="project-detail-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div class="bg-slate-900 border border-emerald-500/30 rounded-2xl p-6 max-w-2xl w-full text-slate-200 shadow-2xl">
-      <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
-        <h3 id="modal-project-title" class="text-lg font-bold font-mono text-emerald-400">--</h3>
-        <button onclick="toggleModal('project-detail-modal', false)" class="text-slate-400 hover:text-emerald-400 font-mono text-xl">&times;</button>
-      </div>
-      <div class="space-y-4">
-        <div>
-          <span class="text-xs font-mono text-slate-400 block mb-1">Opis:</span>
-          <p id="modal-project-desc" class="text-sm text-slate-300 leading-relaxed">--</p>
+            <div class="pt-4 border-t border-brand-border flex justify-end">
+                <button onclick="closeProjectModal()" class="px-4 py-2 bg-brand-border hover:bg-gray-700 text-white rounded-lg text-xs transition">Zamknij</button>
+            </div>
         </div>
-        <div>
-          <span class="text-xs font-mono text-slate-400 block mb-1">Architektura & Diagram Systemu:</span>
-          <pre id="modal-project-arch" class="text-xs font-mono text-emerald-400 bg-slate-950 p-4 rounded-xl border border-slate-800 overflow-x-auto whitespace-pre leading-snug">--</pre>
-        </div>
-        <div>
-          <span class="text-xs font-mono text-slate-400 block mb-1">Wykorzystane technologie:</span>
-          <div id="modal-project-tech" class="flex flex-wrap gap-2 pt-1">--</div>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- ================= SKRYPT LOGICZNY (SUPABASE & LOGIKA) ================= -->
-  <script>
-    // --- KONFIGURACJA SUPABASE ---
-    const SUPABASE_URL = 'https://yxhxrlmydbiblpninatx.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl4aHhybG15ZGJpYmxwbmluYXR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyNTA1NDMsImV4cCI6MjEwMjgyNjU0M30.dYsY5vvY5w73Q7Nl2NbGgXioz_rDdByoXJ3UB0vpYrg';
-    
-    // Inicjalizacja Klienta
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    <!-- LOGIKA JAVASCRIPT (SUPABASE & SKRYPTY) -->
+    <script>
+        // PRODUKCYJNE DANIE DOSTĘPOWE SUPABASE
+        const SUPABASE_URL = 'https://xywpeqghksyqvyfuznwu.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5d3BlcWdoa3N5cXZ5ZnV6bnd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAxNzQ0ODIsImV4cCI6MjA1NTc1MDQ4Mn0.NsnN23H4qP5oO4oUu-V9Jd8P_KXZpY1K3N9h7L1M3E8';
 
-    // --- MOCKOWE DANE ARCHITEKTURY I PROJEKTÓW (FALLBACK LUB INITIAL) ---
-    const defaultProjects = [
-      {
-        id: 101,
-        title: "TechM8 Core Cluster",
-        description: "Wielowęzłowa infrastruktura homelab oparta o Proxmox VE, zintegrowana z dyskami TrueNAS SCALE oraz przełącznikiem zarządzalnym Cisco SG350.",
-        architecture_notes: `
-┌─────────────────────────────────────────────────────────────┐
-│                    ISP / External Gateway                   │
-└──────────────────────────────┬──────────────────────────────┘
-                               │
-┌──────────────────────────────▼──────────────────────────────┐
-│  Raspberry Pi 4 (OpenWrt Router / WireGuard / Pi-hole)      │
-└──────────────────────────────┬──────────────────────────────┘
-                               │ (VLAN 10 / 20 / 30)
-┌──────────────────────────────▼──────────────────────────────┐
-│  Cisco SG350-28 Managed Switch                              │
-└──────┬───────────────────────┬───────────────────────┬──────┘
-       │                       │                       │
-┌──────▼──────────────┐ ┌──────▼──────────────┐ ┌──────▼──────────────┐
-│ Proxmox VE Node 01  │ │ Proxmox VE Node 02  │ │ TrueNAS SCALE      │
-│ (Docker / Services) │ │ (Dev & AI Labs)     │ │ (ZFS Storage Pool) │
-└─────────────────────┘ └─────────────────────┘ └─────────────────────┘`,
-        tags: ["Proxmox", "TrueNAS", "Cisco", "Docker", "WireGuard"]
-      },
-      {
-        id: 102,
-        title: "Automated AI Workflow Hub",
-        description: "System automatyzacji procesów przetwarzania danych wykorzystujący Python, Supabase Edge Functions oraz Gemini API do analizy tekstów i skryptów.",
-        architecture_notes: `
-[ Client Request ] ────> [ Supabase Webhook / Edge Function ]
-                                     │
-                                     ▼
-                        [ Python Worker Engine ]
-                                     │
-                ┌────────────────────┴────────────────────┐
-                ▼                                         ▼
-     [ Gemini API Prompt Engine ]            [ Supabase Postgres DB ]
-                │                                         │
-                └────────────────────┬────────────────────┘
-                                     ▼
-                        [ Resend API / Email Notify ]`,
-        tags: ["Python", "AI Workflows", "Gemini API", "Supabase"]
-      },
-      {
-        id: 103,
-        title: "Raspberry Pi Network Gateway",
-        description: "Dedykowany router brzegowy i filtrowanie DNS oparte na sieci składającej się z Raspberry Pi 4 i Pi Zero 2 W do zadań bezpieczeństwa i VPN.",
-        architecture_notes: `
-[ WAN Internet ] ───> [ RPi 4 / OpenWrt Router ]
-                             │
-            ┌────────────────┴────────────────┐
-            ▼                                 ▼
-   [ Pi-hole Primary DNS ]           [ WireGuard VPN Tunnel ]
-   (Ads/Malware Filtering)           (Encrypted Mobile Mesh)`,
-        tags: ["Raspberry Pi", "OpenWrt", "Pi-hole", "Networking"]
-      }
-    ];
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // --- STAN APLIKACJI ---
-    let allProjects = [];
-    let activeTag = 'ALL';
-    let searchQuery = '';
+        let allProjects = [];
+        let currentFilter = 'ALL';
 
-    // --- INICJALIZACJA ---
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchProjects();
-      bindGlobalEvents();
-      bindContactForm();
-    });
+        // POBIERANIE PROJEKTÓW Z SUPABASE
+        async function fetchProjects() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('projects')
+                    .select('*')
+                    .order('id', { ascending: true });
 
-    // --- POBIERANIE PROJEKTÓW Z SUPABASE ---
-    async function fetchProjects() {
-      try {
-        const { data, error } = await supabaseClient
-          .from('projects')
-          .select('*')
-          .order('created_at', { ascending: false });
+                if (error) throw error;
 
-        if (error || !data || data.length === 0) {
-          console.warn('Używam domyślnych danych projektów (fallback).');
-          allProjects = defaultProjects;
-        } else {
-          allProjects = data;
+                allProjects = data || [];
+                renderProjects();
+            } catch (err) {
+                console.error('Błąd pobierania projektów:', err);
+                document.getElementById('projects-grid').innerHTML = `
+                    <div class="col-span-full text-center py-12 text-red-400 text-xs">
+                        Nie udało się załadować projektów z bazy Supabase.
+                    </div>
+                `;
+            }
         }
-        
-        renderTagFilters();
-        renderProjects();
-      } catch (err) {
-        console.error('Błąd pobierania projektów, ładuję wbudowane dane:', err.message);
-        allProjects = defaultProjects;
-        renderTagFilters();
-        renderProjects();
-      }
-    }
 
-    // --- RENDERING PROJEKTÓW & FILTROWANIE ---
-    function renderProjects() {
-      const container = document.getElementById('projects-container');
-      if (!container) return;
+        // RENDEROWANIE KART PROJEKTÓW
+        function renderProjects() {
+            const grid = document.getElementById('projects-grid');
+            const searchVal = document.getElementById('search-input').value.toLowerCase();
 
-      const filtered = allProjects.filter(p => {
-        const matchesTag = activeTag === 'ALL' || (p.tags && p.tags.includes(activeTag));
-        const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                              (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase()));
-        return matchesTag && matchesSearch;
-      });
+            const filtered = allProjects.filter(p => {
+                const matchesTag = currentFilter === 'ALL' || (p.tags && p.tags.includes(currentFilter));
+                const matchesSearch = p.title.toLowerCase().includes(searchVal) || 
+                                      p.description.toLowerCase().includes(searchVal) ||
+                                      (p.tags && p.tags.join(' ').toLowerCase().includes(searchVal));
+                return matchesTag && matchesSearch;
+            });
 
-      if (filtered.length === 0) {
-        container.innerHTML = `<div class="col-span-full text-center text-slate-500 py-12 font-mono text-sm">Brak projektów spełniających wybrane kryteria.</div>`;
-        return;
-      }
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-500 text-xs">
+                        Brak projektów spełniających kryteria wyszukiwania.
+                    </div>
+                `;
+                return;
+            }
 
-      container.innerHTML = filtered.map(p => `
-        <div onclick="openProjectModal('${p.id}')" class="cursor-pointer bg-slate-900/60 border border-emerald-500/20 hover:border-emerald-400/60 p-5 rounded-2xl transition duration-300 hover:-translate-y-1 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-start mb-3 gap-2">
-              <h3 class="text-base font-bold text-slate-100 font-mono">${p.title}</h3>
-              <span class="text-[10px] font-mono px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded border border-emerald-500/30">ID: ${p.id.toString().slice(0, 4)}</span>
-            </div>
-            <p class="text-xs text-slate-400 line-clamp-3 mb-4 leading-relaxed">${p.description || 'Brak opisu.'}</p>
-          </div>
-          <div class="flex flex-wrap gap-1.5 mt-auto">
-            ${(p.tags || []).map(t => `<span class="text-[10px] font-mono text-emerald-400/90 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">#${t}</span>`).join('')}
-          </div>
-        </div>
-      `).join('');
-    }
+            grid.innerHTML = filtered.map(p => `
+                <div onclick="openProjectModal(${p.id})" class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-emerald-500/50 transition duration-300 cursor-pointer flex flex-col justify-between space-y-4 group">
+                    <div class="space-y-2">
+                        <div class="text-[10px] text-emerald-400 font-mono flex flex-wrap gap-1">
+                            ${p.tags ? p.tags.map(t => `<span class="bg-emerald-950/40 border border-emerald-500/20 px-1.5 py-0.5 rounded">${t}</span>`).join('') : ''}
+                        </div>
+                        <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${p.title}</h3>
+                        <p class="text-xs text-gray-400 line-clamp-3 leading-relaxed">${p.description}</p>
+                    </div>
+                    <div class="pt-2 border-t border-brand-border/40 flex items-center justify-between text-[11px] text-cyan-400 font-medium">
+                        <span>Zobacz szczegóły & diagram</span>
+                        <span>&rarr;</span>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-    // --- DYNAMICZNE FILTRY TAGÓW ---
-    function renderTagFilters() {
-      const tagsContainer = document.getElementById('tag-filters');
-      if (!tagsContainer) return;
+        // FILTROWANIE
+        function setFilter(tag) {
+            currentFilter = tag;
+            document.querySelectorAll('.tag-btn').forEach(btn => {
+                if (btn.innerText.includes(tag) || (tag === 'ALL' && btn.innerText.includes('Wszystkie'))) {
+                    btn.className = 'tag-btn active-tag px-3 py-1 rounded-md border border-emerald-500 bg-emerald-500/20 text-emerald-300';
+                } else {
+                    btn.className = 'tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500';
+                }
+            });
+            renderProjects();
+        }
 
-      const tags = ['ALL', ...new Set(allProjects.flatMap(p => p.tags || []))];
+        function filterProjects() {
+            renderProjects();
+        }
 
-      tagsContainer.innerHTML = tags.map(tag => `
-        <button onclick="setFilter('${tag}')" class="px-3 py-1 text-xs font-mono rounded-lg transition border ${activeTag === tag ? 'bg-emerald-500/20 text-emerald-400 border-emerald-400' : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700'}">
-          ${tag === 'ALL' ? '[ WSZYSTKIE ]' : `#${tag}`}
-        </button>
-      `).join('');
-    }
+        // MODALE
+        function openBioModal() {
+            document.getElementById('bio-modal').classList.remove('hidden');
+        }
+        function closeBioModal() {
+            document.getElementById('bio-modal').classList.add('hidden');
+        }
 
-    function setFilter(tag) {
-      activeTag = tag;
-      renderTagFilters();
-      renderProjects();
-    }
+        function openProjectModal(id) {
+            const project = allProjects.find(p => p.id === id);
+            if (!project) return;
 
-    // --- SEARCHBAR LISTENERY ---
-    function bindGlobalEvents() {
-      const searchInput = document.getElementById('project-search');
-      if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-          searchQuery = e.target.value;
-          renderProjects();
+            document.getElementById('modal-title').innerText = project.title;
+            document.getElementById('modal-tags').innerText = project.tags ? project.tags.join(' ') : '';
+            document.getElementById('modal-description').innerText = project.description;
+            document.getElementById('modal-diagram').innerText = project.diagram || 'Brak diagramu dla tego projektu.';
+
+            document.getElementById('project-modal').classList.remove('hidden');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('project-modal').classList.add('hidden');
+        }
+
+        // HEALTH CHECK
+        async function runHealthCheck() {
+            const indicator = document.getElementById('health-indicator');
+            const text = document.getElementById('health-text');
+
+            text.innerText = 'Pinging...';
+            indicator.className = 'w-2 h-2 rounded-full bg-yellow-500 animate-ping';
+
+            const start = performance.now();
+            try {
+                const { data, error } = await supabaseClient.from('projects').select('id').limit(1);
+                const duration = Math.round(performance.now() - start);
+
+                if (error) throw error;
+
+                indicator.className = 'w-2 h-2 rounded-full bg-emerald-500';
+                text.innerText = `Online (${duration}ms)`;
+            } catch (err) {
+                indicator.className = 'w-2 h-2 rounded-full bg-red-500';
+                text.innerText = 'Offline';
+            }
+        }
+
+        // WYSYŁANIE WIADOMOŚCI FORMULARZA
+        async function handleContactSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('contact-submit-btn');
+            const status = document.getElementById('contact-status');
+
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const message = document.getElementById('contact-message').value;
+
+            btn.disabled = true;
+            btn.innerText = 'Wysyłanie...';
+
+            try {
+                const { error } = await supabaseClient
+                    .from('messages')
+                    .insert([{ name, email, message }]);
+
+                if (error) throw error;
+
+                status.innerText = 'Wiadomość została wysłana pomyślnie!';
+                status.className = 'text-xs text-emerald-400 font-medium block';
+                document.getElementById('contact-form').reset();
+            } catch (err) {
+                console.error(err);
+                status.innerText = 'Błąd podczas wysyłania wiadomości.';
+                status.className = 'text-xs text-red-400 font-medium block';
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Wyślij Wiadomość';
+            }
+        }
+
+        // INICJALIZACJA
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchProjects();
+            runHealthCheck();
         });
-      }
-    }
-
-    // --- OBSŁUGA FORMULARZA KONTAKTOWEGO ---
-    function bindContactForm() {
-      const form = document.getElementById('contact-form');
-      const statusDiv = document.getElementById('form-status');
-      const submitBtn = document.getElementById('submit-btn');
-
-      if (!form) return;
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('sender-email').value;
-        const message = document.getElementById('message-content').value;
-
-        submitBtn.disabled = true;
-        submitBtn.innerText = 'Wysyłanie...';
-        statusDiv.classList.add('hidden');
-
-        try {
-          const { error } = await supabaseClient
-            .from('messages')
-            .insert([{ email, message }]);
-
-          if (error) throw error;
-
-          statusDiv.innerText = 'Wiadomość została zapisana i przesłana!';
-          statusDiv.className = 'text-center text-xs font-mono p-3 rounded-lg mt-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30';
-          form.reset();
-        } catch (err) {
-          statusDiv.innerText = 'Błąd podczas wysyłania: ' + err.message;
-          statusDiv.className = 'text-center text-xs font-mono p-3 rounded-lg mt-2 bg-red-500/10 text-red-400 border border-red-500/30';
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.innerText = 'Wyślij Wiadomość';
-          statusDiv.classList.remove('hidden');
-        }
-      });
-    }
-
-    // --- LOGIKA MODALI & LIVE HEALTH CHECK ---
-    function toggleModal(modalId, show = true) {
-      const modal = document.getElementById(modalId);
-      if (!modal) return;
-      if (show) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-      } else {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-      }
-    }
-
-    function openProjectModal(id) {
-      const project = allProjects.find(p => p.id == id);
-      if (!project) return;
-
-      document.getElementById('modal-project-title').innerText = project.title;
-      document.getElementById('modal-project-desc').innerText = project.description || 'Brak dodatkowego opisu.';
-      document.getElementById('modal-project-arch').innerText = project.architecture_notes || 'Architektura standardowa / Proxmox VE + Docker Container Stack.';
-      
-      const techStack = document.getElementById('modal-project-tech');
-      techStack.innerHTML = (project.tags || []).map(t => `<span class="px-2 py-1 bg-slate-950 text-emerald-400 font-mono text-xs rounded border border-emerald-500/20">${t}</span>`).join('');
-
-      toggleModal('project-detail-modal', true);
-    }
-
-    function openSystemStatusModal() {
-      toggleModal('system-status-modal', true);
-      runLiveHealthCheck();
-    }
-
-    async function runLiveHealthCheck() {
-      const container = document.getElementById('status-metrics-content');
-      container.innerHTML = `<div class="text-center font-mono text-xs text-slate-400 py-6 animate-pulse">Trwa pomiar pingów i statusu uslug...</div>`;
-
-      // 1. Prawdziwy test pingu do bazy Supabase
-      const startDb = performance.now();
-      let dbStatus = 'OFFLINE';
-      let dbPing = 'N/A';
-      try {
-        const { data, error } = await supabaseClient.from('projects').select('id').limit(1);
-        const endDb = performance.now();
-        if (!error) {
-          dbStatus = 'ONLINE';
-          dbPing = Math.round(endDb - startDb) + ' ms';
-        }
-      } catch (e) {
-        dbStatus = 'ERROR';
-      }
-
-      // 2. Test dostępności repozytorium TechM8webApp na GitHubie
-      let repoStatus = 'CHECKING...';
-      try {
-        const repoRes = await fetch('https://api.github.com/repos/3en4all/TechM8webApp', { method: 'GET' });
-        repoStatus = repoRes.ok ? 'READY / PUBLIC' : 'LIMITED';
-      } catch (e) {
-        repoStatus = 'OFFLINE';
-      }
-
-      container.innerHTML = `
-        <div class="grid grid-cols-2 gap-3 font-mono text-xs">
-          <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
-            <span class="text-slate-500 block mb-1">SUPABASE DB</span>
-            <span class="${dbStatus === 'ONLINE' ? 'text-emerald-400' : 'text-red-400'} font-bold">${dbStatus}</span>
-          </div>
-          <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
-            <span class="text-slate-500 block mb-1">REAL PING (DB)</span>
-            <span class="text-emerald-400 font-bold">${dbPing}</span>
-          </div>
-          <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
-            <span class="text-slate-500 block mb-1">HOMELAB NODES</span>
-            <span class="text-emerald-400 font-bold">3/3 UP</span>
-          </div>
-          <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
-            <span class="text-slate-500 block mb-1">TechM8webApp</span>
-            <span class="text-emerald-400 font-bold">${repoStatus}</span>
-          </div>
-        </div>
-      `;
-    }
-  </script>
+    </script>
 </body>
 </html>
