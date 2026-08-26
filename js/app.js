@@ -205,35 +205,53 @@ async function runHealthCheck() {
 // WYSYŁANIE FORMULARZA
 async function handleContactSubmit(e) {
     e.preventDefault();
-    const btn = document.getElementById('contact-submit-btn');
-    const status = document.getElementById('contact-status');
+    const form = e.target;
+    const submitBtn = document.getElementById('contactSubmitBtn') || form.querySelector('button[type="submit"]');
+    const statusDiv = document.getElementById('contactStatus') || form.querySelector('.status-message');
+    
+    const emailInput = document.getElementById('contactEmail') || form.querySelector('input[type="email"]');
+    const messageInput = document.getElementById('contactMessage') || form.querySelector('textarea');
 
-    const name = document.getElementById('contact-name').value;
-    const email = document.getElementById('contact-email').value;
-    const message = document.getElementById('contact-message').value;
+    if (!emailInput || !messageInput) return;
 
-    btn.disabled = true;
-    btn.innerText = 'Wysyłanie...';
+    const email = emailInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="bi bi-hourglass-split animate-spin"></i> Wysyłanie...';
+    }
 
     try {
-        const { error } = await supabaseClient
+        if (typeof supabase === 'undefined' || !_supabase) {
+            throw new Error('Klient Supabase nie został zainicjalizowany.');
+        }
+
+        const { data, error } = await _supabase
             .from('messages')
-            .insert([{ name, email, message }]);
+            .insert([{ email: email, message: message, created_at: new Date() }]);
 
         if (error) throw error;
 
-        status.innerText = 'Wiadomość została wysłana pomyślnie!';
-        status.className = 'text-xs text-emerald-400 font-medium block';
-        document.getElementById('contact-form').reset();
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-emerald-400 mt-2 block';
+            statusDiv.innerText = 'Wiadomość została wysłana pomyślnie!';
+        }
+        form.reset();
     } catch (err) {
-        console.error(err);
-        status.innerText = 'Błąd podczas wysyłania wiadomości.';
-        status.className = 'text-xs text-red-400 font-medium block';
+        console.error('Submit error:', err);
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-red-400 mt-2 block';
+            statusDiv.innerText = 'Błąd wysyłania: ' + (err.message || 'Wystąpił nieoczekiwany błąd.');
+        }
     } finally {
-        btn.disabled = false;
-        btn.innerText = 'Wyślij Wiadomość';
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="bi bi-send"></i> Wyślij';
+        }
     }
 }
 
 // RUN
 window.addEventListener('DOMContentLoaded', loadComponents);
+
