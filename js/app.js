@@ -223,11 +223,11 @@ async function handleContactSubmit(e) {
     }
 
     try {
-        if (typeof supabase === 'undefined' || !_supabase) {
+        if (typeof supabase === 'undefined' || !supabase) {
             throw new Error('Klient Supabase nie został zainicjalizowany.');
         }
 
-        const { data, error } = await _supabase
+        const { data, error } = await supabase
             .from('messages')
             .insert([{ email: email, message: message, created_at: new Date() }]);
 
@@ -254,4 +254,5 @@ async function handleContactSubmit(e) {
 
 // RUN
 window.addEventListener('DOMContentLoaded', loadComponents);
+
 
