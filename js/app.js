@@ -1,12 +1,19 @@
-﻿const SUPABASE_URL = 'https://yxhxrlmydbiblpninatx.supabase.co';
+﻿/**
+ * Global Configuration & Supabase Initialization
+ */
+const SUPABASE_URL = 'https://yxhxrlmydbiblpninatx.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_bp2Xrh7oGCwC55rj2JTGxQ_LmlAiabw';
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Global state variables
 let allProjects = [];
 let allArticles = [];
 let currentFilter = 'ALL';
 
+/**
+ * Escapes HTML characters to mitigate XSS vulnerabilities.
+ */
 function escapeHtml(value) {
     if (value === null || value === undefined) return '';
     return String(value)
@@ -17,8 +24,14 @@ function escapeHtml(value) {
         .replace(/'/g, '&#39;');
 }
 
+/**
+ * Loads asynchronous HTML components, waits for DOM replacement, 
+ * and initializes dynamic bindings.
+ */
 async function loadComponents() {
     const includes = document.querySelectorAll('[data-include]');
+    
+    // Process component inclusions sequentially to ensure full DOM readiness
     for (const el of includes) {
         const file = el.getAttribute('data-include').replace(/\\/g, '/');
         try {
@@ -33,20 +46,105 @@ async function loadComponents() {
         }
     }
 
+    // Initialize application features after dynamic HTML elements are rendered
     fetchArticles();
     fetchProjects();
     runHealthCheck();
     initContactForm();
 }
 
+/**
+ * Binds the submission listener to the contact form once present in the DOM.
+ */
 function initContactForm() {
     const form = document.getElementById('contactForm');
-    if (form) {
-        form.removeEventListener('submit', handleContactSubmit);
-        form.addEventListener('submit', handleContactSubmit);
+    if (!form) {
+        console.warn('Formularz #contactForm nie został odnaleziony w drzewie DOM.');
+        return;
+    }
+
+    // Safely re-attach listener to avoid duplicate executions
+    form.removeEventListener('submit', handleContactSubmit);
+    form.addEventListener('submit', handleContactSubmit);
+}
+
+/**
+ * Handles form submission and inserts payload into Supabase 'messages' table.
+ */
+async function handleContactSubmit(e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    const emailInput = document.getElementById('contactEmail');
+    const messageInput = document.getElementById('contactMessage');
+    const submitBtn = document.getElementById('contactSubmitBtn');
+    const statusDiv = document.getElementById('contactStatus');
+
+    if (!emailInput || !messageInput) {
+        console.error('Wymagane pola formularza (#contactEmail, #contactMessage) nie istnieją w DOM.');
+        return;
+    }
+
+    const email = emailInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (!email || !message) {
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-amber-400 font-mono mt-2';
+            statusDiv.innerText = 'Wypełnij wszystkie pola!';
+        }
+        return;
+    }
+
+    try {
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerText = '[ Wysyłanie... ]';
+        }
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-slate-400 font-mono mt-2';
+            statusDiv.innerText = 'Nawiązywanie połączenia z węzłem Supabase...';
+        }
+
+        const senderName = email.split('@')[0] || 'Anonim';
+
+        const { error } = await supabaseClient
+            .from('messages')
+            .insert([{ 
+                sender_name: senderName,
+                email: email, 
+                message: message, 
+                created_at: new Date().toISOString() 
+            }]);
+
+        if (error) throw error;
+
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-emerald-400 font-mono mt-2';
+            statusDiv.innerText = '✔ Wiadomość wysłana pomyślnie!';
+        }
+
+        emailInput.value = '';
+        messageInput.value = '';
+    } catch (err) {
+        console.error('Błąd wysyłania formularza:', err);
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-rose-400 font-mono mt-2';
+            statusDiv.innerText = '✖ Błąd wysyłania: ' + (err.message || 'Brak połączenia');
+        }
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerText = '[ Wyślij Wiadomość ]';
+        }
     }
 }
 
+/**
+ * Fetch knowledge base articles from Supabase.
+ */
 async function fetchArticles() {
     const grid = document.getElementById('articles-grid');
     if (!grid) return;
@@ -94,6 +192,9 @@ function renderArticles() {
     `).join('');
 }
 
+/**
+ * Fetch projects from Supabase.
+ */
 async function fetchProjects() {
     const grid = document.getElementById('projects-grid');
     if (!grid) return;
@@ -126,10 +227,7 @@ function renderProjects() {
         const title = (p.title || '').toLowerCase();
         const description = (p.description || '').toLowerCase();
         const tagsText = (p.tags ? p.tags.join(' ') : '').toLowerCase();
-        const matchesSearch = title.includes(searchVal) ||
-                              description.includes(searchVal) ||
-                              tagsText.includes(searchVal);
-        return matchesTag && matchesSearch;
+        return matchesTag && (title.includes(searchVal) || description.includes(searchVal) || tagsText.includes(searchVal));
     });
 
     if (filtered.length === 0) {
@@ -170,6 +268,7 @@ function filterProjects() {
     renderProjects();
 }
 
+/* Modals Management */
 function openBioModal() { document.getElementById('bio-modal')?.classList.remove('hidden'); }
 function closeBioModal() { document.getElementById('bio-modal')?.classList.add('hidden'); }
 
@@ -195,6 +294,9 @@ function openArticleModal(id) {
 }
 function closeArticleModal() { document.getElementById('article-modal')?.classList.add('hidden'); }
 
+/**
+ * Perform database connection health check.
+ */
 async function runHealthCheck() {
     const indicator = document.getElementById('health-indicator');
     const text = document.getElementById('health-text');
@@ -205,7 +307,7 @@ async function runHealthCheck() {
 
     const start = performance.now();
     try {
-        const { data, error } = await supabaseClient.from('projects').select('id').limit(1);
+        const { error } = await supabaseClient.from('projects').select('id').limit(1);
         const duration = Math.round(performance.now() - start);
         if (error) throw error;
         indicator.className = 'w-2 h-2 rounded-full bg-emerald-500';
@@ -216,71 +318,5 @@ async function runHealthCheck() {
     }
 }
 
-async function handleContactSubmit(e) {
-    if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
-    const emailInput = document.getElementById('contactEmail');
-    const messageInput = document.getElementById('contactMessage');
-    const submitBtn = document.getElementById('contactSubmitBtn');
-    const statusDiv = document.getElementById('contactStatus');
-
-    if (!emailInput || !messageInput) return;
-
-    const email = emailInput.value.trim();
-    const message = messageInput.value.trim();
-
-    if (!email || !message) {
-        if (statusDiv) {
-            statusDiv.className = 'text-xs text-amber-400 font-mono';
-            statusDiv.innerText = 'Wypełnij wszystkie pola!';
-        }
-        return;
-    }
-
-    try {
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.innerText = '[ Wysyłanie... ]';
-        }
-        if (statusDiv) {
-            statusDiv.className = 'text-xs text-slate-400 font-mono';
-            statusDiv.innerText = 'Nawiązywanie połączenia z węzłem Supabase...';
-        }
-
-        const senderName = email.split('@')[0] || 'Anonim';
-
-        const { data, error } = await supabaseClient
-            .from('messages')
-            .insert([{ 
-                sender_name: senderName,
-                email: email, 
-                message: message, 
-                created_at: new Date().toISOString() 
-            }]);
-
-        if (error) throw error;
-
-        if (statusDiv) {
-            statusDiv.className = 'text-xs text-emerald-400 font-mono';
-            statusDiv.innerText = '✔ Wiadomość wysłana pomyślnie!';
-        }
-        emailInput.value = '';
-        messageInput.value = '';
-    } catch (err) {
-        console.error('Błąd wysyłania formularza:', err);
-        if (statusDiv) {
-            statusDiv.className = 'text-xs text-rose-400 font-mono';
-            statusDiv.innerText = '✖ Błąd wysyłania: ' + (err.message || 'Brak połączenia');
-        }
-    } finally {
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerText = '[ Wyślij Wiadomość ]';
-        }
-    }
-}
-
+// Lifecycle Entrypoint
 document.addEventListener('DOMContentLoaded', loadComponents);
