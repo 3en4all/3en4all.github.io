@@ -7,30 +7,38 @@ let allProjects = [];
 let allArticles = [];
 let currentFilter = 'ALL';
 
-// DYNAMICZNY LOADER SEKCJI HTML (DATA-INCLUDE)
+// --- Bezpieczne escapowanie HTML, zapobiega XSS przy renderowaniu danych z Supabase ---
+function escapeHtml(value) {
+    if (value === null || value === undefined) return '';
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 async function loadComponents() {
     const includes = document.querySelectorAll('[data-include]');
     for (const el of includes) {
-        const file = el.getAttribute('data-include');
+        const file = el.getAttribute('data-include').replace(/\\/g, '/');
         try {
             const resp = await fetch(file);
             if (resp.ok) {
                 el.outerHTML = await resp.text();
             } else {
-                el.innerHTML = `<div class="text-red-400 text-xs">Błąd ładowania komponentu ${file}</div>`;
+                el.innerHTML = `<div class="text-red-400 text-xs p-4">Błąd ładowania komponentu ${escapeHtml(file)}</div>`;
             }
         } catch (err) {
             console.error(`Błąd wczytywania ${file}:`, err);
         }
     }
-    
-    // Inicjalizacja danych po załadowaniu drzewa DOM komponentów
+
     fetchArticles();
     fetchProjects();
     runHealthCheck();
 }
 
-// POBIERANIE ARTYKUŁÓW Z SUPABASE
 async function fetchArticles() {
     const grid = document.getElementById('articles-grid');
     if (!grid) return;
@@ -61,14 +69,14 @@ function renderArticles() {
     }
 
     grid.innerHTML = allArticles.map(a => `
-        <div onclick="openArticleModal(${a.id})" class="bg-brand-card/60 border border-brand-border rounded-xl p-5 hover:border-emerald-500/50 transition duration-300 cursor-pointer flex flex-col justify-between space-y-3 group">
+        <div onclick="openArticleModal(${Number(a.id)})" class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-emerald-500/50 transition duration-300 cursor-pointer flex flex-col justify-between space-y-3 group">
             <div class="space-y-2">
                 <div class="flex items-center justify-between text-[10px] text-emerald-400 font-mono">
-                    <span>${a.tags ? a.tags.join(' ') : ''}</span>
-                    <span class="text-gray-500">${a.read_time || '3 min read'}</span>
+                    <span>${escapeHtml(a.tags ? a.tags.join(' ') : '')}</span>
+                    <span class="text-gray-500">${escapeHtml(a.read_time || '3 min read')}</span>
                 </div>
-                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${a.title}</h3>
-                <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">${a.summary}</p>
+                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${escapeHtml(a.title)}</h3>
+                <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">${escapeHtml(a.summary)}</p>
             </div>
             <div class="pt-2 border-t border-brand-border/40 flex items-center justify-between text-[11px] text-emerald-400 font-medium">
                 <span>Czytaj poradnik</span>
@@ -78,7 +86,6 @@ function renderArticles() {
     `).join('');
 }
 
-// POBIERANIE PROJEKTÓW Z SUPABASE
 async function fetchProjects() {
     const grid = document.getElementById('projects-grid');
     if (!grid) return;
@@ -99,19 +106,21 @@ async function fetchProjects() {
     }
 }
 
-// RENDEROWANIE KART PROJEKTÓW
 function renderProjects() {
     const grid = document.getElementById('projects-grid');
     const searchInput = document.getElementById('search-input');
-    if (!grid || !searchInput) return;
+    if (!grid) return;
 
-    const searchVal = searchInput.value.toLowerCase();
+    const searchVal = searchInput ? searchInput.value.toLowerCase() : '';
 
     const filtered = allProjects.filter(p => {
         const matchesTag = currentFilter === 'ALL' || (p.tags && p.tags.includes(currentFilter));
-        const matchesSearch = p.title.toLowerCase().includes(searchVal) || 
-                              p.description.toLowerCase().includes(searchVal) ||
-                              (p.tags && p.tags.join(' ').toLowerCase().includes(searchVal));
+        const title = (p.title || '').toLowerCase();
+        const description = (p.description || '').toLowerCase();
+        const tagsText = (p.tags ? p.tags.join(' ') : '').toLowerCase();
+        const matchesSearch = title.includes(searchVal) ||
+                              description.includes(searchVal) ||
+                              tagsText.includes(searchVal);
         return matchesTag && matchesSearch;
     });
 
@@ -121,13 +130,13 @@ function renderProjects() {
     }
 
     grid.innerHTML = filtered.map(p => `
-        <div onclick="openProjectModal(${p.id})" class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-emerald-500/50 transition duration-300 cursor-pointer flex flex-col justify-between space-y-4 group">
+        <div onclick="openProjectModal(${Number(p.id)})" class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-emerald-500/50 transition duration-300 cursor-pointer flex flex-col justify-between space-y-4 group">
             <div class="space-y-2">
                 <div class="text-[10px] text-emerald-400 font-mono flex flex-wrap gap-1">
-                    ${p.tags ? p.tags.map(t => `<span class="bg-emerald-950/40 border border-emerald-500/20 px-1.5 py-0.5 rounded">${t}</span>`).join('') : ''}
+                    ${p.tags ? p.tags.map(t => `<span class="bg-emerald-950/40 border border-emerald-500/20 px-1.5 py-0.5 rounded">${escapeHtml(t)}</span>`).join('') : ''}
                 </div>
-                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${p.title}</h3>
-                <p class="text-xs text-gray-400 line-clamp-3 leading-relaxed">${p.description}</p>
+                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${escapeHtml(p.title)}</h3>
+                <p class="text-xs text-gray-400 line-clamp-3 leading-relaxed">${escapeHtml(p.description)}</p>
             </div>
             <div class="pt-2 border-t border-brand-border/40 flex items-center justify-between text-[11px] text-cyan-400 font-medium">
                 <span>Zobacz szczegóły & diagram</span>
@@ -137,14 +146,13 @@ function renderProjects() {
     `).join('');
 }
 
-// FILTROWANIE
 function setFilter(tag) {
     currentFilter = tag;
     document.querySelectorAll('.tag-btn').forEach(btn => {
         if (btn.innerText.includes(tag) || (tag === 'ALL' && btn.innerText.includes('Wszystkie'))) {
-            btn.className = 'tag-btn active-tag px-3 py-1 rounded-md border border-emerald-500 bg-emerald-500/20 text-emerald-300';
+            btn.className = 'tag-btn active-tag px-3 py-1 rounded-md border border-emerald-500 bg-emerald-500/20 text-emerald-300 text-xs font-mono';
         } else {
-            btn.className = 'tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500';
+            btn.className = 'tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500 text-xs font-mono';
         }
     });
     renderProjects();
@@ -154,7 +162,6 @@ function filterProjects() {
     renderProjects();
 }
 
-// OBSŁUGA MODALI
 function openBioModal() { document.getElementById('bio-modal')?.classList.remove('hidden'); }
 function closeBioModal() { document.getElementById('bio-modal')?.classList.add('hidden'); }
 
@@ -180,7 +187,6 @@ function openArticleModal(id) {
 }
 function closeArticleModal() { document.getElementById('article-modal')?.classList.add('hidden'); }
 
-// HEALTH CHECK
 async function runHealthCheck() {
     const indicator = document.getElementById('health-indicator');
     const text = document.getElementById('health-text');
@@ -202,59 +208,61 @@ async function runHealthCheck() {
     }
 }
 
-// WYSYŁANIE FORMULARZA
 async function handleContactSubmit(e) {
-    e.preventDefault();
-    const form = e.target;
-    const submitBtn = document.getElementById('contactSubmitBtn') || form.querySelector('button[type="submit"]');
-    const statusDiv = document.getElementById('contactStatus') || form.querySelector('.status-message');
-    
-    const emailInput = document.getElementById('contactEmail') || form.querySelector('input[type="email"]');
-    const messageInput = document.getElementById('contactMessage') || form.querySelector('textarea');
+    if (e && e.preventDefault) e.preventDefault();
+
+    const emailInput = document.getElementById('contactEmail');
+    const messageInput = document.getElementById('contactMessage');
+    const submitBtn = document.getElementById('contactSubmitBtn');
+    const statusDiv = document.getElementById('contactStatus');
 
     if (!emailInput || !messageInput) return;
 
     const email = emailInput.value.trim();
     const message = messageInput.value.trim();
 
-    if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="bi bi-hourglass-split animate-spin"></i> Wysyłanie...';
+    if (!email || !message) {
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-amber-400 font-mono';
+            statusDiv.innerText = 'Wypełnij wszystkie pola!';
+        }
+        return;
     }
 
     try {
-        if (typeof supabase === 'undefined' || !supabase) {
-            throw new Error('Klient Supabase nie został zainicjalizowany.');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerText = '[ Wysyłanie... ]';
+        }
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-slate-400 font-mono';
+            statusDiv.innerText = 'Nawiązywanie połączenia z węzłem Supabase...';
         }
 
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('messages')
-            .insert([{ email: email, message: message, created_at: new Date() }]);
+            .insert([{ email: email, message: message, created_at: new Date().toISOString() }]);
 
         if (error) throw error;
 
         if (statusDiv) {
-            statusDiv.className = 'text-xs text-emerald-400 mt-2 block';
-            statusDiv.innerText = 'Wiadomość została wysłana pomyślnie!';
+            statusDiv.className = 'text-xs text-emerald-400 font-mono';
+            statusDiv.innerText = '✔ Wiadomość wysłana pomyślnie!';
         }
-        form.reset();
+        emailInput.value = '';
+        messageInput.value = '';
     } catch (err) {
-        console.error('Submit error:', err);
+        console.error('Błąd wysyłania formularza:', err);
         if (statusDiv) {
-            statusDiv.className = 'text-xs text-red-400 mt-2 block';
-            statusDiv.innerText = 'Błąd wysyłania: ' + (err.message || 'Wystąpił nieoczekiwany błąd.');
+            statusDiv.className = 'text-xs text-rose-400 font-mono';
+            statusDiv.innerText = '✖ Błąd wysyłania: ' + (err.message || 'Brak połączenia');
         }
     } finally {
         if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="bi bi-send"></i> Wyślij';
+            submitBtn.innerText = '[ Wyślij Wiadomość ]';
         }
     }
 }
 
-// RUN
-window.addEventListener('DOMContentLoaded', loadComponents);
-
-
-
-
+document.addEventListener('DOMContentLoaded', loadComponents);
