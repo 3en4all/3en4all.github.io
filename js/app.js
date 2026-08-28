@@ -202,15 +202,15 @@ async function runHealthCheck() {
     }
 }
 
-// WYSYŁANIE FORMULARZA
 // WYSYŁANIE FORMULARZA KONTAKTOWEGO DO SUPABASE
 async function handleContactSubmit(e) {
-    e.preventDefault();
-    const form = e.target;
-    const submitBtn = document.getElementById('contactSubmitBtn');
-    const statusDiv = document.getElementById('contactStatus');
-    const emailInput = document.getElementById('contactEmail');
-    const messageInput = document.getElementById('contactMessage');
+    if (e && e.preventDefault) e.preventDefault();
+    
+    const form = e.target || document.getElementById('contact-form');
+    const submitBtn = document.getElementById('contactSubmitBtn') || (form ? form.querySelector('button[type="submit"]') : null);
+    const statusDiv = document.getElementById('contactStatus') || (form ? form.querySelector('#contactStatus') : null);
+    const emailInput = document.getElementById('contactEmail') || (form ? form.querySelector('input[type="email"]') : null);
+    const messageInput = document.getElementById('contactMessage') || (form ? form.querySelector('textarea') : null);
 
     if (!emailInput || !messageInput) return;
 
@@ -222,7 +222,7 @@ async function handleContactSubmit(e) {
             statusDiv.className = 'text-xs text-amber-400 font-mono';
             statusDiv.innerText = 'Wypełnij wszystkie pola!';
         }
-        // [FIX] Removed illegal return outside function: return;
+        return;
     }
 
     try {
@@ -235,14 +235,12 @@ async function handleContactSubmit(e) {
             statusDiv.innerText = 'Nawiązywanie połączenia z węzłem Supabase...';
         }
 
-        // Używamy zdefiniowanego klienta Supabase
         const client = typeof supabaseClient !== 'undefined' ? supabaseClient : (typeof supabase !== 'undefined' ? supabase : null);
         
         if (!client) {
-            throw new Error('Klient Supabase nie został zainicjalizowany w aplikacji.');
+            throw new Error('Klient Supabase nie został zainicjalizowany.');
         }
 
-        // Zapis do tabeli 'messages' lub 'contact_messages'
         const { data, error } = await client
             .from('messages')
             .insert([{ email: email, message: message, created_at: new Date().toISOString() }]);
@@ -253,7 +251,7 @@ async function handleContactSubmit(e) {
             statusDiv.className = 'text-xs text-emerald-400 font-mono';
             statusDiv.innerText = '✔ Wiadomość wysłana pomyślnie!';
         }
-        form.reset();
+        if (form && form.reset) form.reset();
     } catch (err) {
         console.error('Błąd wysyłania formularza:', err);
         if (statusDiv) {
@@ -267,50 +265,3 @@ async function handleContactSubmit(e) {
         }
     }
 }
-
-    if (!emailInput || !messageInput) return;
-
-    const email = emailInput.value.trim();
-    const message = messageInput.value.trim();
-
-    if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="bi bi-hourglass-split animate-spin"></i> Wysyłanie...';
-    }
-
-    try {
-        if (typeof supabase === 'undefined' || !supabase) {
-            throw new Error('Klient Supabase nie został zainicjalizowany.');
-        }
-
-        const { data, error } = await supabase
-            .from('messages')
-            .insert([{ email: email, message: message, created_at: new Date() }]);
-
-        if (error) throw error;
-
-        if (statusDiv) {
-            statusDiv.className = 'text-xs text-emerald-400 mt-2 block';
-            statusDiv.innerText = 'Wiadomość została wysłana pomyślnie!';
-        }
-        form.reset();
-    } catch (err) {
-        console.error('Submit error:', err);
-        if (statusDiv) {
-            statusDiv.className = 'text-xs text-red-400 mt-2 block';
-            statusDiv.innerText = 'Błąd wysyłania: ' + (err.message || 'Wystąpił nieoczekiwany błąd.');
-        }
-    } finally {
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="bi bi-send"></i> Wyślij';
-        }
-    }
-}
-
-// RUN
-window.addEventListener('DOMContentLoaded', loadComponents);
-
-
-
-
