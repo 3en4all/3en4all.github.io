@@ -4,9 +4,8 @@
 const SUPABASE_URL = 'https://yxhxrlmydbiblpninatx.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_bp2Xrh7oGCwC55rj2JTGxQ_LmlAiabw';
 
-// Zabezpieczenie przed brakiem biblioteki Supabase w HTML
 if (typeof supabase === 'undefined') {
-    console.error('KRYTYCZNY BŁĄD: Biblioteka Supabase nie została załadowana! Sprawdź tagi <script> w index.html.');
+    console.error('KRYTYCZNY BŁĄD: Biblioteka Supabase nie została załadowana!');
 }
 
 const supabaseClient = typeof supabase !== 'undefined' ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
@@ -48,8 +47,7 @@ async function loadComponents() {
 }
 
 /**
- * Global Event Delegation dla formularzy.
- * Gwarantuje działanie nawet jeśli DOM został załadowany asynchronicznie długo po starcie JS.
+ * Globalna delegacja zdarzeń dla formularza kontaktowego
  */
 document.addEventListener('submit', async (e) => {
     if (e.target && e.target.id === 'contactForm') {
@@ -62,7 +60,7 @@ async function handleContactSubmit(e) {
     e.stopPropagation();
 
     if (!supabaseClient) {
-        console.error('Brak klienta Supabase. Weryfikacja połączenia odrzucona.');
+        console.error('Brak klienta Supabase.');
         return;
     }
 
@@ -72,7 +70,7 @@ async function handleContactSubmit(e) {
     const statusDiv = document.getElementById('contactStatus');
 
     if (!emailInput || !messageInput) {
-        console.error('Elementy input/textarea nie zostały odnalezione w DOM!');
+        console.error('Nie znaleziono pól formularza #contactEmail lub #contactMessage w DOM.');
         return;
     }
 
@@ -94,19 +92,21 @@ async function handleContactSubmit(e) {
         }
         if (statusDiv) {
             statusDiv.className = 'text-xs text-slate-400 font-mono mt-2';
-            statusDiv.innerText = 'Nawiązywanie połączenia z węzłem Supabase...';
+            statusDiv.innerText = 'Zapisywanie w węźle Supabase...';
         }
 
         const senderName = email.split('@')[0] || 'Anonim';
 
-        const { error } = await supabaseClient
+        // Wywołanie insert z .select() wymaganym do weryfikacji błędu RLS przez Supabase JS v2
+        const { data, error } = await supabaseClient
             .from('messages')
             .insert([{ 
                 sender_name: senderName,
                 email: email, 
                 message: message, 
                 created_at: new Date().toISOString() 
-            }]);
+            }])
+            .select();
 
         if (error) throw error;
 
@@ -118,10 +118,10 @@ async function handleContactSubmit(e) {
         emailInput.value = '';
         messageInput.value = '';
     } catch (err) {
-        console.error('Błąd wysyłania formularza:', err);
+        console.error('Błąd wysyłania formularza do Supabase:', err);
         if (statusDiv) {
             statusDiv.className = 'text-xs text-rose-400 font-mono mt-2';
-            statusDiv.innerText = '✖ Błąd wysyłania: ' + (err.message || 'Brak połączenia');
+            statusDiv.innerText = '✖ Błąd: ' + (err.message || 'Odrzucono połączenie');
         }
     } finally {
         if (submitBtn) {
@@ -133,8 +133,7 @@ async function handleContactSubmit(e) {
 
 async function fetchArticles() {
     const grid = document.getElementById('articles-grid');
-    if (!grid) return;
-    if (!supabaseClient) return;
+    if (!grid || !supabaseClient) return;
 
     try {
         const { data, error } = await supabaseClient
@@ -180,8 +179,7 @@ function renderArticles() {
 
 async function fetchProjects() {
     const grid = document.getElementById('projects-grid');
-    if (!grid) return;
-    if (!supabaseClient) return;
+    if (!grid || !supabaseClient) return;
 
     try {
         const { data, error } = await supabaseClient
@@ -280,7 +278,7 @@ async function runHealthCheck() {
     if (!indicator || !text) return;
     if (!supabaseClient) {
         indicator.className = 'w-2 h-2 rounded-full bg-red-500';
-        text.innerText = 'Offline (Brak klienta Supabase)';
+        text.innerText = 'Offline';
         return;
     }
 
