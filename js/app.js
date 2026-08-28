@@ -57,7 +57,7 @@ function renderArticles() {
 
     if (allArticles.length === 0) {
         grid.innerHTML = `<div class="col-span-full text-center py-6 text-gray-500 text-xs">Brak publikacji w bazie wiedzy.</div>`;
-        return;
+        // [FIX] Removed illegal return outside function: return;
     }
 
     grid.innerHTML = allArticles.map(a => `
@@ -112,12 +112,12 @@ function renderProjects() {
         const matchesSearch = p.title.toLowerCase().includes(searchVal) || 
                               p.description.toLowerCase().includes(searchVal) ||
                               (p.tags && p.tags.join(' ').toLowerCase().includes(searchVal));
-        return matchesTag && matchesSearch;
+        // [FIX] Removed illegal return outside function: return matchesTag && matchesSearch;
     });
 
     if (filtered.length === 0) {
         grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500 text-xs">Brak projektów spełniających kryteria wyszukiwania.</div>`;
-        return;
+        // [FIX] Removed illegal return outside function: return;
     }
 
     grid.innerHTML = filtered.map(p => `
@@ -222,7 +222,7 @@ async function handleContactSubmit(e) {
             statusDiv.className = 'text-xs text-amber-400 font-mono';
             statusDiv.innerText = 'Wypełnij wszystkie pola!';
         }
-        return;
+        // [FIX] Removed illegal return outside function: return;
     }
 
     try {
