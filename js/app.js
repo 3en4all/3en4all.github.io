@@ -4,16 +4,17 @@
 const SUPABASE_URL = 'https://yxhxrlmydbiblpninatx.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_bp2Xrh7oGCwC55rj2JTGxQ_LmlAiabw';
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Zabezpieczenie przed brakiem biblioteki Supabase w HTML
+if (typeof supabase === 'undefined') {
+    console.error('KRYTYCZNY BŁĄD: Biblioteka Supabase nie została załadowana! Sprawdź tagi <script> w index.html.');
+}
 
-// Global state variables
+const supabaseClient = typeof supabase !== 'undefined' ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
 let allProjects = [];
 let allArticles = [];
 let currentFilter = 'ALL';
 
-/**
- * Escapes HTML characters to mitigate XSS vulnerabilities.
- */
 function escapeHtml(value) {
     if (value === null || value === undefined) return '';
     return String(value)
@@ -24,14 +25,9 @@ function escapeHtml(value) {
         .replace(/'/g, '&#39;');
 }
 
-/**
- * Loads asynchronous HTML components, waits for DOM replacement, 
- * and initializes dynamic bindings.
- */
 async function loadComponents() {
     const includes = document.querySelectorAll('[data-include]');
     
-    // Process component inclusions sequentially to ensure full DOM readiness
     for (const el of includes) {
         const file = el.getAttribute('data-include').replace(/\\/g, '/');
         try {
@@ -46,35 +42,28 @@ async function loadComponents() {
         }
     }
 
-    // Initialize application features after dynamic HTML elements are rendered
     fetchArticles();
     fetchProjects();
     runHealthCheck();
-    initContactForm();
 }
 
 /**
- * Binds the submission listener to the contact form once present in the DOM.
+ * Global Event Delegation dla formularzy.
+ * Gwarantuje działanie nawet jeśli DOM został załadowany asynchronicznie długo po starcie JS.
  */
-function initContactForm() {
-    const form = document.getElementById('contactForm');
-    if (!form) {
-        console.warn('Formularz #contactForm nie został odnaleziony w drzewie DOM.');
-        return;
+document.addEventListener('submit', async (e) => {
+    if (e.target && e.target.id === 'contactForm') {
+        await handleContactSubmit(e);
     }
+});
 
-    // Safely re-attach listener to avoid duplicate executions
-    form.removeEventListener('submit', handleContactSubmit);
-    form.addEventListener('submit', handleContactSubmit);
-}
-
-/**
- * Handles form submission and inserts payload into Supabase 'messages' table.
- */
 async function handleContactSubmit(e) {
-    if (e) {
-        e.preventDefault();
-        e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!supabaseClient) {
+        console.error('Brak klienta Supabase. Weryfikacja połączenia odrzucona.');
+        return;
     }
 
     const emailInput = document.getElementById('contactEmail');
@@ -83,7 +72,7 @@ async function handleContactSubmit(e) {
     const statusDiv = document.getElementById('contactStatus');
 
     if (!emailInput || !messageInput) {
-        console.error('Wymagane pola formularza (#contactEmail, #contactMessage) nie istnieją w DOM.');
+        console.error('Elementy input/textarea nie zostały odnalezione w DOM!');
         return;
     }
 
@@ -142,12 +131,10 @@ async function handleContactSubmit(e) {
     }
 }
 
-/**
- * Fetch knowledge base articles from Supabase.
- */
 async function fetchArticles() {
     const grid = document.getElementById('articles-grid');
     if (!grid) return;
+    if (!supabaseClient) return;
 
     try {
         const { data, error } = await supabaseClient
@@ -156,7 +143,6 @@ async function fetchArticles() {
             .order('id', { ascending: false });
 
         if (error) throw error;
-
         allArticles = data || [];
         renderArticles();
     } catch (err) {
@@ -192,12 +178,10 @@ function renderArticles() {
     `).join('');
 }
 
-/**
- * Fetch projects from Supabase.
- */
 async function fetchProjects() {
     const grid = document.getElementById('projects-grid');
     if (!grid) return;
+    if (!supabaseClient) return;
 
     try {
         const { data, error } = await supabaseClient
@@ -206,7 +190,6 @@ async function fetchProjects() {
             .order('id', { ascending: true });
 
         if (error) throw error;
-
         allProjects = data || [];
         renderProjects();
     } catch (err) {
@@ -264,11 +247,8 @@ function setFilter(tag) {
     renderProjects();
 }
 
-function filterProjects() {
-    renderProjects();
-}
+function filterProjects() { renderProjects(); }
 
-/* Modals Management */
 function openBioModal() { document.getElementById('bio-modal')?.classList.remove('hidden'); }
 function closeBioModal() { document.getElementById('bio-modal')?.classList.add('hidden'); }
 
@@ -294,13 +274,15 @@ function openArticleModal(id) {
 }
 function closeArticleModal() { document.getElementById('article-modal')?.classList.add('hidden'); }
 
-/**
- * Perform database connection health check.
- */
 async function runHealthCheck() {
     const indicator = document.getElementById('health-indicator');
     const text = document.getElementById('health-text');
     if (!indicator || !text) return;
+    if (!supabaseClient) {
+        indicator.className = 'w-2 h-2 rounded-full bg-red-500';
+        text.innerText = 'Offline (Brak klienta Supabase)';
+        return;
+    }
 
     text.innerText = 'Pinging...';
     indicator.className = 'w-2 h-2 rounded-full bg-yellow-500 animate-ping';
@@ -318,5 +300,4 @@ async function runHealthCheck() {
     }
 }
 
-// Lifecycle Entrypoint
 document.addEventListener('DOMContentLoaded', loadComponents);
