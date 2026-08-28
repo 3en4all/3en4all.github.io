@@ -7,7 +7,6 @@ let allProjects = [];
 let allArticles = [];
 let currentFilter = 'ALL';
 
-// --- Bezpieczne escapowanie HTML, zapobiega XSS przy renderowaniu danych z Supabase ---
 function escapeHtml(value) {
     if (value === null || value === undefined) return '';
     return String(value)
@@ -37,6 +36,15 @@ async function loadComponents() {
     fetchArticles();
     fetchProjects();
     runHealthCheck();
+    initContactForm();
+}
+
+function initContactForm() {
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.removeEventListener('submit', handleContactSubmit);
+        form.addEventListener('submit', handleContactSubmit);
+    }
 }
 
 async function fetchArticles() {
@@ -209,7 +217,10 @@ async function runHealthCheck() {
 }
 
 async function handleContactSubmit(e) {
-    if (e && e.preventDefault) e.preventDefault();
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
 
     const emailInput = document.getElementById('contactEmail');
     const messageInput = document.getElementById('contactMessage');
@@ -239,9 +250,16 @@ async function handleContactSubmit(e) {
             statusDiv.innerText = 'Nawiązywanie połączenia z węzłem Supabase...';
         }
 
+        const senderName = email.split('@')[0] || 'Anonim';
+
         const { data, error } = await supabaseClient
             .from('messages')
-            .insert([{ email: email, message: message, created_at: new Date().toISOString() }]);
+            .insert([{ 
+                sender_name: senderName,
+                email: email, 
+                message: message, 
+                created_at: new Date().toISOString() 
+            }]);
 
         if (error) throw error;
 
