@@ -203,14 +203,70 @@ async function runHealthCheck() {
 }
 
 // WYSYŁANIE FORMULARZA
+// WYSYŁANIE FORMULARZA KONTAKTOWEGO DO SUPABASE
 async function handleContactSubmit(e) {
     e.preventDefault();
     const form = e.target;
-    const submitBtn = document.getElementById('contactSubmitBtn') || form.querySelector('button[type="submit"]');
-    const statusDiv = document.getElementById('contactStatus') || form.querySelector('.status-message');
-    
-    const emailInput = document.getElementById('contactEmail') || form.querySelector('input[type="email"]');
-    const messageInput = document.getElementById('contactMessage') || form.querySelector('textarea');
+    const submitBtn = document.getElementById('contactSubmitBtn');
+    const statusDiv = document.getElementById('contactStatus');
+    const emailInput = document.getElementById('contactEmail');
+    const messageInput = document.getElementById('contactMessage');
+
+    if (!emailInput || !messageInput) return;
+
+    const email = emailInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (!email || !message) {
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-amber-400 font-mono';
+            statusDiv.innerText = 'Wypełnij wszystkie pola!';
+        }
+        return;
+    }
+
+    try {
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerText = '[ Wysyłanie... ]';
+        }
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-slate-400 font-mono';
+            statusDiv.innerText = 'Nawiązywanie połączenia z węzłem Supabase...';
+        }
+
+        // Używamy zdefiniowanego klienta Supabase
+        const client = typeof supabaseClient !== 'undefined' ? supabaseClient : (typeof supabase !== 'undefined' ? supabase : null);
+        
+        if (!client) {
+            throw new Error('Klient Supabase nie został zainicjalizowany w aplikacji.');
+        }
+
+        // Zapis do tabeli 'messages' lub 'contact_messages'
+        const { data, error } = await client
+            .from('messages')
+            .insert([{ email: email, message: message, created_at: new Date().toISOString() }]);
+
+        if (error) throw error;
+
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-emerald-400 font-mono';
+            statusDiv.innerText = '✔ Wiadomość wysłana pomyślnie!';
+        }
+        form.reset();
+    } catch (err) {
+        console.error('Błąd wysyłania formularza:', err);
+        if (statusDiv) {
+            statusDiv.className = 'text-xs text-rose-400 font-mono';
+            statusDiv.innerText = '✖ Błąd wysyłania: ' + (err.message || 'Brak połączenia z API');
+        }
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerText = '[ Wyślij Wiadomość ]';
+        }
+    }
+}
 
     if (!emailInput || !messageInput) return;
 
