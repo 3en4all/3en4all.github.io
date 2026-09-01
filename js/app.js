@@ -191,14 +191,29 @@ async function fetchResearch() {
 
 function renderResearch() {
     const grid = document.getElementById('research-grid');
+    const searchInput = document.getElementById('research-search-input');
     if (!grid) return;
+
+    const searchVal = searchInput ? searchInput.value.toLowerCase() : '';
+
+    const filtered = allResearch.filter(r => {
+        const title = (r.title || '').toLowerCase();
+        const summary = (r.summary || '').toLowerCase();
+        const tagsText = (r.tags ? r.tags.join(' ') : '').toLowerCase();
+        return title.includes(searchVal) || summary.includes(searchVal) || tagsText.includes(searchVal);
+    });
 
     if (allResearch.length === 0) {
         grid.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500 text-xs">Brak publikacji w bazie badań.</div>`;
         return;
     }
 
-    grid.innerHTML = allResearch.map(r => `
+    if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500 text-xs">Brak publikacji spełniających kryteria wyszukiwania.</div>`;
+        return;
+    }
+
+    grid.innerHTML = filtered.map(r => `
         <a href="${escapeHtml(r.url || '#')}" class="block bg-brand-card border border-brand-border hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
             <div class="flex gap-2 mb-3 text-xs">
                 ${r.tags ? r.tags.map((t, i) => `<span class="${i === 0 ? 'text-emerald-400' : 'text-cyan-400'}">${escapeHtml(t)}</span>`).join('') : ''}
@@ -212,6 +227,8 @@ function renderResearch() {
         </a>
     `).join('');
 }
+
+function filterResearch() { renderResearch(); }
 
 async function fetchProjects() {
     const grid = document.getElementById('projects-grid');
