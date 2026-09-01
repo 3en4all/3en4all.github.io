@@ -12,6 +12,7 @@ const supabaseClient = typeof supabase !== 'undefined' ? supabase.createClient(S
 
 let allProjects = [];
 let allArticles = [];
+let allResearch = [];
 let currentFilter = 'ALL';
 
 function escapeHtml(value) {
@@ -43,17 +44,9 @@ async function loadComponents() {
 
     fetchArticles();
     fetchProjects();
+    fetchResearch();
     runHealthCheck();
 }
-
-/**
- * Globalna delegacja zdarzeń dla formularza kontaktowego
- */
-document.addEventListener('submit', async (e) => {
-    if (e.target && e.target.id === 'contactForm') {
-        await handleContactSubmit(e);
-    }
-});
 
 async function handleContactSubmit(e) {
     e.preventDefault();
@@ -64,13 +57,13 @@ async function handleContactSubmit(e) {
         return;
     }
 
-    const emailInput = document.getElementById('contactEmail');
-    const messageInput = document.getElementById('contactMessage');
-    const submitBtn = document.getElementById('contactSubmitBtn');
-    const statusDiv = document.getElementById('contactStatus');
+    const emailInput = document.getElementById('contact-email');
+    const messageInput = document.getElementById('contact-message');
+    const submitBtn = document.getElementById('contact-submit-btn');
+    const statusDiv = document.getElementById('contact-status');
 
     if (!emailInput || !messageInput) {
-        console.error('Nie znaleziono pól formularza #contactEmail lub #contactMessage w DOM.');
+        console.error('Nie znaleziono pól formularza #contact-email lub #contact-message w DOM.');
         return;
     }
 
@@ -174,6 +167,49 @@ function renderArticles() {
                 <span>&rarr;</span>
             </div>
         </div>
+    `).join('');
+}
+
+async function fetchResearch() {
+    const grid = document.getElementById('research-grid');
+    if (!grid || !supabaseClient) return;
+
+    try {
+        const { data, error } = await supabaseClient
+            .from('research')
+            .select('*')
+            .order('id', { ascending: false });
+
+        if (error) throw error;
+        allResearch = data || [];
+        renderResearch();
+    } catch (err) {
+        console.error('Błąd pobierania publikacji Lab & Research:', err);
+        grid.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500 text-xs">Baza badań jest obecnie aktualizowana.</div>`;
+    }
+}
+
+function renderResearch() {
+    const grid = document.getElementById('research-grid');
+    if (!grid) return;
+
+    if (allResearch.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-8 text-gray-500 text-xs">Brak publikacji w bazie badań.</div>`;
+        return;
+    }
+
+    grid.innerHTML = allResearch.map(r => `
+        <a href="${escapeHtml(r.url || '#')}" class="block bg-brand-card border border-brand-border hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
+            <div class="flex gap-2 mb-3 text-xs">
+                ${r.tags ? r.tags.map((t, i) => `<span class="${i === 0 ? 'text-emerald-400' : 'text-cyan-400'}">${escapeHtml(t)}</span>`).join('') : ''}
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors mb-2">
+                ${escapeHtml(r.title)}
+            </h3>
+            <p class="text-sm text-gray-400 line-clamp-2">
+                ${escapeHtml(r.summary)}
+            </p>
+        </a>
     `).join('');
 }
 

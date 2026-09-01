@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechM8 // Infrastructure, Python & AI Workflows</title>
+    <meta name="description" content="TechM8 — Jacek Grodnicki. 19+ lat w administracji IT, Homelab (Proxmox, TrueNAS, Docker) oraz automatyzacja z Pythonem i AI. Projekty, poradniki techniczne i badania z pogranicza fizyki i kosmologii.">
+    <link rel="canonical" href="https://3en4all.github.io/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://3en4all.github.io/">
+    <meta property="og:title" content="TechM8 // Infrastructure, Python & AI Workflows">
+    <meta property="og:description" content="19+ lat w administracji IT, Homelab (Proxmox, TrueNAS, Docker) oraz automatyzacja z Pythonem i AI. Projekty, poradniki techniczne i badania popularnonaukowe.">
+    <meta property="og:image" content="https://3en4all.github.io/assets/og-image.png">
+    <meta property="og:locale" content="pl_PL">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TechM8 // Infrastructure, Python & AI Workflows">
+    <meta name="twitter:description" content="19+ lat w administracji IT, Homelab (Proxmox, TrueNAS, Docker) oraz automatyzacja z Pythonem i AI.">
+    <meta name="twitter:image" content="https://3en4all.github.io/assets/og-image.png">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -83,62 +100,10 @@
                 <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">#Science</span>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Karta 1 -->
-                <a href="research/uklad-sloneczny-w-ruchu.html" class="block bg-brand-card border border-brand-border hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
-                    <div class="flex gap-2 mb-3 text-xs">
-                        <span class="text-emerald-400">#astronomia</span>
-                        <span class="text-cyan-400">#kosmologia</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors mb-2">
-                        Układ Słoneczny w ruchu – czy wiemy, dokąd zmierzamy?
-                    </h3>
-                    <p class="text-sm text-gray-400 line-clamp-2">
-                        Kosmiczna podróż z prędkością 828 000 km/h przez galaktykę, rok galaktyczny i grawitacyjny ruch ku Wielkiemu Atraktorowi.
-                    </p>
-                </a>
-
-                <!-- Karta 2 -->
-                <a href="research/zegar-pulsara.html" class="block bg-brand-card border border-brand-border hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
-                    <div class="flex gap-2 mb-3 text-xs">
-                        <span class="text-emerald-400">#astrofizyka</span>
-                        <span class="text-cyan-400">#czas</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors mb-2">
-                        Zegar pulsara – najdokładniejsze tyknięcia we Wszechświecie
-                    </h3>
-                    <p class="text-sm text-gray-400 line-clamp-2">
-                        Pulsary milisekundowe obracające się setki razy na sekundę jako galaktyczne detektory fal grawitacyjnych.
-                    </p>
-                </a>
-
-                <!-- Karta 3 -->
-                <a href="research/ukryta-symetria.html" class="block bg-brand-card border border-brand-border hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
-                    <div class="flex gap-2 mb-3 text-xs">
-                        <span class="text-emerald-400">#fizykakwantowa</span>
-                        <span class="text-cyan-400">#symetria</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors mb-2">
-                        Ukryta symetria – co fizyka mówi o początku Wszechświata?
-                    </h3>
-                    <p class="text-sm text-gray-400 line-clamp-2">
-                        Spontaniczne złamanie symetrii, mechanizm nadawania masy cząstkom i twierdzenie Emmy Noether.
-                    </p>
-                </a>
-
-                <!-- Karta 4 -->
-                <a href="research/algorytm-rzeczywistosci.html" class="block bg-brand-card border border-brand-border hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
-                    <div class="flex gap-2 mb-3 text-xs">
-                        <span class="text-emerald-400">#kwanty</span>
-                        <span class="text-cyan-400">#teoriainformacji</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition-colors mb-2">
-                        Algorytm rzeczywistości – czy świat to równanie?
-                    </h3>
-                    <p class="text-sm text-gray-400 line-clamp-2">
-                        Funkcja falowa, probabilizm natury w mikroskali oraz mechanizm powstawania makroskopowego porządku.
-                    </p>
-                </a>
+            <div id="research-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="col-span-full text-center py-8 text-gray-500 text-xs">
+                    Ładowanie publikacji z bazy danych...
+                </div>
             </div>
         </section>
 
