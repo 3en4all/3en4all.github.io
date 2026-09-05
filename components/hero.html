@@ -25,12 +25,12 @@
                 Infrastruktura IT, Python, lokalne AI i automatyzacja. Buduję rozwiązania od warstwy systemowej po własne pipeline’y badawcze i publikacyjne.
             </p>
             <div class="h-px mt-5 bg-gradient-to-r from-amber-500/45 via-emerald-500/20 to-transparent"></div>
-            <div class="mt-4 flex flex-wrap gap-2 text-[9px] font-mono uppercase tracking-[0.12em] text-gray-500">
-                <span class="border border-brand-border rounded-full px-2.5 py-1">Infrastructure</span>
-                <span class="border border-brand-border rounded-full px-2.5 py-1">Python</span>
-                <span class="border border-brand-border rounded-full px-2.5 py-1">AI Workflows</span>
-                <span class="border border-brand-border rounded-full px-2.5 py-1">Research</span>
-            </div>
+            <nav aria-label="Skróty do sekcji" class="mt-4 flex flex-wrap gap-2 text-[9px] font-mono uppercase tracking-[0.12em]">
+                <a href="#about" class="border border-emerald-500/25 bg-emerald-500/5 text-emerald-300 rounded-full px-2.5 py-1 hover:border-emerald-400/60 hover:bg-emerald-500/12 hover:text-emerald-200 transition">Infrastructure</a>
+                <a href="#projects" class="border border-cyan-500/25 bg-cyan-500/5 text-cyan-300 rounded-full px-2.5 py-1 hover:border-cyan-400/60 hover:bg-cyan-500/12 hover:text-cyan-200 transition">Python</a>
+                <a href="#live" class="border border-emerald-500/25 bg-emerald-500/5 text-emerald-300 rounded-full px-2.5 py-1 hover:border-emerald-400/60 hover:bg-emerald-500/12 hover:text-emerald-200 transition">AI Workflows</a>
+                <a href="#research" class="border border-cyan-500/25 bg-cyan-500/5 text-cyan-300 rounded-full px-2.5 py-1 hover:border-cyan-400/60 hover:bg-cyan-500/12 hover:text-cyan-200 transition">Research</a>
+            </nav>
         </div>
     </div>
 
@@ -57,13 +57,19 @@
             </div>
         </a>
 
-        <div class="rounded-xl border border-emerald-500/25 bg-brand-card/80 p-3.5 min-w-0 max-h-36 overflow-hidden">
-            <div class="text-[9px] font-mono text-emerald-400 uppercase tracking-[0.14em] mb-2">// NOW</div>
+        <div class="live-primary-card rounded-xl border border-emerald-500/25 bg-brand-card/80 p-3.5 min-w-0 max-h-36 overflow-hidden cursor-pointer transition-all duration-300 hover:border-emerald-400/60 hover:bg-emerald-500/[0.04] hover:-translate-y-0.5" data-live-card="now">
+            <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="text-[9px] font-mono text-emerald-400 uppercase tracking-[0.14em]">// NOW</div>
+                <span class="text-[8px] font-mono text-emerald-300/60">CLICK ↕</span>
+            </div>
             <div id="live-now" class="text-xs text-gray-400 min-w-0">Ładowanie aktualnego statusu...</div>
         </div>
 
-        <div class="rounded-xl border border-cyan-500/25 bg-brand-card/80 p-3.5 min-w-0 max-h-36 overflow-hidden">
-            <div class="text-[9px] font-mono text-cyan-400 uppercase tracking-[0.14em] mb-2">// NEXT</div>
+        <div class="live-primary-card rounded-xl border border-cyan-500/25 bg-brand-card/80 p-3.5 min-w-0 max-h-36 overflow-hidden cursor-pointer transition-all duration-300 hover:border-cyan-400/60 hover:bg-cyan-500/[0.04] hover:-translate-y-0.5" data-live-card="next">
+            <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="text-[9px] font-mono text-cyan-400 uppercase tracking-[0.14em]">// NEXT</div>
+                <span class="text-[8px] font-mono text-cyan-300/60">CLICK ↕</span>
+            </div>
             <div id="live-next" class="text-xs text-gray-400 min-w-0">Ładowanie kolejnych kroków...</div>
         </div>
 
