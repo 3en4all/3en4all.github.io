@@ -3,23 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechM8 // Infrastructure, Python & AI Workflows</title>
-    <meta name="description" content="TechM8 — Jacek Grodnicki. 19+ lat w administracji IT, Homelab (Proxmox, TrueNAS, Docker) oraz automatyzacja z Pythonem i AI. Projekty, poradniki techniczne i badania z pogranicza fizyki i kosmologii.">
-    <link rel="canonical" href="https://3en4all.github.io/">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://3en4all.github.io/">
-    <meta property="og:title" content="TechM8 // Infrastructure, Python & AI Workflows">
-    <meta property="og:description" content="19+ lat w administracji IT, Homelab (Proxmox, TrueNAS, Docker) oraz automatyzacja z Pythonem i AI. Projekty, poradniki techniczne i badania popularnonaukowe.">
-    <meta property="og:image" content="https://3en4all.github.io/assets/og-image.png">
-    <meta property="og:locale" content="pl_PL">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="TechM8 // Infrastructure, Python & AI Workflows">
-    <meta name="twitter:description" content="19+ lat w administracji IT, Homelab (Proxmox, TrueNAS, Docker) oraz automatyzacja z Pythonem i AI.">
-    <meta name="twitter:image" content="https://3en4all.github.io/assets/og-image.png">
+    <title>TechM8 // Hybrid V1 Preview</title>
+    <meta name="robots" content="noindex,nofollow">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260905-4">
+    <link rel="stylesheet" href="css/style.css?v=hybrid-v1-1">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -53,24 +38,22 @@
         .bg-brand-card { background-color: #0d1117 !important; }
         .border-brand-border { border-color: #30363d !important; }
     </style>
-    </head>
+</head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black">
 
-    <!-- HEADER / NAVIGATION -->
-    <header class="sticky top-0 z-40 bg-[#0a0f1d]/90 backdrop-blur border-b border-brand-border">
+    <header class="sticky top-0 z-40 bg-[#070b14]/85 backdrop-blur-xl border-b border-brand-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <span class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                <span class="text-xl font-bold bg-gradient-to-r from-emerald-300 via-emerald-400 to-cyan-300 bg-clip-text text-transparent">
                     TechM8<span class="text-emerald-500">//</span>
                 </span>
-                
-                <span class="hidden sm:inline-block text-xs px-2 py-0.5 rounded border border-emerald-500/30 text-emerald-400 bg-emerald-950/30">
-                    ProFree v2.5
+                <span class="hidden sm:inline-block text-[10px] px-2 py-1 rounded-full border border-cyan-500/25 text-cyan-300 bg-cyan-950/20 tracking-[0.12em] uppercase">
+                    Hybrid V1 Preview
                 </span>
             </div>
 
             <div class="flex items-center space-x-3">
-                <button id="health-check-btn" onclick="runHealthCheck()" class="flex items-center space-x-2 text-xs px-3 py-1.5 rounded-lg border border-brand-border hover:border-emerald-500/50 bg-brand-card transition-all duration-300">
+                <button id="health-check-btn" onclick="runHealthCheck()" class="flex items-center space-x-2 text-xs px-3 py-1.5 rounded-lg border border-brand-border hover:border-emerald-500/50 bg-brand-card/80 transition-all duration-300">
                     <span id="health-indicator" class="w-2 h-2 rounded-full bg-gray-500"></span>
                     <span id="health-text" class="text-gray-300">Node Status</span>
                 </button>
@@ -81,15 +64,13 @@
         </div>
     </header>
 
-    <!-- KONTENER MODUŁÓW DYNAMICZNYCH -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-12">
-        <div data-include="components/hero.html?v=20260905-4"></div>
-        <div data-include="components/live.html?v=20260905-4"></div>
-        <div data-include="components/about-brand.html?v=20260905-4"></div>
-        <div data-include="components/insights.html?v=20260905-4"></div>
-        <div data-include="components/projects.html?v=20260905-4"></div>
+        <div data-include="components/hero.html?v=hybrid-v1-1"></div>
+        <div data-include="components/live.html?v=hybrid-v1-1"></div>
+        <div data-include="components/about-brand.html?v=hybrid-v1-1"></div>
+        <div data-include="components/insights.html?v=hybrid-v1-1"></div>
+        <div data-include="components/projects.html?v=hybrid-v1-1"></div>
 
-        <!-- Sekcja: TechM8 Lab & Research -->
         <section class="border-t border-brand-border pt-12">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
@@ -108,28 +89,23 @@
             </div>
 
             <div id="research-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="col-span-full text-center py-8 text-gray-500 text-xs">
-                    Ładowanie publikacji z bazy danych...
-                </div>
+                <div class="col-span-full text-center py-8 text-gray-500 text-xs">Ładowanie publikacji z bazy danych...</div>
             </div>
         </section>
 
-        <div data-include="components/contact.html?v=20260905-4"></div>
+        <div data-include="components/contact.html?v=hybrid-v1-1"></div>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-brand-border bg-[#0a0f1d] py-6 text-center text-xs text-gray-500">
+    <footer class="border-t border-brand-border bg-[#070b14]/80 backdrop-blur py-6 text-center text-xs text-gray-500">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div>TechM8 &copy; 2026. Wszelkie prawa zastrzeżone.</div>
+            <div>TechM8 &copy; 2026. Hybrid V1 experimental preview.</div>
             <div class="text-gray-600">Engineered with Python, Supabase & Tailwind</div>
         </div>
     </footer>
 
-    <!-- MODALE -->
-    <div data-include="components/modals.html?v=20260905-4"></div>
+    <div data-include="components/modals.html?v=hybrid-v1-1"></div>
 
-    <!-- SKRYPTY APLIKACJI -->
-    <script src="js/app.js?v=20260905-4"></script>
-    <script src="js/live.js?v=20260905-4"></script>
+    <script src="js/app.js?v=hybrid-v1-1"></script>
+    <script src="js/live.js?v=hybrid-v1-1"></script>
 </body>
 </html>
