@@ -22,3 +22,8 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #10b981;
 }
+
+#articles-grid .line-clamp-2 {
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+}
