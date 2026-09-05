@@ -1,17 +1,58 @@
-﻿<section class="relative rounded-2xl border border-brand-border p-6 sm:p-10 bg-brand-card/50 overflow-hidden glow-emerald">
-    <div class="absolute -top-24 -right-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-    
-    <div class="relative z-10 max-w-3xl space-y-4">
-        <div class="inline-flex items-center space-x-2 text-xs text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-3 py-1 rounded-full">
-            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-            <span>System Architecture & Development</span>
+﻿<section class="hybrid-surface rounded-3xl p-6 sm:p-10 lg:p-12 min-h-[360px] flex items-center">
+    <div class="absolute -top-20 -right-16 w-80 h-80 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none hybrid-float"></div>
+    <div class="absolute -bottom-24 left-1/4 w-72 h-72 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none"></div>
+    <div class="absolute inset-0 pointer-events-none opacity-40" style="background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 32px 32px;"></div>
+
+    <div class="relative z-10 grid grid-cols-1 xl:grid-cols-[1.45fr_.75fr] gap-8 xl:gap-12 items-end w-full">
+        <div class="space-y-6">
+            <div class="flex flex-wrap items-center gap-3">
+                <span class="hybrid-status">
+                    <span class="hybrid-status-dot"></span>
+                    System online
+                </span>
+                <span class="hybrid-kicker text-cyan-300/80">3en4all / TechM8</span>
+            </div>
+
+            <div class="space-y-4 max-w-4xl">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.04em] leading-[1.02] text-white">
+                    Infrastruktura IT,<br>
+                    Python & <span class="bg-gradient-to-r from-emerald-300 via-emerald-400 to-cyan-300 bg-clip-text text-transparent">Automatyzacja AI</span>
+                </h1>
+                <p class="text-gray-300/80 text-sm sm:text-base leading-7 max-w-3xl">
+                    Praktyczne systemy, lokalne AI, automatyzacja i research. Projektuję rozwiązania od warstwy infrastruktury po własne pipeline’y badawcze i narzędzia wspierające pracę człowieka.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-1 text-[10px] font-mono uppercase tracking-[0.14em]">
+                <span class="px-3 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-300">Infrastructure</span>
+                <span class="px-3 py-1.5 rounded-full border border-cyan-500/25 bg-cyan-500/8 text-cyan-300">Python</span>
+                <span class="px-3 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-300">AI Workflows</span>
+                <span class="px-3 py-1.5 rounded-full border border-cyan-500/25 bg-cyan-500/8 text-cyan-300">Research</span>
+            </div>
         </div>
-        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Infrastruktura IT, Python & <span class="text-emerald-400">Automatyzacja AI</span>
-        </h1>
-        <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
-            Profesjonalny ekosystem technologiczny łączący 19+ lat praktyki w administracji systemami IT, środowiskach Homelab oraz nowoczesnym programowaniu i przepływach pracy AI.
-        </p>
+
+        <div class="grid grid-cols-2 gap-3">
+            <div class="hybrid-metric">
+                <div class="hybrid-kicker text-gray-500 mb-2">Mode</div>
+                <div class="text-sm font-bold text-white">BUILDING</div>
+                <div class="text-[10px] text-emerald-400 mt-1">active development</div>
+            </div>
+            <div class="hybrid-metric">
+                <div class="hybrid-kicker text-gray-500 mb-2">Research</div>
+                <div class="text-sm font-bold text-white">ONLINE</div>
+                <div class="text-[10px] text-cyan-400 mt-1">evidence driven</div>
+            </div>
+            <div class="hybrid-metric col-span-2">
+                <div class="flex items-center justify-between gap-4">
+                    <div>
+                        <div class="hybrid-kicker text-gray-500 mb-2">Current focus</div>
+                        <div class="text-sm font-bold text-white">AiResearchEngine → TechM8</div>
+                    </div>
+                    <span class="text-emerald-400 text-xl">↗</span>
+                </div>
+                <div class="hybrid-divider mt-4"></div>
+                <div class="text-[10px] text-gray-500 mt-3">local research • source validation • publishing workflow</div>
+            </div>
+        </div>
     </div>
 </section>
