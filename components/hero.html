@@ -23,12 +23,12 @@
                 </p>
             </div>
 
-            <div class="flex flex-wrap gap-2 pt-1 text-[10px] font-mono uppercase tracking-[0.14em]">
-                <span class="px-3 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-300">Infrastructure</span>
-                <span class="px-3 py-1.5 rounded-full border border-cyan-500/25 bg-cyan-500/8 text-cyan-300">Python</span>
-                <span class="px-3 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-300">AI Workflows</span>
-                <span class="px-3 py-1.5 rounded-full border border-cyan-500/25 bg-cyan-500/8 text-cyan-300">Research</span>
-            </div>
+            <nav aria-label="Skróty do sekcji" class="flex flex-wrap gap-2 pt-1 text-[10px] font-mono uppercase tracking-[0.14em]">
+                <a href="#about" class="px-3 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-300 hover:border-emerald-400/60 hover:bg-emerald-500/15 transition">Infrastructure</a>
+                <a href="#projects" class="px-3 py-1.5 rounded-full border border-cyan-500/25 bg-cyan-500/8 text-cyan-300 hover:border-cyan-400/60 hover:bg-cyan-500/15 transition">Python</a>
+                <a href="#live" class="px-3 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-300 hover:border-emerald-400/60 hover:bg-emerald-500/15 transition">AI Workflows</a>
+                <a href="#research" class="px-3 py-1.5 rounded-full border border-cyan-500/25 bg-cyan-500/8 text-cyan-300 hover:border-cyan-400/60 hover:bg-cyan-500/15 transition">Research</a>
+            </nav>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
@@ -42,17 +42,17 @@
                 <div class="text-sm font-bold text-white">ONLINE</div>
                 <div class="text-[10px] text-cyan-400 mt-1">evidence driven</div>
             </div>
-            <div class="hybrid-metric col-span-2">
+            <a href="#projects" class="hybrid-metric col-span-2 block group" aria-label="Przejdź do projektów i aktualnego kierunku rozwoju">
                 <div class="flex items-center justify-between gap-4">
                     <div>
                         <div class="hybrid-kicker text-gray-500 mb-2">Current focus</div>
                         <div class="text-sm font-bold text-white">AiResearchEngine → TechM8</div>
                     </div>
-                    <span class="text-emerald-400 text-xl">↗</span>
+                    <span class="text-emerald-400 text-xl transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
                 </div>
                 <div class="hybrid-divider mt-4"></div>
                 <div class="text-[10px] text-gray-500 mt-3">local research • source validation • publishing workflow</div>
-            </div>
+            </a>
         </div>
     </div>
 </section>
