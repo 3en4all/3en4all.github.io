@@ -1,6 +1,7 @@
 (() => {
     const params = new URLSearchParams(window.location.search);
-    const article = params.get('article') || 'ukryta-symetria';
+    const staticArticle = document.documentElement.dataset.article || '';
+    const article = params.get('article') || staticArticle || 'ukryta-symetria';
     const safeArticle = article.replace(/[^a-z0-9-_]/gi, '');
     const contentPath = `content/${safeArticle}.md`;
 
