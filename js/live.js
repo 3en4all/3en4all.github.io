@@ -65,7 +65,7 @@
 
     async function loadLiveFeed() {
         const root = document.getElementById('live-techm8');
-        if (!root || typeof supabaseClient === 'undefined' || !supabaseClient) return;
+        if (!root || typeof supabaseClient === 'undefined' || !supabaseClient) return false;
 
         try {
             const { data, error } = await supabaseClient
@@ -96,16 +96,27 @@
             if (logEl) logEl.innerHTML = renderProjectLog(projectLog);
             if (pulseEl) pulseEl.innerHTML = renderAiPulse(aiPulse);
             if (updateEl) updateEl.textContent = `Ostatnia synchronizacja: ${formatDate(new Date().toISOString())}`;
+            return true;
         } catch (err) {
             console.error('Błąd Live TechM8:', err);
             const updateEl = document.getElementById('live-last-update');
             if (updateEl) updateEl.textContent = 'Live feed: chwilowo offline';
+            return false;
         }
     }
 
+    async function startWhenMounted() {
+        for (let attempt = 0; attempt < 50; attempt += 1) {
+            if (document.getElementById('live-techm8')) {
+                await loadLiveFeed();
+                setInterval(loadLiveFeed, LIVE_REFRESH_MS);
+                return;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        console.warn('Live TechM8: komponent nie został zamontowany.');
+    }
+
     window.loadLiveFeed = loadLiveFeed;
-    window.addEventListener('load', () => {
-        loadLiveFeed();
-        setInterval(loadLiveFeed, LIVE_REFRESH_MS);
-    });
+    window.addEventListener('load', startWhenMounted);
 })();
