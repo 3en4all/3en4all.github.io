@@ -46,6 +46,30 @@
             <div class="mt-3 text-[10px] font-mono ${accent}">${esc(formatDate(item.published_at))}</div>`;
     }
 
+    function bindPrimaryCards() {
+        document.querySelectorAll('.live-primary-card').forEach(card => {
+            if (card.dataset.bound === '1') return;
+            card.dataset.bound = '1';
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            const toggle = () => {
+                const expanded = card.dataset.expanded === '1';
+                card.dataset.expanded = expanded ? '0' : '1';
+                card.classList.toggle('max-h-36', expanded);
+                card.classList.toggle('overflow-hidden', expanded);
+                card.classList.toggle('max-h-[32rem]', !expanded);
+                card.classList.toggle('overflow-auto', !expanded);
+            };
+            card.addEventListener('click', toggle);
+            card.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    toggle();
+                }
+            });
+        });
+    }
+
     function renderProjectLog(items) {
         if (!items.length) return `<div class="text-sm text-gray-500">${ui('Brak wpisów w dzienniku.', 'No project-log entries.')}</div>`;
         return items.slice(0, 8).map(item => `<div class="relative pl-5 border-l border-emerald-500/30">
@@ -99,6 +123,7 @@
             if (logEl) logEl.innerHTML = renderProjectLog(projectLog);
             if (pulseEl) pulseEl.innerHTML = renderAiPulse(aiPulse);
             if (updateEl) updateEl.textContent = `${ui('Ostatnia synchronizacja', 'Last sync')}: ${formatDate(new Date().toISOString())}`;
+            bindPrimaryCards();
             return true;
         } catch (err) {
             console.error('Live TechM8 error:', err);
