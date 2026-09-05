@@ -1,29 +1,56 @@
-﻿<section id="projects" class="space-y-6 scroll-mt-24">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-4">
-        <div>
-            <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                <span class="text-cyan-400">//</span> Rejestr Projektów
-            </h2>
-            <p class="text-xs text-gray-400 mt-0.5">Dynamiczna lista wdrożeń pobierana z bazy Supabase</p>
-        </div>
+﻿<section id="projects" class="space-y-7 scroll-mt-24">
+    <div class="hybrid-surface rounded-2xl p-5 sm:p-7 lg:p-8">
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <div class="max-w-3xl space-y-3">
+                <div class="flex flex-wrap items-center gap-3">
+                    <span class="hybrid-kicker text-cyan-300/80">Project Systems</span>
+                    <span class="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.12em] text-emerald-300 border border-emerald-500/25 bg-emerald-500/10 rounded-full px-2.5 py-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                        Live portfolio
+                    </span>
+                </div>
+                <h2 class="hybrid-section-heading text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-white">
+                    Projekty, które <span class="text-cyan-300">działają</span>, nie tylko wyglądają dobrze.
+                </h2>
+                <p class="text-sm text-gray-400 leading-6 max-w-2xl">
+                    Infrastruktura, Python, lokalne AI i automatyzacja. Każdy wpis prowadzi do szczegółów technicznych oraz diagramu rozwiązania.
+                </p>
+            </div>
 
-        <div class="relative w-full md:w-72">
-            <input type="text" id="search-input" oninput="filterProjects()" placeholder="Szukaj projektu..." 
-                class="w-full bg-brand-card border border-brand-border rounded-lg px-4 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 transition">
+            <div class="grid grid-cols-2 gap-3 w-full lg:w-auto lg:min-w-[320px]">
+                <div class="hybrid-metric">
+                    <div class="hybrid-kicker text-gray-500 mb-2">Visible</div>
+                    <div id="projects-visible-count" class="text-xl font-bold text-white">—</div>
+                    <div class="text-[10px] text-cyan-400 mt-1">projects</div>
+                </div>
+                <div class="hybrid-metric">
+                    <div class="hybrid-kicker text-gray-500 mb-2">Data</div>
+                    <div class="text-xl font-bold text-white">LIVE</div>
+                    <div class="text-[10px] text-emerald-400 mt-1">Supabase</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="flex flex-wrap gap-2 text-xs" id="tag-filters">
-        <button onclick="setFilter('ALL')" class="tag-btn active-tag px-3 py-1 rounded-md border border-emerald-500 bg-emerald-500/20 text-emerald-300">Wszystkie</button>
-        <button onclick="setFilter('#Proxmox')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Proxmox</button>
-        <button onclick="setFilter('#Python')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Python</button>
-        <button onclick="setFilter('#TrueNAS')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#TrueNAS</button>
-        <button onclick="setFilter('#Docker')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Docker</button>
-        <button onclick="setFilter('#Raspberry Pi')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Raspberry Pi</button>
-        <button onclick="setFilter('#AI Workflows')" class="tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#AI Workflows</button>
+    <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+        <div class="flex flex-wrap gap-2 text-xs" id="tag-filters">
+            <button onclick="setFilter('ALL')" class="tag-btn active-tag px-3 py-1.5 rounded-full border border-emerald-500 bg-emerald-500/20 text-emerald-300">Wszystkie</button>
+            <button onclick="setFilter('#Proxmox')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Proxmox</button>
+            <button onclick="setFilter('#Python')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Python</button>
+            <button onclick="setFilter('#TrueNAS')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#TrueNAS</button>
+            <button onclick="setFilter('#Docker')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Docker</button>
+            <button onclick="setFilter('#Raspberry Pi')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Raspberry Pi</button>
+            <button onclick="setFilter('#AI Workflows')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#AI Workflows</button>
+        </div>
+
+        <div class="relative w-full xl:w-80">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 text-xs">⌕</span>
+            <input type="text" id="search-input" oninput="filterProjects()" placeholder="Szukaj projektu..."
+                class="w-full bg-brand-card/80 border border-brand-border rounded-xl pl-8 pr-4 py-2.5 text-xs text-gray-200 focus:outline-none focus:border-cyan-500/60 transition">
+        </div>
     </div>
 
-    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <div class="col-span-full text-center py-12 text-gray-500 text-xs">
             Ładowanie projektów z bazy danych...
         </div>
