@@ -1,58 +1,50 @@
-﻿<section class="hybrid-surface rounded-3xl p-6 sm:p-10 lg:p-12 min-h-[360px] flex items-center">
-    <div class="absolute -top-20 -right-16 w-80 h-80 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none hybrid-float"></div>
-    <div class="absolute -bottom-24 left-1/4 w-72 h-72 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none"></div>
-    <div class="absolute inset-0 pointer-events-none opacity-40" style="background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 32px 32px;"></div>
+﻿<section id="live-techm8" class="grid lg:grid-cols-[1.22fr_.78fr] gap-5 lg:gap-6 items-start">
+    <style>
+        #live-now h3, #live-next h3 { font-size: .78rem; line-height: 1.15rem; margin-bottom: .3rem; }
+        #live-now p, #live-next p { font-size: .68rem; line-height: 1.05rem; }
+        #live-now .font-mono, #live-next .font-mono { font-size: .58rem; }
+        #live-now, #live-next { overflow-wrap: anywhere; }
+    </style>
 
-    <div class="relative z-10 grid grid-cols-1 xl:grid-cols-[1.45fr_.75fr] gap-8 xl:gap-12 items-end w-full">
-        <div class="space-y-6">
-            <div class="flex flex-wrap items-center gap-3">
-                <span class="hybrid-status">
-                    <span class="hybrid-status-dot"></span>
-                    System online
-                </span>
-                <span class="hybrid-kicker text-cyan-300/80">3en4all / TechM8</span>
+    <div class="relative self-start rounded-2xl border border-brand-border p-5 sm:p-6 lg:p-7 bg-brand-card/50 overflow-hidden glow-emerald">
+        <div class="absolute -top-24 -right-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10">
+            <div class="inline-flex items-center space-x-2 text-[11px] text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-3 py-1 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>System Architecture & Development</span>
             </div>
+            <h1 class="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.045em] text-white leading-[1.02]">
+                Systemy, research<br>i <span class="text-emerald-400">praktyczne AI.</span>
+            </h1>
+            <p class="text-gray-400 text-sm sm:text-base leading-6 max-w-3xl mt-4">
+                Infrastruktura IT, Python, lokalne AI i automatyzacja. Buduję rozwiązania od warstwy systemowej po własne pipeline’y badawcze i publikacyjne.
+            </p>
+            <div class="h-px mt-5 bg-gradient-to-r from-amber-500/45 via-emerald-500/20 to-transparent"></div>
+        </div>
+    </div>
 
-            <div class="space-y-4 max-w-4xl">
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.04em] leading-[1.02] text-white">
-                    Infrastruktura IT,<br>
-                    Python & <span class="bg-gradient-to-r from-emerald-300 via-emerald-400 to-cyan-300 bg-clip-text text-transparent">Automatyzacja AI</span>
-                </h1>
-                <p class="text-gray-300/80 text-sm sm:text-base leading-7 max-w-3xl">
-                    Praktyczne systemy, lokalne AI, automatyzacja i research. Projektuję rozwiązania od warstwy infrastruktury po własne pipeline’y badawcze i narzędzia wspierające pracę człowieka.
-                </p>
+    <div class="grid grid-cols-2 gap-3 self-start min-w-0">
+        <a href="#projects" class="col-span-2 rounded-2xl border border-amber-500/20 bg-brand-card/80 p-4 group hover:border-amber-500/35 transition-colors min-w-0">
+            <div class="text-[9px] font-mono uppercase tracking-[0.16em] text-amber-300">Current focus</div>
+            <div class="mt-2 text-base sm:text-lg font-bold tracking-[-0.03em] text-white break-words">AiResearchEngine → TechM8</div>
+            <div class="mt-3 flex flex-wrap gap-1.5 text-[8px] font-mono">
+                <span class="border border-emerald-500/25 text-emerald-300 rounded-full px-2 py-1">LOCAL-FIRST</span>
+                <span class="border border-cyan-500/25 text-cyan-300 rounded-full px-2 py-1">EVIDENCE</span>
+                <span class="border border-amber-500/25 text-amber-300 rounded-full px-2 py-1">ALPHA</span>
             </div>
+        </a>
 
-            <nav aria-label="Skróty do sekcji" class="flex flex-wrap gap-2 pt-1 text-[10px] font-mono uppercase tracking-[0.14em]">
-                <a href="#about" class="px-3 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-300 hover:border-emerald-400/60 hover:bg-emerald-500/15 transition">Infrastructure</a>
-                <a href="#projects" class="px-3 py-1.5 rounded-full border border-cyan-500/25 bg-cyan-500/8 text-cyan-300 hover:border-cyan-400/60 hover:bg-cyan-500/15 transition">Python</a>
-                <a href="#live" class="px-3 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-300 hover:border-emerald-400/60 hover:bg-emerald-500/15 transition">AI Workflows</a>
-                <a href="#research" class="px-3 py-1.5 rounded-full border border-cyan-500/25 bg-cyan-500/8 text-cyan-300 hover:border-cyan-400/60 hover:bg-cyan-500/15 transition">Research</a>
-            </nav>
+        <div class="rounded-2xl border border-emerald-500/25 bg-brand-card/80 p-3.5 min-w-0 max-h-40 overflow-hidden">
+            <div class="text-[9px] font-mono text-emerald-400 uppercase tracking-[0.14em] mb-2">// NOW</div>
+            <div id="live-now" class="text-xs text-gray-400 min-w-0">Ładowanie aktualnego statusu...</div>
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
-            <div class="hybrid-metric border-amber-500/20">
-                <div class="hybrid-kicker text-gray-500 mb-2">Mode</div>
-                <div class="text-sm font-bold text-amber-300">BUILDING</div>
-                <div class="text-[10px] text-amber-400/80 mt-1">active development</div>
-            </div>
-            <div class="hybrid-metric">
-                <div class="hybrid-kicker text-gray-500 mb-2">Research</div>
-                <div class="text-sm font-bold text-white">ONLINE</div>
-                <div class="text-[10px] text-cyan-400 mt-1">evidence driven</div>
-            </div>
-            <a href="#projects" class="hybrid-metric col-span-2 block group border-amber-500/15" aria-label="Przejdź do projektów i aktualnego kierunku rozwoju">
-                <div class="flex items-center justify-between gap-4">
-                    <div>
-                        <div class="hybrid-kicker text-amber-400/75 mb-2">Current focus</div>
-                        <div class="text-sm font-bold text-white">AiResearchEngine → TechM8</div>
-                    </div>
-                    <span class="text-amber-400 text-xl transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
-                </div>
-                <div class="h-px mt-4 bg-gradient-to-r from-amber-500/45 via-emerald-500/20 to-transparent"></div>
-                <div class="text-[10px] text-gray-500 mt-3">local research • source validation • publishing workflow</div>
-            </a>
+        <div class="rounded-2xl border border-cyan-500/25 bg-brand-card/80 p-3.5 min-w-0 max-h-40 overflow-hidden">
+            <div class="text-[9px] font-mono text-cyan-400 uppercase tracking-[0.14em] mb-2">// NEXT</div>
+            <div id="live-next" class="text-xs text-gray-400 min-w-0">Ładowanie kolejnych kroków...</div>
         </div>
+
+        <div id="live-last-update" class="col-span-2 text-[9px] text-gray-600 font-mono text-right pr-1">Synchronizacja...</div>
     </div>
 </section>
