@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /research/content/
+
+Sitemap: https://3en4all.github.io/sitemap.xml
