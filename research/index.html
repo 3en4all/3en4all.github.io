@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechM8 Research</title>
+    <meta name="description" content="TechM8 Research">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            emerald: '#10b981',
+                            cyan: '#00b4d8',
+                            darkBg: '#0b0f19',
+                            cardBg: '#111827',
+                            border: '#1f2937'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { font-family: 'JetBrains Mono', monospace; background-color: #0b0f19; color: #e5e7eb; }
+        .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
+        .text-gradient { background: linear-gradient(135deg, #10b981 0%, #00b4d8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+    <header class="border-b border-brand-border bg-brand-cardBg/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="../index.html" class="flex items-center space-x-3 group">
+                <span class="text-2xl font-bold text-gradient">&lt;TechM8/&gt;</span>
+                <span class="text-xs text-gray-400 border border-brand-border px-2 py-0.5 rounded group-hover:border-brand-emerald transition-colors">LAB & RESEARCH</span>
+            </a>
+            <a href="../index.html" class="text-sm text-gray-400 hover:text-brand-emerald flex items-center space-x-2 transition-colors">
+                <i class="bi bi-arrow-left"></i>
+                <span>Powrót do portalu</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-12 flex-grow">
+        <article class="space-y-8">
+            <header class="space-y-4 border-b border-brand-border pb-8">
+                <div id="research-tags" class="flex flex-wrap gap-2 text-xs"></div>
+                <h1 id="research-title" class="text-3xl md:text-5xl font-bold text-white leading-tight">Ładowanie...</h1>
+            </header>
+
+            <div id="research-article" class="space-y-6 text-gray-300 leading-relaxed text-base">
+                <div class="text-sm text-gray-500">Ładowanie treści...</div>
+            </div>
+
+            <footer class="border-t border-brand-border pt-8 mt-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <a href="../index.html" class="bg-brand-emerald/10 hover:bg-brand-emerald/20 text-brand-emerald border border-brand-emerald/30 px-4 py-2 rounded-lg text-sm transition-all flex items-center gap-2">
+                    <i class="bi bi-grid"></i>
+                    <span>Powrót do portalu głównego</span>
+                </a>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="border-t border-brand-border bg-brand-cardBg py-6 text-center text-xs text-gray-500">
+        &copy; 2026 TechM8. Wszystkie prawa zastrzeżone.
+    </footer>
+
+    <script src="../js/research-page.js"></script>
+</body>
+</html>
