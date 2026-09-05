@@ -95,7 +95,6 @@
                 }
 
                 const q = trimmed.replace(/^>\s?/, '');
-
                 if (!q) continue;
 
                 if (!quoteHeaderRendered && /^\*\*(.+)\*\*$/.test(q)) {
@@ -160,7 +159,7 @@
             const title = meta.title || safeArticle;
             const tags = Array.isArray(meta.tags) ? meta.tags : [];
 
-            document.title = `${title} | TechM8 Research POC`;
+            document.title = `${title} | TechM8 Research`;
             if (titleEl) titleEl.textContent = title;
             if (descriptionMeta && meta.description) descriptionMeta.setAttribute('content', meta.description);
 
