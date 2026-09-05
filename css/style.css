@@ -27,3 +27,16 @@ body {
     -webkit-line-clamp: 5;
     line-clamp: 5;
 }
+
+.tile-hover {
+    transition: transform 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+    will-change: transform;
+}
+.tile-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(16, 185, 129, 0.55) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+.tile-hover-cyan:hover {
+    border-color: rgba(34, 211, 238, 0.55) !important;
+}
