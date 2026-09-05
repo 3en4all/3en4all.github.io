@@ -104,6 +104,12 @@ body::before {
     border-radius: 12px;
     padding: 12px 14px;
     backdrop-filter: blur(8px);
+    transition: transform 260ms ease, border-color 260ms ease, background-color 260ms ease;
+}
+.hybrid-metric:hover {
+    transform: translateY(-2px);
+    border-color: rgba(71, 201, 181, .38);
+    background: rgba(4, 12, 22, .58);
 }
 .hybrid-live-card {
     position: relative;
@@ -144,12 +150,62 @@ body::before {
     height: 1px;
     background: linear-gradient(90deg, rgba(16,185,129,.45), rgba(34,211,238,.22), transparent);
 }
+
+/* Effects V1: motion should be felt, not shouted. */
+.fx-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 700ms cubic-bezier(.2,.7,.2,1), transform 700ms cubic-bezier(.2,.7,.2,1);
+}
+.fx-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.fx-reveal[data-fx-delay="1"] { transition-delay: 70ms; }
+.fx-reveal[data-fx-delay="2"] { transition-delay: 140ms; }
+.fx-reveal[data-fx-delay="3"] { transition-delay: 210ms; }
+
+.fx-soft-glow {
+    transition: box-shadow 320ms ease, border-color 320ms ease, transform 320ms ease;
+}
+.fx-soft-glow:hover {
+    box-shadow: 0 18px 46px rgba(0,0,0,.26), 0 0 28px rgba(16,185,129,.055);
+}
+.fx-soft-glow-cyan:hover {
+    box-shadow: 0 18px 46px rgba(0,0,0,.26), 0 0 28px rgba(34,211,238,.055);
+}
+
 @media (prefers-reduced-motion: no-preference) {
     .hybrid-float {
         animation: hybridFloat 7s ease-in-out infinite;
     }
+    .hybrid-status-dot,
+    #live-techm8 .animate-ping + span {
+        animation: hybridHeartbeat 3.6s ease-in-out infinite;
+    }
+    .hybrid-surface::after {
+        animation: hybridSheen 14s ease-in-out infinite;
+    }
     @keyframes hybridFloat {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-8px); }
+    }
+    @keyframes hybridHeartbeat {
+        0%, 84%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(52,211,153,.55); }
+        88% { transform: scale(1.18); box-shadow: 0 0 18px rgba(52,211,153,.85); }
+        92% { transform: scale(1); }
+        96% { transform: scale(1.12); box-shadow: 0 0 15px rgba(52,211,153,.75); }
+    }
+    @keyframes hybridSheen {
+        0%, 72%, 100% { opacity: .36; transform: translateX(-8%); }
+        82% { opacity: .62; transform: translateX(8%); }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fx-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
 }
