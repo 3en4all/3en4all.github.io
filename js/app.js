@@ -90,7 +90,6 @@ async function handleContactSubmit(e) {
 
         const senderName = email.split('@')[0] || 'Anonim';
 
-        // Wywołanie insert z .select() wymaganym do weryfikacji błędu RLS przez Supabase JS v2
         const { data, error } = await supabaseClient
             .from('messages')
             .insert([{ 
@@ -153,7 +152,7 @@ function renderArticles() {
     }
 
     grid.innerHTML = allArticles.map(a => `
-        <div onclick="openArticleModal(${Number(a.id)})" class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-emerald-500/50 transition duration-300 cursor-pointer flex flex-col justify-between space-y-3 group">
+        <div onclick="openArticleModal(${Number(a.id)})" class="tile-hover bg-brand-card border border-brand-border rounded-xl p-5 cursor-pointer flex flex-col justify-between space-y-3 group">
             <div class="space-y-2">
                 <div class="flex items-center justify-between text-[10px] text-emerald-400 font-mono">
                     <span>${escapeHtml(a.tags ? a.tags.join(' ') : '')}</span>
@@ -270,7 +269,7 @@ function renderProjects() {
     }
 
     grid.innerHTML = filtered.map(p => `
-        <div onclick="openProjectModal(${Number(p.id)})" class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-emerald-500/50 transition duration-300 cursor-pointer flex flex-col justify-between space-y-4 group">
+        <div onclick="openProjectModal(${Number(p.id)})" class="tile-hover tile-hover-cyan bg-brand-card border border-brand-border rounded-xl p-5 cursor-pointer flex flex-col justify-between space-y-4 group">
             <div class="space-y-2">
                 <div class="text-[10px] text-emerald-400 font-mono flex flex-wrap gap-1">
                     ${p.tags ? p.tags.map(t => `<span class="bg-emerald-950/40 border border-emerald-500/20 px-1.5 py-0.5 rounded">${escapeHtml(t)}</span>`).join('') : ''}
