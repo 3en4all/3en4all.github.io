@@ -52,14 +52,28 @@
             card.dataset.bound = '1';
             card.setAttribute('role', 'button');
             card.setAttribute('tabindex', '0');
+            card.setAttribute('aria-expanded', 'false');
+
+            const indicator = card.querySelector('[data-live-indicator]');
             const toggle = () => {
-                const expanded = card.dataset.expanded === '1';
-                card.dataset.expanded = expanded ? '0' : '1';
-                card.classList.toggle('max-h-36', expanded);
-                card.classList.toggle('overflow-hidden', expanded);
-                card.classList.toggle('max-h-[32rem]', !expanded);
-                card.classList.toggle('overflow-auto', !expanded);
+                const willExpand = card.dataset.expanded !== '1';
+                card.dataset.expanded = willExpand ? '1' : '0';
+                card.setAttribute('aria-expanded', willExpand ? 'true' : 'false');
+
+                if (willExpand) {
+                    card.style.maxHeight = '32rem';
+                    card.style.overflowY = 'auto';
+                    card.style.overflowX = 'hidden';
+                    if (indicator) indicator.textContent = 'ZWIŃ ↑';
+                } else {
+                    card.style.maxHeight = '9rem';
+                    card.style.overflow = 'hidden';
+                    if (indicator) indicator.textContent = 'ROZWIŃ ↓';
+                }
             };
+
+            card.style.maxHeight = '9rem';
+            card.style.overflow = 'hidden';
             card.addEventListener('click', toggle);
             card.addEventListener('keydown', event => {
                 if (event.key === 'Enter' || event.key === ' ') {
