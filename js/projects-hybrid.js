@@ -33,7 +33,7 @@
                 badgeRow.className = 'flex flex-wrap items-center gap-2 mb-4 text-[10px] font-mono uppercase tracking-[0.14em]';
                 badgeRow.innerHTML = `
                     <span class="text-emerald-300 border border-emerald-500/30 bg-emerald-500/10 rounded-full px-3 py-1.5">Flagship system</span>
-                    <span class="text-cyan-300 border border-cyan-500/25 bg-cyan-500/10 rounded-full px-3 py-1.5">Alpha accepted</span>
+                    <span class="text-amber-300 border border-amber-500/30 bg-amber-500/10 rounded-full px-3 py-1.5">Alpha accepted</span>
                 `;
 
                 const content = card.firstElementChild;
