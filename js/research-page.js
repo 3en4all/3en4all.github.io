@@ -10,12 +10,13 @@
     const descriptionMeta = document.querySelector('meta[name="description"]');
 
     function parseFrontMatter(raw) {
-        if (!raw.startsWith('---\n')) return { meta: {}, body: raw };
-        const end = raw.indexOf('\n---\n', 4);
-        if (end === -1) return { meta: {}, body: raw };
+        const normalized = raw.replace(/\r\n/g, '\n');
+        if (!normalized.startsWith('---\n')) return { meta: {}, body: normalized };
+        const end = normalized.indexOf('\n---\n', 4);
+        if (end === -1) return { meta: {}, body: normalized };
 
-        const header = raw.slice(4, end).split('\n');
-        const body = raw.slice(end + 5);
+        const header = normalized.slice(4, end).split('\n');
+        const body = normalized.slice(end + 5);
         const meta = {};
 
         for (const line of header) {
@@ -49,17 +50,28 @@
         let paragraph = [];
         let listOpen = false;
         let quoteOpen = false;
+        let quoteHeaderRendered = false;
+        let headingIndex = 0;
 
         function flushParagraph() {
             if (!paragraph.length) return;
             out.push(`<p>${inline(paragraph.join(' '))}</p>`);
             paragraph = [];
         }
+
         function closeList() {
-            if (listOpen) { out.push('</ul>'); listOpen = false; }
+            if (listOpen) {
+                out.push('</ul>');
+                listOpen = false;
+            }
         }
+
         function closeQuote() {
-            if (quoteOpen) { out.push('</div>'); quoteOpen = false; }
+            if (quoteOpen) {
+                out.push('</div>');
+                quoteOpen = false;
+                quoteHeaderRendered = false;
+            }
         }
 
         for (const rawLine of lines) {
@@ -76,15 +88,27 @@
             if (trimmed.startsWith('>')) {
                 flushParagraph();
                 closeList();
+
                 if (!quoteOpen) {
-                    out.push('<div class="bg-brand-cardBg border border-brand-emerald/30 rounded-xl p-6 glow-emerald space-y-2">');
+                    out.push('<div class="bg-brand-cardBg border border-brand-emerald/30 rounded-xl p-6 glow-emerald">');
                     quoteOpen = true;
                 }
+
                 const q = trimmed.replace(/^>\s?/, '');
+
+                if (!q) continue;
+
+                if (!quoteHeaderRendered && /^\*\*(.+)\*\*$/.test(q)) {
+                    const heading = q.replace(/^\*\*(.+)\*\*$/, '$1');
+                    out.push(`<h3 class="text-sm font-semibold text-brand-emerald uppercase tracking-wider mb-3 flex items-center gap-2"><i class="bi bi-lightning-charge-fill"></i>${inline(heading)}</h3>`);
+                    quoteHeaderRendered = true;
+                    continue;
+                }
+
                 if (q.startsWith('- ')) {
-                    out.push(`<div class="flex items-start gap-2 text-sm text-gray-300"><span class="text-brand-cyan">►</span><span>${inline(q.slice(2))}</span></div>`);
-                } else if (q) {
-                    out.push(`<div class="text-sm text-gray-300">${inline(q)}</div>`);
+                    out.push(`<div class="flex items-start gap-2 text-sm text-gray-300 mb-2"><span class="text-brand-cyan">►</span><span>${inline(q.slice(2))}</span></div>`);
+                } else {
+                    out.push(`<div class="text-sm text-gray-300 mb-2">${inline(q)}</div>`);
                 }
                 continue;
             }
@@ -94,7 +118,9 @@
             if (/^##\s+/.test(trimmed)) {
                 flushParagraph();
                 closeList();
-                out.push(`<h2 class="text-xl font-bold text-white border-l-4 border-brand-emerald pl-4 mt-8 mb-4">${inline(trimmed.replace(/^##\s+/, ''))}</h2>`);
+                const borderClass = headingIndex % 2 === 0 ? 'border-brand-emerald' : 'border-brand-cyan';
+                headingIndex += 1;
+                out.push(`<h2 class="text-xl font-bold text-white border-l-4 ${borderClass} pl-4 mt-8 mb-4">${inline(trimmed.replace(/^##\s+/, ''))}</h2>`);
                 continue;
             }
 
@@ -107,7 +133,10 @@
 
             if (trimmed.startsWith('- ')) {
                 flushParagraph();
-                if (!listOpen) { out.push('<ul class="space-y-2 text-sm text-gray-300">'); listOpen = true; }
+                if (!listOpen) {
+                    out.push('<ul class="space-y-2 text-sm text-gray-300">');
+                    listOpen = true;
+                }
                 out.push(`<li class="flex items-start gap-2"><span class="text-brand-cyan">►</span><span>${inline(trimmed.slice(2))}</span></li>`);
                 continue;
             }
