@@ -10,7 +10,7 @@
     ['Infrastruktura IT, Python &', 'IT Infrastructure, Python &'],
     ['Automatyzacja AI', 'AI Automation'],
     ['Profesjonalny ekosystem technologiczny łączący 19+ lat praktyki w administracji systemami IT, środowiskach Homelab oraz nowoczesnym programowaniu i przepływach pracy AI.', 'A professional technology ecosystem combining 19+ years of hands-on IT systems administration, Homelab environments, modern development and AI workflows.'],
-    ['// Architektura TechM8', '// TechM8 Architecture'],
+    ['Architektura TechM8', 'TechM8 Architecture'],
     ['Ekosystem rozwiązań IT, Python Dev & AI Automation', 'IT solutions, Python Development & AI Automation ecosystem'],
     ['[ Poznaj Nasz Stos ]', '[ Explore The Stack ]'],
     ["[ Status Node'ów ]", '[ Node Status ]'],
@@ -23,13 +23,13 @@
     ['Ładowanie dziennika...', 'Loading project log...'],
     ['Co warto dziś wiedzieć', 'What matters today'],
     ['Ładowanie AI Pulse...', 'Loading AI Pulse...'],
-    ['// Tech Insights & Baza Wiedzy', '// Tech Insights & Knowledge Base'],
+    ['Tech Insights & Baza Wiedzy', 'Tech Insights & Knowledge Base'],
     ['Artykuły techniczne, poradniki architektoniczne i Dobre Praktyki IT', 'Technical articles, architecture guides and IT best practices'],
     ['Ładowanie artykułów z bazy danych...', 'Loading articles from the database...'],
     ['Czytaj poradnik', 'Read article'],
     ['Baza wiedzy jest obecnie aktualizowana.', 'The knowledge base is currently being updated.'],
     ['Brak publikacji w bazie wiedzy.', 'No publications in the knowledge base.'],
-    ['// Rejestr Projektów', '// Project Registry'],
+    ['Rejestr Projektów', 'Project Registry'],
     ['Dynamiczna lista wdrożeń pobierana z bazy Supabase', 'Dynamic list of implementations loaded from Supabase'],
     ['Wszystkie', 'All'],
     ['Ładowanie projektów z bazy danych...', 'Loading projects from the database...'],
@@ -42,7 +42,6 @@
     ['Baza badań jest obecnie aktualizowana.', 'The research database is currently being updated.'],
     ['Brak publikacji w bazie badań.', 'No publications in the research database.'],
     ['Brak publikacji spełniających kryteria wyszukiwania.', 'No publications match the search criteria.'],
-    ['// Skontaktuj się', '// Contact'],
     ['Skontaktuj się', 'Contact'],
     ['Wyślij wiadomość bezpośrednio do systemu TechM8', 'Send a message directly to the TechM8 system'],
     ['Imię / Nazwa', 'Name'],
@@ -54,6 +53,14 @@
     ['Wypełnij wszystkie pola!', 'Please fill in all fields!'],
     ['Zapisywanie w węźle Supabase...', 'Saving to Supabase node...'],
     ['✔ Wiadomość wysłana pomyślnie!', '✔ Message sent successfully!'],
+    ['Profil Zawodowy & Bio', 'Professional Profile & Bio'],
+    ['Specjalista ds. wsparcia IT i administrator systemów z blisko dwudziestoletnim doświadczeniem w utrzymaniu ciągłości działania infrastruktur informatycznych, zarządzaniu Active Directory, sieciami komputerowymi oraz wsparciem użytkowników.', 'IT support specialist and systems administrator with nearly two decades of experience maintaining IT infrastructure continuity, managing Active Directory, computer networks and end-user support.'],
+    ['Ekspert w budowaniu zaawansowanych środowisk Homelab (Proxmox VE, TrueNAS SCALE, Cisco, Docker, Raspberry Pi) oraz entuzjasta nowej fali automatyzacji z wykorzystaniem języka Python i architektur opartych na sztucznej inteligencji (AI Workflows, REST API, Supabase).', 'Experienced in building advanced Homelab environments (Proxmox VE, TrueNAS SCALE, Cisco, Docker, Raspberry Pi) and focused on modern automation using Python and AI-based architectures (AI Workflows, REST API, Supabase).'],
+    ['Główne Kompetencje:', 'Core Competencies:'],
+    ['Proxmox VE & Wirtualizacja', 'Proxmox VE & Virtualization'],
+    ['Sieci Cisco & OpenWrt', 'Cisco Networks & OpenWrt'],
+    ['Architektura / Diagram Rozwiązania:', 'Architecture / Solution Diagram:'],
+    ['Zamknij', 'Close'],
     ['TechM8 © 2026. Wszelkie prawa zastrzeżone.', 'TechM8 © 2026. All rights reserved.'],
     ['Szukaj projektu...', 'Search projects...'],
     ['Szukaj w Lab & Research...', 'Search Lab & Research...']
@@ -79,12 +86,22 @@
   }
 
   function translateElement(el, lang) {
-    if (!(el instanceof Element)) return;
-    if (el.matches('script, style, code, pre')) return;
+    if (!(el instanceof Element) || el.matches('script, style, code, pre')) return;
     const placeholder = el.getAttribute('placeholder');
     if (placeholder) el.setAttribute('placeholder', translateValue(placeholder, lang));
     const title = el.getAttribute('title');
     if (title) el.setAttribute('title', translateValue(title, lang));
+  }
+
+  function updateButtons() {
+    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+      const active = btn.dataset.langBtn === currentLang;
+      btn.setAttribute('aria-pressed', String(active));
+      btn.classList.toggle('text-emerald-300', active);
+      btn.classList.toggle('bg-emerald-500/10', active);
+      btn.classList.toggle('text-gray-500', !active);
+      btn.classList.toggle('hover:text-cyan-300', !active);
+    });
   }
 
   function applyLanguage(lang) {
@@ -100,14 +117,7 @@
       translateTextNode(node, currentLang);
     }
     document.querySelectorAll('[placeholder], [title]').forEach(el => translateElement(el, currentLang));
-
-    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
-      const active = btn.dataset.langBtn === currentLang;
-      btn.setAttribute('aria-pressed', String(active));
-      btn.classList.toggle('text-emerald-300', active);
-      btn.classList.toggle('bg-emerald-500/10', active);
-      btn.classList.toggle('text-gray-500', !active);
-    });
+    updateButtons();
   }
 
   window.setLanguage = applyLanguage;
@@ -129,6 +139,7 @@
           }
         });
       }
+      updateButtons();
     });
     observer.observe(document.body, { childList: true, subtree: true });
   });
