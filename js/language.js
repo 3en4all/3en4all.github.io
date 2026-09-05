@@ -104,7 +104,7 @@
     });
   }
 
-  function applyLanguage(lang) {
+  function applyLanguage(lang, emit = true) {
     currentLang = supported.includes(lang) ? lang : 'pl';
     localStorage.setItem(STORAGE_KEY, currentLang);
     document.documentElement.lang = currentLang;
@@ -118,13 +118,15 @@
     }
     document.querySelectorAll('[placeholder], [title]').forEach(el => translateElement(el, currentLang));
     updateButtons();
+
+    if (emit) window.dispatchEvent(new CustomEvent('techm8:languagechange', { detail: { language: currentLang } }));
   }
 
-  window.setLanguage = applyLanguage;
+  window.setLanguage = lang => applyLanguage(lang, true);
   window.getCurrentLanguage = () => currentLang;
 
   document.addEventListener('DOMContentLoaded', () => {
-    applyLanguage(currentLang);
+    applyLanguage(currentLang, false);
     const observer = new MutationObserver(mutations => {
       for (const mutation of mutations) {
         mutation.addedNodes.forEach(node => {
