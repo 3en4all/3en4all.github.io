@@ -44,9 +44,19 @@
     <style>
         .bg-brand-card { background-color: #0d1117 !important; }
         .border-brand-border { border-color: #30363d !important; }
+        html { scroll-behavior: smooth; }
+        .techm8-dock {
+            background: rgba(7, 11, 20, .58);
+            border: 1px solid rgba(75, 85, 99, .42);
+            box-shadow: 0 10px 40px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.025);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .techm8-dock a, .techm8-dock button { transition: color .2s ease, border-color .2s ease, background-color .2s ease, transform .2s ease; }
+        .techm8-dock a:hover, .techm8-dock button:hover { transform: translateY(-1px); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black">
+<body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black pb-20">
     <header class="sticky top-0 z-40 bg-[#0a0f1d]/90 backdrop-blur border-b border-brand-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -101,11 +111,53 @@
         </div>
     </footer>
 
+    <div class="fixed inset-x-0 bottom-3 z-50 px-3 pointer-events-none" aria-label="Szybka nawigacja TechM8">
+        <div class="techm8-dock pointer-events-auto max-w-2xl mx-auto rounded-2xl overflow-hidden">
+            <div class="h-[2px] bg-white/5">
+                <div id="scroll-progress" class="h-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-amber-300" style="width:0%"></div>
+            </div>
+            <div class="h-11 px-2 sm:px-3 flex items-center justify-between gap-2 text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.12em]">
+                <div class="hidden sm:flex items-center gap-2 text-gray-500 whitespace-nowrap">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    TechM8 / live
+                </div>
+                <nav class="flex items-center justify-center gap-1 sm:gap-2 flex-1" aria-label="Skróty dolnego paska">
+                    <a href="#live" class="px-2 py-1.5 rounded-lg text-emerald-300 hover:bg-emerald-500/10">Live</a>
+                    <a href="#projects" class="px-2 py-1.5 rounded-lg text-cyan-300 hover:bg-cyan-500/10">Projects</a>
+                    <a href="#research" class="px-2 py-1.5 rounded-lg text-amber-300 hover:bg-amber-500/10">Research</a>
+                </nav>
+                <button id="back-to-top" type="button" aria-label="Przewiń do góry" title="Do góry" class="w-8 h-8 rounded-xl border border-emerald-500/25 bg-emerald-500/5 text-emerald-300 hover:border-emerald-400/60 hover:bg-emerald-500/12 text-base leading-none">↑</button>
+            </div>
+        </div>
+    </div>
+
     <div data-include="components/modals.html?v=20260905-6"></div>
 
     <script src="js/language.js?v=20260905-3"></script>
     <script src="js/app.js?v=20260905-6"></script>
     <script src="js/data-language.js?v=20260905-1"></script>
     <script src="js/live.js?v=20260906-3"></script>
+    <script>
+        (() => {
+            const topButton = document.getElementById('back-to-top');
+            const progress = document.getElementById('scroll-progress');
+
+            if (topButton) {
+                topButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            }
+
+            const updateScrollProgress = () => {
+                if (!progress) return;
+                const doc = document.documentElement;
+                const max = Math.max(1, doc.scrollHeight - window.innerHeight);
+                const pct = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
+                progress.style.width = `${pct}%`;
+            };
+
+            updateScrollProgress();
+            window.addEventListener('scroll', updateScrollProgress, { passive: true });
+            window.addEventListener('resize', updateScrollProgress);
+        })();
+    </script>
 </body>
 </html>
