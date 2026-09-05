@@ -1,43 +1,40 @@
-﻿<section id="live-techm8" class="grid lg:grid-cols-[1.22fr_.78fr] gap-5 lg:gap-6 items-stretch">
-    <div class="relative rounded-2xl border border-brand-border p-6 sm:p-8 lg:p-9 bg-brand-card/50 overflow-hidden glow-emerald">
+﻿<section id="live-techm8" class="grid lg:grid-cols-[1.22fr_.78fr] gap-5 lg:gap-6 items-start">
+    <div class="relative self-start rounded-2xl border border-brand-border p-5 sm:p-6 lg:p-7 bg-brand-card/50 overflow-hidden glow-emerald">
         <div class="absolute -top-24 -right-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="relative z-10 h-full flex flex-col justify-between gap-7">
-            <div>
-                <div class="inline-flex items-center space-x-2 text-xs text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-3 py-1 rounded-full">
-                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                    <span>System Architecture & Development</span>
-                </div>
-                <h1 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.045em] text-white leading-[1.02]">
-                    Systemy, research<br>i <span class="text-emerald-400">praktyczne AI.</span>
-                </h1>
-                <p class="text-gray-400 text-sm sm:text-base leading-7 max-w-3xl mt-5">
-                    Infrastruktura IT, Python, lokalne AI i automatyzacja. Buduję rozwiązania od warstwy systemowej po własne pipeline’y badawcze i publikacyjne.
-                </p>
+        <div class="relative z-10">
+            <div class="inline-flex items-center space-x-2 text-[11px] text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-3 py-1 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>System Architecture & Development</span>
             </div>
-            <div class="h-px bg-gradient-to-r from-amber-500/45 via-emerald-500/20 to-transparent"></div>
+            <h1 class="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.045em] text-white leading-[1.02]">
+                Systemy, research<br>i <span class="text-emerald-400">praktyczne AI.</span>
+            </h1>
+            <p class="text-gray-400 text-sm sm:text-base leading-6 max-w-3xl mt-4">
+                Infrastruktura IT, Python, lokalne AI i automatyzacja. Buduję rozwiązania od warstwy systemowej po własne pipeline’y badawcze i publikacyjne.
+            </p>
+            <div class="h-px mt-5 bg-gradient-to-r from-amber-500/45 via-emerald-500/20 to-transparent"></div>
         </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-4">
-        <a href="#projects" class="col-span-2 rounded-2xl border border-amber-500/20 bg-brand-card/80 p-5 sm:p-6 group hover:border-amber-500/35 transition-colors">
+    <div class="grid grid-cols-2 gap-3 self-start">
+        <a href="#projects" class="col-span-2 rounded-2xl border border-amber-500/20 bg-brand-card/80 p-4 sm:p-5 group hover:border-amber-500/35 transition-colors">
             <div class="text-[10px] font-mono uppercase tracking-[0.18em] text-amber-300">Current focus</div>
-            <div class="mt-3 text-xl sm:text-2xl font-bold tracking-[-0.03em] text-white">AiResearchEngine → TechM8</div>
-            <p class="mt-3 text-xs sm:text-sm text-gray-400 leading-6">Od lokalnego research engine do publicznego pipeline’u publikacyjnego z human-in-the-loop.</p>
-            <div class="mt-4 flex flex-wrap gap-2 text-[9px] font-mono">
+            <div class="mt-2 text-lg sm:text-xl font-bold tracking-[-0.03em] text-white">AiResearchEngine → TechM8</div>
+            <div class="mt-3 flex flex-wrap gap-2 text-[9px] font-mono">
                 <span class="border border-emerald-500/25 text-emerald-300 rounded-full px-2.5 py-1">LOCAL-FIRST</span>
                 <span class="border border-cyan-500/25 text-cyan-300 rounded-full px-2.5 py-1">EVIDENCE</span>
                 <span class="border border-amber-500/25 text-amber-300 rounded-full px-2.5 py-1">ALPHA</span>
             </div>
         </a>
 
-        <div class="rounded-2xl border border-emerald-500/25 bg-brand-card/80 p-4 sm:p-5">
-            <div class="text-[10px] font-mono text-emerald-400 uppercase tracking-[0.16em] mb-3">// NOW</div>
+        <div class="rounded-2xl border border-emerald-500/25 bg-brand-card/80 p-4 max-h-44 overflow-hidden">
+            <div class="text-[10px] font-mono text-emerald-400 uppercase tracking-[0.16em] mb-2">// NOW</div>
             <div id="live-now" class="text-sm text-gray-400">Ładowanie aktualnego statusu...</div>
         </div>
 
-        <div class="rounded-2xl border border-cyan-500/25 bg-brand-card/80 p-4 sm:p-5">
-            <div class="text-[10px] font-mono text-cyan-400 uppercase tracking-[0.16em] mb-3">// NEXT</div>
+        <div class="rounded-2xl border border-cyan-500/25 bg-brand-card/80 p-4 max-h-44 overflow-hidden">
+            <div class="text-[10px] font-mono text-cyan-400 uppercase tracking-[0.16em] mb-2">// NEXT</div>
             <div id="live-next" class="text-sm text-gray-400">Ładowanie kolejnych kroków...</div>
         </div>
 
