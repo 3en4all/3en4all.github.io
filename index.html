@@ -107,6 +107,10 @@
     <footer class="border-t border-brand-border bg-[#0a0f1d] py-6 text-center text-xs text-gray-500">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
             <div>TechM8 &copy; 2026. Wszelkie prawa zastrzeżone.</div>
+            <div class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-gray-600" title="Synthetic activity pulse">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse"></span>
+                <span>Network Pulse // <span id="network-pulse-value" class="text-emerald-300">2 357</span></span>
+            </div>
             <div class="text-gray-600">Engineered with Python, Supabase & Tailwind</div>
         </div>
     </footer>
@@ -137,6 +141,7 @@
     <script src="js/app.js?v=20260905-6"></script>
     <script src="js/data-language.js?v=20260905-1"></script>
     <script src="js/live.js?v=20260906-3"></script>
+    <script src="js/network-pulse.js?v=20260906-1"></script>
     <script>
         (() => {
             const topButton = document.getElementById('back-to-top');
