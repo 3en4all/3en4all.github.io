@@ -7,8 +7,7 @@
         </div>
 
         <div class="relative w-full md:w-80">
-            <input type="text" id="search-input" oninput="filterProjects()" placeholder="Szukaj projektu..." 
-                class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-2.5 text-xs text-gray-200 focus:outline-none focus:border-cyan-500/60 transition">
+            <input type="text" id="search-input" oninput="filterProjects()" data-placeholder-pl="Szukaj projektu..." data-placeholder-en="Search projects..." placeholder="Szukaj projektu..." class="w-full bg-brand-card border border-brand-border rounded-xl px-4 py-2.5 text-xs text-gray-200 focus:outline-none focus:border-cyan-500/60 transition">
         </div>
     </div>
 
@@ -31,19 +30,17 @@
     </div>
 
     <div class="flex flex-wrap gap-2 text-xs" id="tag-filters">
-        <button onclick="setFilter('ALL')" class="tag-btn active-tag px-3 py-1.5 rounded-full border border-emerald-500 bg-emerald-500/20 text-emerald-300">Wszystkie</button>
-        <button onclick="setFilter('#Local LLM')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Local LLM</button>
-        <button onclick="setFilter('#AI Workflows')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#AI Workflows</button>
-        <button onclick="setFilter('#Python')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Python</button>
-        <button onclick="setFilter('#Security')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Security</button>
-        <button onclick="setFilter('#Docker')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Docker</button>
-        <button onclick="setFilter('#Proxmox')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Proxmox</button>
-        <button onclick="setFilter('#Raspberry Pi')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Raspberry Pi</button>
+        <button onclick="setFilter('ALL')" class="tag-btn active-tag px-3 py-1.5 rounded-full border border-emerald-500 bg-emerald-500/20 text-emerald-300" data-pl="Wszystkie" data-en="All">Wszystkie</button>
+        <button onclick="setFilter('Local LLM')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Local LLM</button>
+        <button onclick="setFilter('AI Workflows')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#AI Workflows</button>
+        <button onclick="setFilter('Python')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Python</button>
+        <button onclick="setFilter('Security')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Security</button>
+        <button onclick="setFilter('Docker')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Docker</button>
+        <button onclick="setFilter('Proxmox')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Proxmox</button>
+        <button onclick="setFilter('Raspberry Pi')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Raspberry Pi</button>
     </div>
 
     <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <div class="col-span-full text-center py-12 text-gray-500 text-xs">
-            Ładowanie projektów z bazy danych...
-        </div>
+        <div class="col-span-full text-center py-12 text-gray-500 text-xs">Ładowanie projektów z bazy danych...</div>
     </div>
 </section>
