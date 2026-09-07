@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Inspector // TechM8</title>
+    <meta name="description" content="Phishing Inspector — standalone Windows x64 tool for inspecting suspicious emails, URLs and related content. Public beta v0.2.0-beta.">
+    <link rel="canonical" href="https://3en4all.github.io/software/phishing-inspector/">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { brand: { dark:'#0a0f1d', card:'#111827', emerald:'#10b981', cyan:'#00b4d8', border:'#1f2937' } }, fontFamily:{ mono:['JetBrains Mono','monospace'] } } }
+        }
+    </script>
+</head>
+<body class="bg-[#0a0f1d] text-gray-200 font-mono min-h-screen selection:bg-emerald-500 selection:text-black">
+    <header class="border-b border-[#30363d] bg-[#0a0f1d]/95 backdrop-blur sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="/" class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">TechM8<span class="text-emerald-500">//</span></a>
+            <a href="https://github.com/3en4all/PhishingInspector" class="text-xs px-3 py-1.5 rounded-lg border border-[#30363d] hover:border-cyan-400/50 text-cyan-300">GitHub</a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+        <section class="grid lg:grid-cols-[1.2fr_.8fr] gap-8 items-start">
+            <div>
+                <div class="flex flex-wrap gap-2 mb-5">
+                    <span class="text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">Public Beta</span>
+                    <span class="text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">Windows x64</span>
+                    <span class="text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border border-gray-700 text-gray-400">v0.2.0-beta</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl font-bold text-white leading-tight">Phishing Inspector</h1>
+                <p class="mt-4 text-lg text-gray-300 max-w-3xl">A standalone Windows utility for inspecting suspicious emails, URLs and related content before you trust them.</p>
+                <p class="mt-4 text-sm text-gray-400 max-w-3xl">Designed for quick local inspection with a clear report, without requiring a separate Python installation.</p>
+
+                <div class="mt-7 flex flex-wrap gap-3">
+                    <a href="https://github.com/3en4all/PhishingInspector/releases/tag/v0.2.0-beta" class="px-5 py-3 rounded-xl bg-emerald-500 text-black font-bold hover:bg-emerald-400 transition">Download Beta</a>
+                    <a href="https://github.com/3en4all/PhishingInspector" class="px-5 py-3 rounded-xl border border-[#30363d] text-cyan-300 hover:border-cyan-400/60 transition">View on GitHub</a>
+                </div>
+                <p class="mt-3 text-[11px] text-gray-500">Standalone build • no separate Python installation required</p>
+            </div>
+
+            <div class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-5 shadow-2xl shadow-black/20">
+                <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-4">Release info</div>
+                <dl class="space-y-3 text-sm">
+                    <div class="flex justify-between gap-4"><dt class="text-gray-500">Version</dt><dd class="text-white">v0.2.0-beta</dd></div>
+                    <div class="flex justify-between gap-4"><dt class="text-gray-500">Platform</dt><dd class="text-white">Windows x64</dd></div>
+                    <div class="flex justify-between gap-4"><dt class="text-gray-500">Executable</dt><dd class="text-white">~76 MB</dd></div>
+                    <div class="flex justify-between gap-4"><dt class="text-gray-500">Status</dt><dd class="text-emerald-300">Public beta</dd></div>
+                </dl>
+            </div>
+        </section>
+
+        <section class="grid md:grid-cols-3 gap-5">
+            <article class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-5"><h2 class="text-white font-bold">Inspect</h2><p class="mt-2 text-sm text-gray-400">Review suspicious emails, URLs and related content from one desktop interface.</p></article>
+            <article class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-5"><h2 class="text-white font-bold">Analyze</h2><p class="mt-2 text-sm text-gray-400">Surface indicators and context that can help you decide whether something deserves deeper investigation.</p></article>
+            <article class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-5"><h2 class="text-white font-bold">Report</h2><p class="mt-2 text-sm text-gray-400">Generate a readable report that can be kept, reviewed or shared as part of a security workflow.</p></article>
+        </section>
+
+        <section class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-6">
+            <h2 class="text-2xl font-bold text-white">Why is the download around 76 MB?</h2>
+            <p class="mt-3 text-sm text-gray-400">The Windows executable is distributed as a standalone package. It includes the application plus the components required to run it without installing Python separately.</p>
+            <ul class="mt-4 grid sm:grid-cols-2 gap-2 text-sm text-gray-300">
+                <li>• Python runtime</li>
+                <li>• PySide6 / Qt GUI libraries</li>
+                <li>• Email and HTML parsing components</li>
+                <li>• PDF report generation components</li>
+                <li>• Archive and file-format handling libraries</li>
+                <li>• Networking and security-related dependencies</li>
+            </ul>
+        </section>
+
+        <section class="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-6">
+            <h2 class="text-xl font-bold text-amber-200">Beta notice</h2>
+            <p class="mt-2 text-sm text-gray-400">This is an early public beta. Detection logic, UI details and supported workflows may still change before a stable release.</p>
+        </section>
+
+        <section class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-6">
+            <h2 class="text-xl font-bold text-white">Integrity</h2>
+            <p class="mt-2 text-sm text-gray-400">SHA-256 for the current ZIP release:</p>
+            <code class="mt-3 block break-all text-xs text-emerald-300">BC4D25FAEC3776A4887A706B174473571CC3A6009F0D1207DFF4ACCB4BBC6B01</code>
+        </section>
+    </main>
+
+    <footer class="border-t border-[#30363d] py-6 text-center text-xs text-gray-600">TechM8 // 3en4all</footer>
+</body>
+</html>
