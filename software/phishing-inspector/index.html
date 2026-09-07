@@ -63,6 +63,39 @@
 <article class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-5"><h2 class="text-white font-bold"><span data-lang="pl">Raportuj</span><span data-lang="en">Report</span></h2><p data-lang="pl" class="mt-2 text-sm text-gray-400">Generuj czytelny raport do zachowania, przeglądu lub przekazania dalej.</p><p data-lang="en" class="mt-2 text-sm text-gray-400">Generate a readable report that can be kept, reviewed or shared as part of a security workflow.</p></article>
 </section>
 
+<section class="rounded-2xl border border-cyan-500/20 bg-cyan-500/[0.035] p-6 sm:p-7">
+<h2 data-lang="pl" class="text-2xl font-bold text-white">Jak działa Phishing Inspector?</h2>
+<h2 data-lang="en" class="text-2xl font-bold text-white">How does Phishing Inspector work?</h2>
+<div data-lang="pl" class="mt-4 space-y-4 text-sm text-gray-400 leading-relaxed">
+<p>Phishing Inspector nie próbuje zastępować bramki pocztowej, programu antywirusowego ani analityka bezpieczeństwa. Jego zadaniem jest szybkie zebranie w jednym miejscu sygnałów, które podczas ręcznego sprawdzania podejrzanej wiadomości trzeba zwykle wyszukiwać osobno.</p>
+<p>Silnik analizuje wiadomości <span class="text-gray-200">.eml</span> oraz <span class="text-gray-200">.msg</span>. Sprawdza m.in. nagłówki i ścieżkę <span class="text-gray-200">Received</span>, wyniki SPF, DKIM i DMARC obecne w wiadomości, zgodność domen nadawcy, podejrzane lub podobne domeny, adresy URL oraz załączniki. Dla plików wyliczany jest również skrót SHA-256, dzięki czemu wynik może być wykorzystany w dalszej analizie.</p>
+<p>Poszczególne obserwacje są łączone w wynik ryzyka <span class="text-emerald-300">SAFE</span>, <span class="text-amber-300">SUSPICIOUS</span> lub <span class="text-rose-300">DANGEROUS</span>. To klasyfikacja heurystyczna — wynik ma wskazać, które elementy wymagają uwagi, a nie udawać bezwzględnego werdyktu „phishing / nie phishing”. Raport wyjaśnia również prostym językiem, dlaczego dany sygnał podnosi lub obniża ocenę ryzyka.</p>
+</div>
+<div data-lang="en" class="mt-4 space-y-4 text-sm text-gray-400 leading-relaxed">
+<p>Phishing Inspector is not intended to replace an email gateway, antivirus product or security analyst. Its purpose is to collect in one place the signals that normally need to be checked separately when reviewing a suspicious message.</p>
+<p>The engine analyzes <span class="text-gray-200">.eml</span> and <span class="text-gray-200">.msg</span> messages. It inspects headers and the <span class="text-gray-200">Received</span> chain, SPF, DKIM and DMARC results present in the message, sender-domain alignment, suspicious or lookalike domains, URLs and attachments. SHA-256 hashes are also calculated for files so the result can be used in further analysis.</p>
+<p>Individual observations are combined into a risk result: <span class="text-emerald-300">SAFE</span>, <span class="text-amber-300">SUSPICIOUS</span> or <span class="text-rose-300">DANGEROUS</span>. This is a heuristic classification: it highlights what deserves attention rather than pretending to provide an absolute “phishing / not phishing” verdict. Reports also explain in plain language why a signal raises or lowers the risk score.</p>
+</div>
+
+<div class="mt-7 grid md:grid-cols-2 gap-5">
+<div class="rounded-xl border border-[#30363d] bg-[#0a0f1d]/70 p-5">
+<div class="text-[10px] uppercase tracking-[0.18em] text-cyan-400 mb-2"><span data-lang="pl">Testy i kalibracja</span><span data-lang="en">Testing & calibration</span></div>
+<p data-lang="pl" class="text-sm text-gray-400 leading-relaxed">Przed publikacją ten sam produkcyjny silnik analizy został uruchomiony na zbiorze <span class="text-white font-semibold">6 691 wiadomości e-mail</span>. Benchmark służył do obserwowania zachowania klasyfikacji na dużej próbce i do strojenia reguł tak, aby pojedynczy słaby sygnał nie powodował automatycznie alarmu. Nie jest to deklaracja „99,9% skuteczności” — zbiór testowy pomagał kalibrować zachowanie programu, ale nie reprezentuje każdego możliwego scenariusza phishingowego.</p>
+<p data-lang="en" class="text-sm text-gray-400 leading-relaxed">Before publication, the same production analysis engine was run against a dataset of <span class="text-white font-semibold">6,691 email messages</span>. The benchmark was used to observe classification behavior at scale and tune rules so that a single weak signal would not automatically trigger an alarm. This is not a claim of “99.9% accuracy” — the dataset helped calibrate the application, but it cannot represent every possible phishing scenario.</p>
+</div>
+<div class="rounded-xl border border-[#30363d] bg-[#0a0f1d]/70 p-5">
+<div class="text-[10px] uppercase tracking-[0.18em] text-emerald-400 mb-2"><span data-lang="pl">Po co taki model?</span><span data-lang="en">Why this approach?</span></div>
+<p data-lang="pl" class="text-sm text-gray-400 leading-relaxed">Phishing rzadko daje się wiarygodnie rozpoznać po jednym elemencie. Legalna wiadomość może mieć nietypową trasę, a złośliwa może poprawnie przejść część kontroli uwierzytelniania. Dlatego program zestawia wiele niezależnych sygnałów i pokazuje ich kontekst. Użytkownik dostaje materiał do decyzji, a nie czarną skrzynkę z jednym procentem ryzyka.</p>
+<p data-lang="en" class="text-sm text-gray-400 leading-relaxed">Phishing rarely reveals itself through one reliable indicator. A legitimate message can have an unusual delivery path, while a malicious one may still pass some authentication checks. The application therefore combines multiple independent signals and shows their context. The user gets evidence for a decision rather than a black box returning a single risk percentage.</p>
+</div>
+</div>
+
+<div class="mt-6 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
+<p data-lang="pl" class="text-xs text-gray-400 leading-relaxed"><span class="text-amber-200 font-semibold">Ważne:</span> wynik programu jest pomocą analityczną. Szczególnie w przypadku wiadomości dotyczących logowania, płatności, resetu hasła lub poufnych danych warto nadal potwierdzić żądanie niezależnym kanałem.</p>
+<p data-lang="en" class="text-xs text-gray-400 leading-relaxed"><span class="text-amber-200 font-semibold">Important:</span> the result is analytical support, not a guarantee. Messages involving login, payments, password resets or sensitive data should still be verified through an independent channel.</p>
+</div>
+</section>
+
 <section class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-6">
 <h2 data-lang="pl" class="text-2xl font-bold text-white">Dlaczego plik ma około 76 MB?</h2><h2 data-lang="en" class="text-2xl font-bold text-white">Why is the download around 76 MB?</h2>
 <p data-lang="pl" class="mt-3 text-sm text-gray-400">Program jest dystrybuowany jako samodzielny pakiet Windows. Zawiera aplikację oraz komponenty potrzebne do uruchomienia bez osobnej instalacji Pythona.</p><p data-lang="en" class="mt-3 text-sm text-gray-400">The Windows executable is distributed as a standalone package. It includes the application plus the components required to run it without installing Python separately.</p>
