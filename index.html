@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechM8 // Infrastructure, Python & AI Workflows</title>
-    <meta name="description" content="TechM8 — Jacek Grodnicki. 19+ lat w administracji IT, Homelab (Proxmox, TrueNAS, Docker) oraz automatyzacja z Pythonem i AI. Projekty, poradniki techniczne i badania z pogranicza fizyki i kosmologii.">
+    <title>TechM8 // Public Software, Local AI, Security & Research</title>
+    <meta name="description" content="TechM8 — Jacek Grodnicki. Publiczne narzędzia Windows, lokalne AI, Python, security, deep research i infrastruktura. Projekty: Phishing Inspector, AiResearchEngine, AI-Hub oraz homelab.">
     <link rel="canonical" href="https://3en4all.github.io/">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://3en4all.github.io/">
-    <meta property="og:title" content="TechM8 // Infrastructure, Python & AI Workflows">
-    <meta property="og:description" content="19+ lat w administracji IT, Homelab (Proxmox, TrueNAS, Docker) oraz automatyzacja z Pythonem i AI. Projekty, poradniki techniczne i badania popularnonaukowe.">
+    <meta property="og:title" content="TechM8 // Public Software, Local AI, Security & Research">
+    <meta property="og:description" content="Public software, local AI, Python, security and auditable research pipelines — from Phishing Inspector and AiResearchEngine to AI-Hub and homelab infrastructure.">
     <meta property="og:image" content="https://3en4all.github.io/assets/og-image.png">
     <meta property="og:locale" content="pl_PL">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="TechM8 // Infrastructure, Python & AI Workflows">
-    <meta name="twitter:description" content="19+ lat w administracji IT, Homelab (Proxmox, TrueNAS, Docker) oraz automatyzacja z Pythonem i AI.">
+    <meta name="twitter:title" content="TechM8 // Public Software, Local AI, Security & Research">
+    <meta name="twitter:description" content="Public software, local AI, Python, security and deep research: Phishing Inspector, AiResearchEngine, AI-Hub and infrastructure projects.">
     <meta name="twitter:image" content="https://3en4all.github.io/assets/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
@@ -79,22 +79,22 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-12">
-        <div id="hero" data-include="components/hero.html?v=20260906-5"></div>
+        <div id="hero" data-include="components/hero.html?v=20260907-3"></div>
         <div id="live" data-include="components/live.html?v=20260906-1"></div>
-        <div id="about" data-include="components/about-brand.html?v=20260905-6"></div>
-        <div id="insights" data-include="components/insights.html?v=20260906-1"></div>
+        <div id="about" data-include="components/about-brand.html?v=20260907-3"></div>
+        <div id="insights" data-include="components/insights.html?v=20260907-3"></div>
         <div id="projects" data-include="components/projects.html?v=20260907-2"></div>
 
-        <section id="research" class="border-t border-brand-border pt-12">
+        <section id="research" class="border-t border-brand-border pt-12 scroll-mt-24">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
                     <h2 class="text-2xl font-bold text-white flex items-center gap-2"><span class="text-emerald-500">&lt;</span>Lab & Research<span class="text-emerald-500">/&gt;</span></h2>
-                    <p class="text-sm text-gray-400 mt-1">Opracowania popularnonaukowe, kosmologia i fizyka teoretyczna</p>
+                    <p class="text-sm text-gray-400 mt-1" data-pl="Popularnonaukowy tor 3en4all: fizyka, astronomia, kosmologia i pytania o naturę rzeczywistości — oddzielony od technicznej bazy wiedzy TechM8." data-en="The popular-science track of 3en4all: physics, astronomy, cosmology and questions about the nature of reality — kept separate from the technical TechM8 knowledge base.">Popularnonaukowy tor 3en4all: fizyka, astronomia, kosmologia i pytania o naturę rzeczywistości — oddzielony od technicznej bazy wiedzy TechM8.</p>
                 </div>
                 <div class="flex items-center gap-3">
                     <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full whitespace-nowrap">#Science</span>
                     <div class="relative w-full md:w-72">
-                        <input type="text" id="research-search-input" oninput="filterResearch()" placeholder="Szukaj w Lab & Research..." class="w-full bg-brand-card border border-brand-border rounded-lg px-4 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 transition">
+                        <input type="text" id="research-search-input" oninput="filterResearch()" data-placeholder-pl="Szukaj w Lab & Research..." data-placeholder-en="Search Lab & Research..." placeholder="Szukaj w Lab & Research..." class="w-full bg-brand-card border border-brand-border rounded-lg px-4 py-2 text-xs text-gray-200 focus:outline-none focus:border-emerald-500 transition">
                     </div>
                 </div>
             </div>
@@ -107,37 +107,25 @@
     <footer class="border-t border-brand-border bg-[#0a0f1d] py-6 text-center text-xs text-gray-500">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
             <div>TechM8 &copy; 2026. Wszelkie prawa zastrzeżone.</div>
-            <div class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-gray-600" title="Synthetic activity pulse">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse"></span>
-                <span>Network Pulse // <span id="network-pulse-value" class="text-emerald-300">2 357</span></span>
-            </div>
+            <div class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-gray-600" title="Synthetic activity pulse"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse"></span><span>Network Pulse // <span id="network-pulse-value" class="text-emerald-300">2 357</span></span></div>
             <div class="text-gray-600">Engineered with Python, Supabase & Tailwind</div>
         </div>
     </footer>
 
     <div class="fixed inset-x-0 bottom-3 z-50 px-3 pointer-events-none" aria-label="Szybka nawigacja TechM8">
         <div class="techm8-dock pointer-events-auto max-w-2xl mx-auto rounded-2xl overflow-hidden">
-            <div class="h-[2px] bg-white/5">
-                <div id="scroll-progress" class="h-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-amber-300" style="width:0%"></div>
-            </div>
+            <div class="h-[2px] bg-white/5"><div id="scroll-progress" class="h-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-amber-300" style="width:0%"></div></div>
             <div class="h-11 px-2 sm:px-3 flex items-center justify-between gap-2 text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.12em]">
-                <div class="hidden sm:flex items-center gap-2 text-gray-500 whitespace-nowrap">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                    TechM8 / live
-                </div>
-                <nav class="flex items-center justify-center gap-1 sm:gap-2 flex-1" aria-label="Skróty dolnego paska">
-                    <a href="#live" class="px-2 py-1.5 rounded-lg text-emerald-300 hover:bg-emerald-500/10">Live</a>
-                    <a href="#projects" class="px-2 py-1.5 rounded-lg text-cyan-300 hover:bg-cyan-500/10">Projects</a>
-                    <a href="#research" class="px-2 py-1.5 rounded-lg text-amber-300 hover:bg-amber-500/10">Research</a>
-                </nav>
+                <div class="hidden sm:flex items-center gap-2 text-gray-500 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>TechM8 / live</div>
+                <nav class="flex items-center justify-center gap-1 sm:gap-2 flex-1" aria-label="Skróty dolnego paska"><a href="#live" class="px-2 py-1.5 rounded-lg text-emerald-300 hover:bg-emerald-500/10">Live</a><a href="#projects" class="px-2 py-1.5 rounded-lg text-cyan-300 hover:bg-cyan-500/10">Projects</a><a href="#research" class="px-2 py-1.5 rounded-lg text-amber-300 hover:bg-amber-500/10">Research</a></nav>
                 <button id="back-to-top" type="button" aria-label="Przewiń do góry" title="Do góry" class="w-8 h-8 rounded-xl border border-emerald-500/25 bg-emerald-500/5 text-emerald-300 hover:border-emerald-400/60 hover:bg-emerald-500/12 text-base leading-none">↑</button>
             </div>
         </div>
     </div>
 
-    <div data-include="components/modals.html?v=20260905-6"></div>
+    <div data-include="components/modals.html?v=20260907-3"></div>
 
-    <script src="js/language.js?v=20260905-3"></script>
+    <script src="js/language.js?v=20260907-3"></script>
     <script src="js/app.js?v=20260907-2"></script>
     <script src="js/data-language.js?v=20260905-1"></script>
     <script src="js/live.js?v=20260906-3"></script>
@@ -146,11 +134,7 @@
         (() => {
             const topButton = document.getElementById('back-to-top');
             const progress = document.getElementById('scroll-progress');
-
-            if (topButton) {
-                topButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-            }
-
+            if (topButton) topButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
             const updateScrollProgress = () => {
                 if (!progress) return;
                 const doc = document.documentElement;
@@ -158,15 +142,12 @@
                 const pct = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
                 progress.style.width = `${pct}%`;
             };
-
             updateScrollProgress();
             window.addEventListener('scroll', updateScrollProgress, { passive: true });
             window.addEventListener('resize', updateScrollProgress);
         })();
     </script>
 
-    <!-- Cloudflare Web Analytics -->
     <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8a9106c1dbc140269b718852f5397f70"}'></script>
-    <!-- End Cloudflare Web Analytics -->
 </body>
 </html>
