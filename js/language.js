@@ -9,14 +9,11 @@
     ['System Architecture & Development', 'System Architecture & Development'],
     ['Infrastruktura IT, Python &', 'IT Infrastructure, Python &'],
     ['Automatyzacja AI', 'AI Automation'],
-    ['Profesjonalny ekosystem technologiczny łączący 19+ lat praktyki w administracji systemami IT, środowiskach Homelab oraz nowoczesnym programowaniu i przepływach pracy AI.', 'A professional technology ecosystem combining 19+ years of hands-on IT systems administration, Homelab environments, modern development and AI workflows.'],
     ['Architektura TechM8', 'TechM8 Architecture'],
-    ['Ekosystem rozwiązań IT, Python Dev & AI Automation', 'IT solutions, Python Development & AI Automation ecosystem'],
     ['[ Poznaj Nasz Stos ]', '[ Explore The Stack ]'],
     ["[ Status Node'ów ]", '[ Node Status ]'],
     ['[ Dołącz / Kontakt ]', '[ Join / Contact ]'],
     ['// Co dzieje się teraz', '// What is happening now'],
-    ['Bieżące prace, AI Pulse, dziennik projektów i najbliższe kroki. Ta część strony jest zasilana dynamicznie z Supabase.', 'Current work, AI Pulse, project log and next steps. This section is powered dynamically by Supabase.'],
     ['Synchronizacja...', 'Syncing...'],
     ['Ładowanie aktualnego statusu...', 'Loading current status...'],
     ['Ładowanie kolejnych kroków...', 'Loading next steps...'],
@@ -24,13 +21,11 @@
     ['Co warto dziś wiedzieć', 'What matters today'],
     ['Ładowanie AI Pulse...', 'Loading AI Pulse...'],
     ['Tech Insights & Baza Wiedzy', 'Tech Insights & Knowledge Base'],
-    ['Artykuły techniczne, poradniki architektoniczne i Dobre Praktyki IT', 'Technical articles, architecture guides and IT best practices'],
     ['Ładowanie artykułów z bazy danych...', 'Loading articles from the database...'],
     ['Czytaj poradnik', 'Read article'],
     ['Baza wiedzy jest obecnie aktualizowana.', 'The knowledge base is currently being updated.'],
     ['Brak publikacji w bazie wiedzy.', 'No publications in the knowledge base.'],
     ['Rejestr Projektów', 'Project Registry'],
-    ['Dynamiczna lista wdrożeń pobierana z bazy Supabase', 'Dynamic list of implementations loaded from Supabase'],
     ['Wszystkie', 'All'],
     ['Ładowanie projektów z bazy danych...', 'Loading projects from the database...'],
     ['Brak projektów spełniających kryteria wyszukiwania.', 'No projects match the search criteria.'],
@@ -80,25 +75,41 @@
     const trailing = raw.match(/\s*$/)?.[0] || '';
     const core = raw.trim();
     const translated = translateValue(core, lang);
-    if (translated !== core) node.nodeValue = leading + translated + trailing;
+    if (translated !== core) {
+      const next = leading + translated + trailing;
+      if (node.nodeValue !== next) node.nodeValue = next;
+    }
   }
 
   function translateElement(el, lang) {
     if (!(el instanceof Element) || el.matches('script, style, code, pre')) return;
     const placeholder = el.getAttribute('placeholder');
-    if (placeholder) el.setAttribute('placeholder', translateValue(placeholder, lang));
+    if (placeholder) {
+      const next = translateValue(placeholder, lang);
+      if (next !== placeholder) el.setAttribute('placeholder', next);
+    }
     const title = el.getAttribute('title');
-    if (title) el.setAttribute('title', translateValue(title, lang));
+    if (title) {
+      const next = translateValue(title, lang);
+      if (next !== title) el.setAttribute('title', next);
+    }
+  }
+
+  function applyExplicitElement(el) {
+    if (!(el instanceof Element)) return;
+    if (el.matches('[data-pl][data-en]')) {
+      const value = el.getAttribute(currentLang === 'en' ? 'data-en' : 'data-pl');
+      if (value !== null && el.textContent !== value) el.textContent = value;
+    }
+    if (el.matches('[data-placeholder-pl][data-placeholder-en]')) {
+      const value = el.getAttribute(currentLang === 'en' ? 'data-placeholder-en' : 'data-placeholder-pl') || '';
+      if (el.getAttribute('placeholder') !== value) el.setAttribute('placeholder', value);
+    }
   }
 
   function applyExplicitCopy(root = document) {
-    root.querySelectorAll?.('[data-pl][data-en]').forEach(el => {
-      const value = el.getAttribute(currentLang === 'en' ? 'data-en' : 'data-pl');
-      if (value !== null) el.textContent = value;
-    });
-    root.querySelectorAll?.('[data-placeholder-pl][data-placeholder-en]').forEach(el => {
-      el.setAttribute('placeholder', el.getAttribute(currentLang === 'en' ? 'data-placeholder-en' : 'data-placeholder-pl') || '');
-    });
+    if (root instanceof Element) applyExplicitElement(root);
+    root.querySelectorAll?.('[data-pl][data-en], [data-placeholder-pl][data-placeholder-en]').forEach(applyExplicitElement);
   }
 
   function updateButtons() {
@@ -136,27 +147,32 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     applyLanguage(currentLang, false);
+
     const observer = new MutationObserver(mutations => {
       for (const mutation of mutations) {
         mutation.addedNodes.forEach(node => {
           if (node.nodeType === Node.TEXT_NODE) {
-            translateTextNode(node, currentLang);
-          } else if (node.nodeType === Node.ELEMENT_NODE) {
-            translateElement(node, currentLang);
-            applyExplicitCopy(node.matches?.('[data-pl][data-en]') ? node.parentElement : node);
-            const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
-            let child;
-            while ((child = walker.nextNode())) {
-              const parent = child.parentElement;
-              if (!parent?.matches('[data-pl][data-en]')) translateTextNode(child, currentLang);
-            }
-            node.querySelectorAll?.('[placeholder], [title]').forEach(el => translateElement(el, currentLang));
+            const parent = node.parentElement;
+            if (!parent?.matches('[data-pl][data-en]')) translateTextNode(node, currentLang);
+            return;
           }
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+          translateElement(node, currentLang);
+          applyExplicitCopy(node);
+
+          const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+          let child;
+          while ((child = walker.nextNode())) {
+            const parent = child.parentElement;
+            if (!parent?.matches('[data-pl][data-en]')) translateTextNode(child, currentLang);
+          }
+          node.querySelectorAll?.('[placeholder], [title]').forEach(el => translateElement(el, currentLang));
         });
       }
-      applyExplicitCopy(document);
       updateButtons();
     });
+
     observer.observe(document.body, { childList: true, subtree: true });
   });
 })();
