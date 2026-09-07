@@ -15,6 +15,23 @@ let allArticles = [];
 let allResearch = [];
 let currentFilter = 'ALL';
 
+function currentSiteLang() {
+    return typeof getCurrentLanguage === 'function' ? getCurrentLanguage() : 'pl';
+}
+
+function localized(item, field) {
+    if (!item) return '';
+    if (currentSiteLang() === 'en') {
+        const en = item[`${field}_en`];
+        if (en !== null && en !== undefined && String(en).trim() !== '') return en;
+    }
+    return item[field] ?? '';
+}
+
+function ui(pl, en) {
+    return currentSiteLang() === 'en' ? en : pl;
+}
+
 function escapeHtml(value) {
     if (value === null || value === undefined) return '';
     return String(value)
@@ -95,7 +112,7 @@ async function handleContactSubmit(e) {
             .insert([{ 
                 sender_name: senderName,
                 email: email, 
-                message: message, 
+                message: message,
                 created_at: new Date().toISOString() 
             }])
             .select();
@@ -156,13 +173,13 @@ function renderArticles() {
             <div class="space-y-2">
                 <div class="flex items-center justify-between text-[10px] text-emerald-400 font-mono">
                     <span>${escapeHtml(a.tags ? a.tags.join(' ') : '')}</span>
-                    <span class="text-gray-500">${escapeHtml(a.read_time || '3 min read')}</span>
+                    <span class="text-gray-500">${escapeHtml(currentSiteLang() === 'en' ? (a.read_time_en || a.read_time || '3 min read') : (a.read_time || '3 min read'))}</span>
                 </div>
-                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${escapeHtml(a.title)}</h3>
-                <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">${escapeHtml(a.summary)}</p>
+                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${escapeHtml(localized(a, 'title'))}</h3>
+                <p class="text-xs text-gray-400 leading-relaxed line-clamp-2">${escapeHtml(localized(a, 'summary'))}</p>
             </div>
             <div class="pt-2 border-t border-brand-border/40 flex items-center justify-between text-[11px] text-emerald-400 font-medium">
-                <span>Czytaj poradnik</span>
+                <span>${ui('Czytaj poradnik', 'Read article')}</span>
                 <span>&rarr;</span>
             </div>
         </div>
@@ -236,11 +253,16 @@ async function fetchProjects() {
     try {
         const { data, error } = await supabaseClient
             .from('projects')
-            .select('*')
-            .order('id', { ascending: true });
+            .select('*');
 
         if (error) throw error;
-        allProjects = data || [];
+        allProjects = (data || []).sort((a, b) => {
+            const priority = { 9: 100, 10: 90 };
+            const pa = priority[Number(a.id)] || 0;
+            const pb = priority[Number(b.id)] || 0;
+            if (pa !== pb) return pb - pa;
+            return Number(a.id) - Number(b.id);
+        });
         renderProjects();
     } catch (err) {
         console.error('Błąd pobierania projektów:', err);
@@ -257,14 +279,14 @@ function renderProjects() {
 
     const filtered = allProjects.filter(p => {
         const matchesTag = currentFilter === 'ALL' || (p.tags && p.tags.includes(currentFilter));
-        const title = (p.title || '').toLowerCase();
-        const description = (p.description || '').toLowerCase();
+        const title = String(localized(p, 'title') || '').toLowerCase();
+        const description = String(localized(p, 'description') || '').toLowerCase();
         const tagsText = (p.tags ? p.tags.join(' ') : '').toLowerCase();
         return matchesTag && (title.includes(searchVal) || description.includes(searchVal) || tagsText.includes(searchVal));
     });
 
     if (filtered.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500 text-xs">Brak projektów spełniających kryteria wyszukiwania.</div>`;
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500 text-xs">${ui('Brak projektów spełniających kryteria wyszukiwania.', 'No projects match the search criteria.')}</div>`;
         return;
     }
 
@@ -274,11 +296,11 @@ function renderProjects() {
                 <div class="text-[10px] text-emerald-400 font-mono flex flex-wrap gap-1">
                     ${p.tags ? p.tags.map(t => `<span class="bg-emerald-950/40 border border-emerald-500/20 px-1.5 py-0.5 rounded">${escapeHtml(t)}</span>`).join('') : ''}
                 </div>
-                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${escapeHtml(p.title)}</h3>
-                <p class="text-xs text-gray-400 line-clamp-3 leading-relaxed">${escapeHtml(p.description)}</p>
+                <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition">${escapeHtml(localized(p, 'title'))}</h3>
+                <p class="text-xs text-gray-400 line-clamp-3 leading-relaxed">${escapeHtml(localized(p, 'description'))}</p>
             </div>
             <div class="pt-2 border-t border-brand-border/40 flex items-center justify-between text-[11px] text-cyan-400 font-medium">
-                <span>Zobacz szczegóły & diagram</span>
+                <span>${ui('Zobacz szczegóły & diagram', 'View details & diagram')}</span>
                 <span>&rarr;</span>
             </div>
         </div>
@@ -288,7 +310,8 @@ function renderProjects() {
 function setFilter(tag) {
     currentFilter = tag;
     document.querySelectorAll('.tag-btn').forEach(btn => {
-        if (btn.innerText.includes(tag) || (tag === 'ALL' && btn.innerText.includes('Wszystkie'))) {
+        const isAll = tag === 'ALL' && (btn.innerText.includes('Wszystkie') || btn.innerText.includes('All'));
+        if (btn.innerText.includes(tag) || isAll) {
             btn.className = 'tag-btn active-tag px-3 py-1 rounded-md border border-emerald-500 bg-emerald-500/20 text-emerald-300 text-xs font-mono';
         } else {
             btn.className = 'tag-btn px-3 py-1 rounded-md border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500 text-xs font-mono';
@@ -305,10 +328,10 @@ function closeBioModal() { document.getElementById('bio-modal')?.classList.add('
 function openProjectModal(id) {
     const project = allProjects.find(p => p.id === id);
     if (!project) return;
-    document.getElementById('modal-title').innerText = project.title;
+    document.getElementById('modal-title').innerText = localized(project, 'title');
     document.getElementById('modal-tags').innerText = project.tags ? project.tags.join(' ') : '';
-    document.getElementById('modal-description').innerText = project.description;
-    document.getElementById('modal-diagram').innerText = project.diagram || 'Brak diagramu dla tego projektu.';
+    document.getElementById('modal-description').innerText = localized(project, 'description');
+    document.getElementById('modal-diagram').innerText = project.diagram_code || project.diagram || ui('Brak diagramu dla tego projektu.', 'No diagram available for this project.');
     document.getElementById('project-modal')?.classList.remove('hidden');
 }
 function closeProjectModal() { document.getElementById('project-modal')?.classList.add('hidden'); }
@@ -316,10 +339,10 @@ function closeProjectModal() { document.getElementById('project-modal')?.classLi
 function openArticleModal(id) {
     const article = allArticles.find(a => a.id === id);
     if (!article) return;
-    document.getElementById('article-modal-title').innerText = article.title;
+    document.getElementById('article-modal-title').innerText = localized(article, 'title');
     document.getElementById('article-modal-tags').innerText = article.tags ? article.tags.join(' ') : '';
-    document.getElementById('article-modal-time').innerText = article.read_time || '3 min read';
-    document.getElementById('article-modal-content').innerText = article.content;
+    document.getElementById('article-modal-time').innerText = currentSiteLang() === 'en' ? (article.read_time_en || article.read_time || '3 min read') : (article.read_time || '3 min read');
+    document.getElementById('article-modal-content').innerText = localized(article, 'content');
     document.getElementById('article-modal')?.classList.remove('hidden');
 }
 function closeArticleModal() { document.getElementById('article-modal')?.classList.add('hidden'); }
@@ -349,5 +372,10 @@ async function runHealthCheck() {
         text.innerText = 'Offline';
     }
 }
+
+window.addEventListener('techm8:languagechange', () => {
+    renderArticles();
+    renderProjects();
+});
 
 document.addEventListener('DOMContentLoaded', loadComponents);
