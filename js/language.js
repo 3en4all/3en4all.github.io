@@ -54,8 +54,6 @@
     ['Zapisywanie w węźle Supabase...', 'Saving to Supabase node...'],
     ['✔ Wiadomość wysłana pomyślnie!', '✔ Message sent successfully!'],
     ['Profil Zawodowy & Bio', 'Professional Profile & Bio'],
-    ['Specjalista ds. wsparcia IT i administrator systemów z blisko dwudziestoletnim doświadczeniem w utrzymaniu ciągłości działania infrastruktur informatycznych, zarządzaniu Active Directory, sieciami komputerowymi oraz wsparciem użytkowników.', 'IT support specialist and systems administrator with nearly two decades of experience maintaining IT infrastructure continuity, managing Active Directory, computer networks and end-user support.'],
-    ['Ekspert w budowaniu zaawansowanych środowisk Homelab (Proxmox VE, TrueNAS SCALE, Cisco, Docker, Raspberry Pi) oraz entuzjasta nowej fali automatyzacji z wykorzystaniem języka Python i architektur opartych na sztucznej inteligencji (AI Workflows, REST API, Supabase).', 'Experienced in building advanced Homelab environments (Proxmox VE, TrueNAS SCALE, Cisco, Docker, Raspberry Pi) and focused on modern automation using Python and AI-based architectures (AI Workflows, REST API, Supabase).'],
     ['Główne Kompetencje:', 'Core Competencies:'],
     ['Proxmox VE & Wirtualizacja', 'Proxmox VE & Virtualization'],
     ['Sieci Cisco & OpenWrt', 'Cisco Networks & OpenWrt'],
@@ -93,6 +91,16 @@
     if (title) el.setAttribute('title', translateValue(title, lang));
   }
 
+  function applyExplicitCopy(root = document) {
+    root.querySelectorAll?.('[data-pl][data-en]').forEach(el => {
+      const value = el.getAttribute(currentLang === 'en' ? 'data-en' : 'data-pl');
+      if (value !== null) el.textContent = value;
+    });
+    root.querySelectorAll?.('[data-placeholder-pl][data-placeholder-en]').forEach(el => {
+      el.setAttribute('placeholder', el.getAttribute(currentLang === 'en' ? 'data-placeholder-en' : 'data-placeholder-pl') || '');
+    });
+  }
+
   function updateButtons() {
     document.querySelectorAll('[data-lang-btn]').forEach(btn => {
       const active = btn.dataset.langBtn === currentLang;
@@ -113,10 +121,11 @@
     let node;
     while ((node = walker.nextNode())) {
       const parent = node.parentElement;
-      if (!parent || parent.matches('script, style, code, pre')) continue;
+      if (!parent || parent.matches('script, style, code, pre') || parent.matches('[data-pl][data-en]')) continue;
       translateTextNode(node, currentLang);
     }
     document.querySelectorAll('[placeholder], [title]').forEach(el => translateElement(el, currentLang));
+    applyExplicitCopy(document);
     updateButtons();
 
     if (emit) window.dispatchEvent(new CustomEvent('techm8:languagechange', { detail: { language: currentLang } }));
@@ -134,13 +143,18 @@
             translateTextNode(node, currentLang);
           } else if (node.nodeType === Node.ELEMENT_NODE) {
             translateElement(node, currentLang);
+            applyExplicitCopy(node.matches?.('[data-pl][data-en]') ? node.parentElement : node);
             const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
             let child;
-            while ((child = walker.nextNode())) translateTextNode(child, currentLang);
+            while ((child = walker.nextNode())) {
+              const parent = child.parentElement;
+              if (!parent?.matches('[data-pl][data-en]')) translateTextNode(child, currentLang);
+            }
             node.querySelectorAll?.('[placeholder], [title]').forEach(el => translateElement(el, currentLang));
           }
         });
       }
+      applyExplicitCopy(document);
       updateButtons();
     });
     observer.observe(document.body, { childList: true, subtree: true });
