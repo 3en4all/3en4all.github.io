@@ -1,9 +1,9 @@
 ﻿<section id="projects" class="space-y-6 scroll-mt-24">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-5">
         <div>
-            <div class="text-[10px] font-mono uppercase tracking-[0.18em] text-emerald-300/80">Systems / Builds</div>
-            <h2 class="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-white">Rejestr Projektów</h2>
-            <p class="text-sm text-gray-400 mt-2 max-w-2xl">Dynamiczne wdrożenia, infrastruktura i narzędzia — z detalami technicznymi i diagramami.</p>
+            <div class="text-[10px] font-mono uppercase tracking-[0.18em] text-emerald-300/80">Systems / Builds / Local AI</div>
+            <h2 class="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-white" data-pl="Rejestr Projektów" data-en="Project Registry">Rejestr Projektów</h2>
+            <p class="text-sm text-gray-400 mt-2 max-w-3xl" data-pl="Działające narzędzia, lokalne systemy AI, automatyzacja, security i infrastruktura — od publicznego software'u po własne pipeline'y researchowe i homelab." data-en="Working tools, local AI systems, automation, security and infrastructure — from public software to custom research pipelines and homelab systems.">Działające narzędzia, lokalne systemy AI, automatyzacja, security i infrastruktura — od publicznego software'u po własne pipeline'y researchowe i homelab.</p>
         </div>
 
         <div class="relative w-full md:w-80">
@@ -21,23 +21,24 @@
                     <span class="text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border border-amber-500/25 bg-amber-500/5 text-amber-300">v0.2.0-beta</span>
                 </div>
                 <h3 class="text-xl sm:text-2xl font-bold text-white">Phishing Inspector</h3>
-                <p class="mt-2 text-sm text-gray-400 max-w-3xl">Standalone Windows tool for inspecting suspicious emails, URLs and related content. Public beta available now — no separate Python installation required.</p>
+                <p class="mt-2 text-sm text-gray-400 max-w-3xl" data-pl="Lokalne narzędzie Windows do analizy podejrzanych wiadomości e-mail, URL-i i załączników. Publiczna beta jest dostępna do pobrania — bez potrzeby osobnej instalacji Pythona." data-en="Standalone Windows tool for inspecting suspicious emails, URLs and related content. Public beta available now — no separate Python installation required.">Lokalne narzędzie Windows do analizy podejrzanych wiadomości e-mail, URL-i i załączników. Publiczna beta jest dostępna do pobrania — bez potrzeby osobnej instalacji Pythona.</p>
             </div>
             <div class="flex flex-wrap gap-3 shrink-0">
-                <a href="/software/phishing-inspector/" class="px-4 py-2.5 rounded-xl bg-emerald-500 text-black text-xs font-bold hover:bg-emerald-400 transition">Project page →</a>
-                <a href="https://github.com/3en4all/PhishingInspector/releases/tag/v0.2.0-beta" class="px-4 py-2.5 rounded-xl border border-brand-border text-cyan-300 text-xs hover:border-cyan-400/60 transition" target="_blank" rel="noopener">Download</a>
+                <a href="/software/phishing-inspector/" class="px-4 py-2.5 rounded-xl bg-emerald-500 text-black text-xs font-bold hover:bg-emerald-400 transition"><span data-pl="Strona projektu →" data-en="Project page →">Strona projektu →</span></a>
+                <a href="https://github.com/3en4all/PhishingInspector/releases/tag/v0.2.0-beta" class="px-4 py-2.5 rounded-xl border border-brand-border text-cyan-300 text-xs hover:border-cyan-400/60 transition" target="_blank" rel="noopener"><span data-pl="Pobierz" data-en="Download">Pobierz</span></a>
             </div>
         </div>
     </div>
 
     <div class="flex flex-wrap gap-2 text-xs" id="tag-filters">
         <button onclick="setFilter('ALL')" class="tag-btn active-tag px-3 py-1.5 rounded-full border border-emerald-500 bg-emerald-500/20 text-emerald-300">Wszystkie</button>
-        <button onclick="setFilter('#Proxmox')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Proxmox</button>
-        <button onclick="setFilter('#Python')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Python</button>
-        <button onclick="setFilter('#TrueNAS')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#TrueNAS</button>
-        <button onclick="setFilter('#Docker')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Docker</button>
-        <button onclick="setFilter('#Raspberry Pi')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Raspberry Pi</button>
+        <button onclick="setFilter('#Local LLM')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Local LLM</button>
         <button onclick="setFilter('#AI Workflows')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#AI Workflows</button>
+        <button onclick="setFilter('#Python')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Python</button>
+        <button onclick="setFilter('#Security')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Security</button>
+        <button onclick="setFilter('#Docker')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Docker</button>
+        <button onclick="setFilter('#Proxmox')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Proxmox</button>
+        <button onclick="setFilter('#Raspberry Pi')" class="tag-btn px-3 py-1.5 rounded-full border border-brand-border bg-brand-card text-gray-400 hover:border-gray-500">#Raspberry Pi</button>
     </div>
 
     <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
