@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phishing Inspector // TechM8</title>
-    <meta name="description" content="Phishing Inspector — samodzielne narzędzie Windows x64 do analizy podejrzanych wiadomości e-mail, adresów URL i powiązanej zawartości. Public beta v0.2.0-beta.">
+    <meta name="description" content="Phishing Inspector — standalone Windows x64 tool for inspecting suspicious emails, URLs and related content. Public beta v0.2.0-beta available in Polish and English.">
     <link rel="canonical" href="https://3en4all.github.io/software/phishing-inspector/">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,19 +32,22 @@
 <div class="flex flex-wrap gap-2 mb-5">
 <span class="text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"><span data-lang="pl">Publiczna beta</span><span data-lang="en">Public Beta</span></span>
 <span class="text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">Windows x64</span>
+<span class="text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 text-violet-300">PL / EN</span>
 <span class="text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full border border-gray-700 text-gray-400">v0.2.0-beta</span>
 </div>
 <h1 class="text-4xl sm:text-5xl font-bold text-white leading-tight">Phishing Inspector</h1>
 <p data-lang="pl" class="mt-4 text-lg text-gray-300 max-w-3xl">Samodzielne narzędzie dla Windows do sprawdzania podejrzanych wiadomości e-mail, adresów URL i powiązanej zawartości zanim uznasz je za bezpieczne.</p>
 <p data-lang="en" class="mt-4 text-lg text-gray-300 max-w-3xl">A standalone Windows utility for inspecting suspicious emails, URLs and related content before you trust them.</p>
-<p data-lang="pl" class="mt-4 text-sm text-gray-400 max-w-3xl">Szybka lokalna analiza i czytelny raport — bez potrzeby instalowania Pythona osobno.</p>
-<p data-lang="en" class="mt-4 text-sm text-gray-400 max-w-3xl">Designed for quick local inspection with a clear report, without requiring a separate Python installation.</p>
+<p data-lang="pl" class="mt-4 text-sm text-gray-400 max-w-3xl">Publiczna beta jest teraz dostępna w osobnych wersjach polskiej i angielskiej. Analiza działa lokalnie i nie wymaga osobnej instalacji Pythona.</p>
+<p data-lang="en" class="mt-4 text-sm text-gray-400 max-w-3xl">The public beta is now available as separate Polish and English builds. Analysis runs locally and no separate Python installation is required.</p>
 <div class="mt-7 flex flex-wrap gap-3">
-<a href="https://github.com/3en4all/PhishingInspector/releases/tag/v0.2.0-beta" class="px-5 py-3 rounded-xl bg-emerald-500 text-black font-bold hover:bg-emerald-400 transition"><span data-lang="pl">Pobierz betę</span><span data-lang="en">Download Beta</span></a>
-<a href="https://github.com/3en4all/PhishingInspector" class="px-5 py-3 rounded-xl border border-[#30363d] text-cyan-300 hover:border-cyan-400/60 transition"><span data-lang="pl">Zobacz na GitHub</span><span data-lang="en">View on GitHub</span></a>
+<a data-lang="pl" href="https://github.com/3en4all/PhishingInspector/releases/download/v0.2.0-beta/PhishingInspector-0.2.0-beta-windows-x64.zip" class="px-5 py-3 rounded-xl bg-emerald-500 text-black font-bold hover:bg-emerald-400 transition">Pobierz PL</a>
+<a data-lang="en" href="https://github.com/3en4all/PhishingInspector/releases/download/v0.2.0-beta/PhishingInspector-0.2.0-beta-EN-windows-x64.zip" class="px-5 py-3 rounded-xl bg-emerald-500 text-black font-bold hover:bg-emerald-400 transition">Download EN</a>
+<a href="https://github.com/3en4all/PhishingInspector/releases/tag/v0.2.0-beta" class="px-5 py-3 rounded-xl border border-[#30363d] text-cyan-300 hover:border-cyan-400/60 transition"><span data-lang="pl">Wszystkie pliki wydania</span><span data-lang="en">All release files</span></a>
+<a href="https://github.com/3en4all/PhishingInspector" class="px-5 py-3 rounded-xl border border-[#30363d] text-gray-300 hover:border-gray-500 transition"><span data-lang="pl">Zobacz na GitHub</span><span data-lang="en">View on GitHub</span></a>
 </div>
-<p data-lang="pl" class="mt-3 text-[11px] text-gray-500">Samodzielny build • bez potrzeby osobnej instalacji Pythona</p>
-<p data-lang="en" class="mt-3 text-[11px] text-gray-500">Standalone build • no separate Python installation required</p>
+<p data-lang="pl" class="mt-3 text-[11px] text-gray-500">Samodzielny build • Windows x64 • PL i EN • bez potrzeby osobnej instalacji Pythona</p>
+<p data-lang="en" class="mt-3 text-[11px] text-gray-500">Standalone build • Windows x64 • PL and EN • no separate Python installation required</p>
 </div>
 
 <div class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-5 shadow-2xl shadow-black/20">
@@ -52,6 +55,7 @@
 <dl class="space-y-3 text-sm">
 <div class="flex justify-between gap-4"><dt class="text-gray-500"><span data-lang="pl">Wersja</span><span data-lang="en">Version</span></dt><dd class="text-white">v0.2.0-beta</dd></div>
 <div class="flex justify-between gap-4"><dt class="text-gray-500"><span data-lang="pl">Platforma</span><span data-lang="en">Platform</span></dt><dd class="text-white">Windows x64</dd></div>
+<div class="flex justify-between gap-4"><dt class="text-gray-500"><span data-lang="pl">Języki</span><span data-lang="en">Languages</span></dt><dd class="text-white">Polish / English</dd></div>
 <div class="flex justify-between gap-4"><dt class="text-gray-500"><span data-lang="pl">Plik EXE</span><span data-lang="en">Executable</span></dt><dd class="text-white">~76 MB</dd></div>
 <div class="flex justify-between gap-4"><dt class="text-gray-500"><span data-lang="pl">Status</span><span data-lang="en">Status</span></dt><dd class="text-emerald-300"><span data-lang="pl">Publiczna beta</span><span data-lang="en">Public beta</span></dd></div>
 </dl></div>
@@ -105,7 +109,21 @@
 
 <section class="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-6"><h2 class="text-xl font-bold text-amber-200"><span data-lang="pl">Informacja o wersji beta</span><span data-lang="en">Beta notice</span></h2><p data-lang="pl" class="mt-2 text-sm text-gray-400">To wczesna publiczna beta. Logika detekcji, elementy interfejsu i obsługiwane scenariusze mogą jeszcze ulec zmianie przed stabilnym wydaniem.</p><p data-lang="en" class="mt-2 text-sm text-gray-400">This is an early public beta. Detection logic, UI details and supported workflows may still change before a stable release.</p></section>
 
-<section class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-6"><h2 class="text-xl font-bold text-white"><span data-lang="pl">Integralność pliku</span><span data-lang="en">Integrity</span></h2><p data-lang="pl" class="mt-2 text-sm text-gray-400">SHA-256 dla aktualnego wydania ZIP:</p><p data-lang="en" class="mt-2 text-sm text-gray-400">SHA-256 for the current ZIP release:</p><code class="mt-3 block break-all text-xs text-emerald-300">BC4D25FAEC3776A4887A706B174473571CC3A6009F0D1207DFF4ACCB4BBC6B01</code></section>
+<section class="rounded-2xl border border-[#30363d] bg-[#0d1117] p-6">
+<h2 class="text-xl font-bold text-white"><span data-lang="pl">Integralność plików</span><span data-lang="en">File integrity</span></h2>
+<div class="mt-4 space-y-5">
+<div>
+<p class="text-sm text-gray-300"><span data-lang="pl">Wersja polska</span><span data-lang="en">Polish build</span></p>
+<p class="mt-1 text-xs text-gray-500">PhishingInspector-0.2.0-beta-windows-x64.zip</p>
+<code class="mt-2 block break-all text-xs text-emerald-300">BC4D25FAEC3776A4887A706B174473571CC3A6009F0D1207DFF4ACCB4BBC6B01</code>
+</div>
+<div>
+<p class="text-sm text-gray-300"><span data-lang="pl">Wersja angielska</span><span data-lang="en">English build</span></p>
+<p class="mt-1 text-xs text-gray-500">PhishingInspector-0.2.0-beta-EN-windows-x64.zip</p>
+<code class="mt-2 block break-all text-xs text-cyan-300">71C55E708838FB668588B1132F2CFC6F3E759EDF83D3AD43EB4D78EF0CB8D5AA</code>
+</div>
+</div>
+</section>
 </main>
 <footer class="border-t border-[#30363d] py-6 text-center text-xs text-gray-600">TechM8 // 3en4all</footer>
 <script>
