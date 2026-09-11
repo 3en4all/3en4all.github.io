@@ -88,6 +88,10 @@ blockquote p { color: var(--forest); font-style: italic; font-size: 1.45rem !imp
 .year { color: #e4c589; font-family: Georgia, serif; font-size: 1.55rem; }
 .timeline h3 { margin: 0 0 .35rem; font-size: 1.13rem; }
 .timeline p { max-width: 680px; margin: 0; color: rgba(255,255,255,.68); }
+.status { display: inline-block; margin-top: .7rem; padding: .18rem .52rem; border: 1px solid rgba(255,255,255,.24); color: rgba(255,255,255,.72); font-size: .68rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+.status-fact { color: #f1d69e; border-color: rgba(241,214,158,.42); }
+.status-context { color: #c1cbc7; }
+.status-live { color: #a9dcc5; border-color: rgba(169,220,197,.38); }
 
 .sources-section { background: var(--paper); }
 .source-cards { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -96,6 +100,14 @@ blockquote p { color: var(--forest); font-style: italic; font-size: 1.45rem !imp
 .source-cards span { color: var(--gold); font-family: Georgia, serif; font-size: .9rem; }
 .source-cards h3 { margin: 1rem 0 .5rem; font-family: Georgia, serif; font-size: 1.55rem; }
 .source-cards p { margin: 0; color: var(--muted); }
+.bibliography { max-width: 980px; margin-top: 4.5rem; }
+.bibliography h3 { margin: 0 0 1.2rem; color: var(--forest-deep); font-family: Georgia, serif; font-size: 1.75rem; }
+.bibliography ol { margin: 0; padding-left: 1.4rem; border-top: 1px solid var(--line); }
+.bibliography li { padding: 1rem .2rem 1rem .45rem; border-bottom: 1px solid var(--line); color: #4f5753; }
+.bibliography a { color: var(--forest); font-weight: 720; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+.bibliography a:hover, .bibliography a:focus-visible { color: #8b642d; }
+.source-type { display: inline-block; margin-left: .35rem; color: #806331; font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+sup a { color: #8b642d; font-family: inherit; font-size: .72rem; font-weight: 800; text-decoration: none; }
 
 .feedback-section { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem, 8vw, 7rem); background: var(--paper-light); }
 .feedback-copy h2 { font-size: clamp(2.5rem, 5vw, 4rem); }

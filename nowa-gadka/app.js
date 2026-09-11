@@ -4,11 +4,6 @@ const emailError = document.querySelector('#email-error');
 const ratingError = document.querySelector('#rating-error');
 const formStatus = document.querySelector('#form-status');
 
-const allowedTlds = new Set([
-  'pl', 'com', 'org', 'net', 'eu', 'info', 'io', 'me', 'de', 'uk', 'fr', 'cz',
-  'sk', 'nl', 'dev', 'app', 'online', 'site', 'pro', 'biz', 'cloud', 'tech'
-]);
-
 const disposableDomains = new Set([
   '10minutemail.com', 'guerrillamail.com', 'mailinator.com', 'tempmail.com',
   'temp-mail.org', 'yopmail.com', 'sharklasers.com', 'throwawaymail.com'
@@ -21,10 +16,6 @@ function basicEmailCheck(value) {
   }
 
   const domain = normalized.split('@')[1];
-  const tld = domain.split('.').at(-1);
-  if (!allowedTlds.has(tld)) {
-    return { ok: false, message: 'Nie rozpoznajemy tej końcówki domeny.' };
-  }
   if (disposableDomains.has(domain)) {
     return { ok: false, message: 'Adresy tymczasowe nie są akceptowane.' };
   }
