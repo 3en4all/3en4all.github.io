@@ -8,6 +8,24 @@
   <title>Nowa Gadka — cyfrowe archiwum</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
+  <style>
+    .place-spotlight{background:#eef0eb}
+    .place-feature{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:clamp(1.5rem,4vw,3.5rem);align-items:stretch}
+    .map-frame{min-height:480px;background:#dfe5df;border:1px solid var(--line);box-shadow:0 18px 55px rgba(23,55,47,.08);overflow:hidden}
+    .map-frame iframe{display:block;width:100%;height:100%;min-height:480px;border:0}
+    .place-copy{background:#fff;border-top:4px solid var(--gold);padding:clamp(1.6rem,3.5vw,2.5rem);box-shadow:0 18px 55px rgba(23,55,47,.08)}
+    .place-copy h3{margin:0 0 1rem;color:var(--deep);font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.8rem,3.3vw,2.65rem);font-weight:500;line-height:1.08}
+    .place-copy p{margin:0 0 1rem;color:#4f5753}
+    .place-copy .address{display:block;margin:0 0 1.2rem;color:var(--forest);font-weight:780}
+    .place-copy .mini-timeline{list-style:none;margin:1.5rem 0;padding:0;border-top:1px solid var(--line)}
+    .place-copy .mini-timeline li{display:grid;grid-template-columns:78px 1fr;gap:.8rem;padding:.75rem 0;border-bottom:1px solid var(--line);color:#4f5753}
+    .place-copy .mini-timeline strong{color:var(--forest);font-family:Georgia,serif;font-size:1.05rem}
+    .place-links{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1.3rem}
+    .place-links a{display:inline-flex;align-items:center;min-height:40px;padding:.55rem .75rem;border:1px solid var(--line);text-decoration:none;font-size:.82rem;font-weight:760;color:var(--forest);background:var(--paper2)}
+    .place-links a:hover,.place-links a:focus-visible{border-color:var(--gold);color:#806331}
+    @media(max-width:900px){.place-feature{grid-template-columns:1fr}.map-frame,.map-frame iframe{min-height:390px}}
+    @media(max-width:640px){.map-frame,.map-frame iframe{min-height:320px}.place-copy .mini-timeline li{grid-template-columns:64px 1fr}}
+  </style>
 </head>
 <body>
 <a class="skip" href="#historia">Przejdź do treści</a>
@@ -16,6 +34,7 @@
   <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
   <nav id="site-nav" aria-label="Nawigacja główna">
     <a href="#historia">Historia</a>
+    <a href="#swietlica">Świetlica</a>
     <a href="#miejsca">Miejsca</a>
     <a href="#rodziny">Rodziny</a>
     <a href="#zrodla">Źródła</a>
@@ -75,11 +94,51 @@
     </ol>
   </section>
 
+  <section id="swietlica" class="section place-spotlight">
+    <div class="heading">
+      <p class="kicker">Miejsce spotkań</p>
+      <h2>Świetlica w Nowej Gadce</h2>
+      <p>Jedno z najważniejszych współczesnych miejsc życia lokalnego. Historia świetlicy łączy dawny Dom Rolnika, nową inwestycję gminną i kolejne działania mieszkańców, sołectwa oraz Koła Gospodyń Wiejskich.</p>
+    </div>
+    <div class="place-feature">
+      <div class="map-frame">
+        <iframe
+          title="Mapa Google — Świetlica Wiejska w Nowej Gadce"
+          src="https://www.google.com/maps?q=Ogrodnik%C3%B3w+59%2C+95-054+Nowa+Gadka%2C+Polska&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <article class="place-copy">
+        <span class="address">ul. Ogrodników 59 · Nowa Gadka</span>
+        <h3>Od Domu Rolnika do nowoczesnej świetlicy</h3>
+        <p>Artykuł „Nowa Gadka inwestuje w świetlicę” w serwisie <em>Życie Pabianic</em> dokumentuje etap rozwoju miejsca przeznaczonego dla mieszkańców. Zestawienie tej publikacji z materiałami Gminy Ksawerów pozwala zobaczyć dłuższą historię obiektu — od dawnego Domu Rolnika po współczesną świetlicę i jej kolejne modernizacje.</p>
+        <p>Dawny Dom Rolnika został uroczyście otwarty 21 lipca 1985 roku. Po latach zdecydowano o budowie nowego obiektu. W 2017 roku w Biuletynie Informacji Publicznej Gminy Ksawerów pojawiło się postępowanie dotyczące budowy świetlicy wiejskiej w Nowej Gadce. Rok później budowa była już wyraźnie zaawansowana: stały ściany, trwały prace przy konstrukcji dachu, a projekt przewidywał salę główną, aneks kuchenny, zaplecze socjalne i sanitarne oraz dostępność dla osób z niepełnosprawnościami.</p>
+        <p>Nowa świetlica została otwarta w 2019 roku i szybko stała się miejscem zebrań, spotkań mieszkańców i działalności lokalnych organizacji. Rozwój nie skończył się na samym budynku. W 2024 roku sołectwo otrzymało 100 tys. zł w ramach programu „Infrastruktura Sołecka na Plus” na zabudowę tarasu. W kolejnym etapie zaplanowano dalsze doposażenie wnętrza, m.in. rolety i zabudowę do przechowywania sprzętu.</p>
+        <ul class="mini-timeline" aria-label="Najważniejsze daty świetlicy">
+          <li><strong>1985</strong><span>otwarcie dawnego Domu Rolnika</span></li>
+          <li><strong>2017</strong><span>przetarg na budowę nowej świetlicy</span></li>
+          <li><strong>2018</strong><span>zaawansowane prace budowlane</span></li>
+          <li><strong>2019</strong><span>otwarcie nowego obiektu</span></li>
+          <li><strong>2024</strong><span>100 tys. zł na zabudowę tarasu</span></li>
+          <li><strong>2025</strong><span>kolejne doposażenie świetlicy</span></li>
+        </ul>
+        <div class="place-links">
+          <a href="https://zyciepabianic.pl/pl/19_wiadomosci-z-regionu/65128_nowa-gadka-inwestuje-w-swietlice.html" target="_blank" rel="noreferrer">Życie Pabianic →</a>
+          <a href="https://www.ksawerow.4bip.pl/index.php?id=159&idg=9&x=5&y=80" target="_blank" rel="noreferrer">BIP — budowa świetlicy →</a>
+          <a href="https://ugminy.ksawerow.com/index.php/blog/sciany-juz-stoja-dekarze-pracuja-nad-szkieletem-zadaszenia" target="_blank" rel="noreferrer">Gmina Ksawerów — budowa 2018 →</a>
+          <a href="https://ugminy.ksawerow.com/index.php/blog/grant-dla-solectwa-nowa-gadka" target="_blank" rel="noreferrer">Grant 2024 →</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <section id="miejsca" class="section paper">
     <div class="heading"><p class="kicker">Miejsca</p><h2>Historia ma adres</h2><p>Tu łączymy dawny krajobraz z konkretnymi punktami i współczesnym układem miejscowości. Każda karta prowadzi do źródła, które można samodzielnie sprawdzić.</p></div>
     <div class="cards three">
       <article><span>01</span><h3>Układ wsi i ulice</h3><p>Współczesna Nowa Gadka obejmuje ul. Akacjową, Łączną, Ogrodników i Polną. Granice obwodu wyborczego pokazują też, które odcinki Akacjowej należą do miejscowości.</p><p><a href="https://wybory2018.pkw.gov.pl/pl/geografia/100805" target="_blank" rel="noreferrer">PKW — granice i ulice →</a></p><div class="card-status ready">źródło urzędowe</div></article>
-      <article><span>02</span><h3>Dom Rolnika → świetlica</h3><p>Dawny Dom Rolnika został uroczyście poświęcony i otwarty 21 lipca 1985 r. Nowa świetlica wiejska stanęła w jego miejscu i została otwarta w 2019 r.</p><p><a href="https://ugminy.ksawerow.com/application/files/7415/6422/3066/Echo_Gminy_Ksawerow_2019_czerwiec_lipiec.pdf" target="_blank" rel="noreferrer">Echo Gminy — historia miejsca →</a></p><div class="card-status ready">1985 / 2019</div></article>
+      <article><span>02</span><h3>Dom Rolnika → świetlica</h3><p>Dawny Dom Rolnika został uroczyście poświęcony i otwarty 21 lipca 1985 r. Nowa świetlica wiejska stanęła w jego miejscu i została otwarta w 2019 r.</p><p><a href="#swietlica">Zobacz historię świetlicy i mapę →</a></p><div class="card-status ready">1985 / 2019</div></article>
       <article><span>03</span><h3>Ulica Ogrodników</h3><p>Jedna z głównych osi zabudowy Nowej Gadki. W dokumentach współczesnych widać kolejne etapy rozbudowy infrastruktury wodociągowej, kanalizacyjnej i gazowej.</p><p><a href="https://ugminy.ksawerow.com/index.php/blog/rusza-najwieksza-inwestycja-gminna-1" target="_blank" rel="noreferrer">Gmina Ksawerów — inwestycja →</a></p><div class="card-status ready">infrastruktura</div></article>
       <article><span>04</span><h3>Mapa i krajobraz</h3><p>Państwowe zasoby topograficzne identyfikują Gadkę Nową oraz sąsiednią strugę Gadka. To punkt wyjścia do porównania dawnych i współczesnych dróg, pól i zabudowy.</p><p><a href="https://pzgik.geoportal.gov.pl/semantic-metadata/topo/dataset/5af90bd5-7027-4cbf-9c52-c5ca490486ed" target="_blank" rel="noreferrer">Geoportal — arkusz topograficzny →</a></p><div class="card-status ready">kartografia</div></article>
     </div>
@@ -121,6 +180,11 @@
         <li data-search="geoportal gadka nowa mapa topograficzna"><a href="https://pzgik.geoportal.gov.pl/semantic-metadata/topo/dataset/5af90bd5-7027-4cbf-9c52-c5ca490486ed" target="_blank" rel="noreferrer">Geoportal — arkusz topograficzny Starowa Góra</a> — Gadka Nowa i obiekty fizjograficzne w państwowych danych przestrzennych. <span>mapa</span></li>
         <li data-search="gus bdl nowa gadka miejscowość statystyczna"><a href="https://bdl.stat.gov.pl/bdl/metadane/teryt/miejscowosci/4231" target="_blank" rel="noreferrer">GUS, Bank Danych Lokalnych — Nowa Gadka</a> — współczesna identyfikacja miejscowości statystycznej. <span>rejestr urzędowy</span></li>
         <li data-search="ogrodników ksawerów inwestycja wodociąg kanalizacja"><a href="https://ugminy.ksawerow.com/index.php/blog/rusza-najwieksza-inwestycja-gminna-1" target="_blank" rel="noreferrer">Gmina Ksawerów — inwestycja przy ul. Ogrodników</a> — współczesne przemiany infrastruktury. <span>samorząd</span></li>
+        <li data-search="życie pabianic nowa gadka inwestuje świetlica"><a href="https://zyciepabianic.pl/pl/19_wiadomosci-z-regionu/65128_nowa-gadka-inwestuje-w-swietlice.html" target="_blank" rel="noreferrer">Życie Pabianic — „Nowa Gadka inwestuje w świetlicę”</a> — materiał prasowy dokumentujący rozwój lokalnego miejsca spotkań. <span>prasa lokalna</span></li>
+        <li data-search="2017 bip budowa świetlicy wiejskiej nowa gadka"><a href="https://www.ksawerow.4bip.pl/index.php?id=159&idg=9&x=5&y=80" target="_blank" rel="noreferrer">BIP Gminy Ksawerów — budowa świetlicy w Nowej Gadce</a> — dokumentacja postępowania z 2017 r. <span>BIP</span></li>
+        <li data-search="2018 ściany dach świetlica nowa gadka"><a href="https://ugminy.ksawerow.com/index.php/blog/sciany-juz-stoja-dekarze-pracuja-nad-szkieletem-zadaszenia" target="_blank" rel="noreferrer">Gmina Ksawerów — „Ściany już stoją”</a> — opis etapu budowy i programu funkcjonalnego świetlicy w 2018 r. <span>samorząd</span></li>
+        <li data-search="2024 grant nowa gadka świetlica taras 100 tys"><a href="https://ugminy.ksawerow.com/index.php/blog/grant-dla-solectwa-nowa-gadka" target="_blank" rel="noreferrer">Gmina Ksawerów — grant dla sołectwa Nowa Gadka</a> — 100 tys. zł na zabudowę tarasu przy świetlicy. <span>2024</span></li>
+        <li data-search="2025 świetlica nowa gadka rolety szafa estetycznie i ze smakiem"><a href="https://ugminy.ksawerow.com/application/files/6317/5797/0221/Echo_Gminy_Ksawerow_2025_lipiec_sierpien_wrzesien.pdf" target="_blank" rel="noreferrer">Echo Gminy Ksawerów 2025</a> — projekt „Estetycznie i ze smakiem” i dalsze doposażenie świetlicy. <span>2025</span></li>
       </ol>
       <p id="no-sources" class="empty" hidden>Brak źródeł pasujących do filtra.</p>
     </div>
@@ -164,7 +228,7 @@
 
   <section class="section update-section" aria-labelledby="update-title">
     <div><p class="kicker">Aktualność</p><h2 id="update-title">Archiwum jest wersjonowane</h2></div>
-    <div class="update-box"><strong>Ostatnia aktualizacja strony</strong><time datetime="2026-09-12">12 września 2026</time><p>Etap 02: rozbudowana oś czasu, karty miejsc, źródła genealogiczne i baza do opracowania historycznych rodzin Nowej Gadki.</p></div>
+    <div class="update-box"><strong>Ostatnia aktualizacja strony</strong><time datetime="2026-09-12">12 września 2026</time><p>Etap 03: dodana historia świetlicy wiejskiej, mapa Google oraz nowe źródła dotyczące inwestycji i późniejszych modernizacji.</p></div>
   </section>
 </main>
 
