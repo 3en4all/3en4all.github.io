@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3EN Creator — Desktop short-form video workflow</title>
+<meta name="description" content="3EN Creator is a desktop workflow for preparing and uploading short-form videos to TikTok as drafts for user review and publishing.">
+<link rel="canonical" href="https://3en4all.github.io/3en-creator.html">
+<style>
+body{margin:0;background:#0a0f1d;color:#d1d5db;font:15px/1.7 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:980px;margin:auto;padding:48px 22px 80px}h1,h2{color:#fff}a{color:#34d399}
+.card{background:#0d1117;border:1px solid #30363d;border-radius:14px;padding:24px;margin:18px 0}
+small,.muted{color:#9ca3af}.nav{margin-bottom:28px}.nav a{margin-right:18px}.pill{display:inline-block;border:1px solid #30363d;border-radius:999px;padding:3px 9px;margin:2px 5px 2px 0;color:#67e8f9}
+code{color:#67e8f9}
+</style>
+</head>
+<body><main>
+<div class="nav"><a href="/">← 3EN4ALL / TechM8</a><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Service</a></div>
+<h1>3EN Creator</h1>
+<p class="muted">Desktop short-form video workflow for authorized creators.</p>
+
+<div class="card"><h2>What 3EN Creator does</h2>
+<p>3EN Creator helps prepare short-form video content on the desktop and transfer an approved video to TikTok as a draft. The user then reviews, edits and decides whether to publish the draft inside TikTok.</p>
+<p>The current TikTok integration does not automatically publish a public post. Draft upload and final publication remain separate user-controlled steps.</p></div>
+
+<div class="card"><h2>TikTok integration</h2>
+<p>3EN Creator uses TikTok Login Kit for OAuth 2.0 authorization and the TikTok Content Posting API for draft upload.</p>
+<p><span class="pill">Login Kit</span><span class="pill">Content Posting API</span><span class="pill">user.info.basic</span><span class="pill">video.upload</span></p>
+<p><code>user.info.basic</code> is used to identify the authorized TikTok profile and display basic profile information. <code>video.upload</code> is used only to initialize and upload draft content requested by the authorized user.</p></div>
+
+<div class="card"><h2>User control</h2>
+<p>Authorization is granted by the TikTok user through TikTok's consent screen. 3EN Creator does not request or store the user's TikTok password. Access may be revoked by the user through TikTok's connected-app controls. Revoking access prevents future API use until the user authorizes the app again.</p></div>
+
+<div class="card"><h2>Data handling</h2>
+<p>OAuth access and refresh tokens are stored locally on the authorized desktop and are not committed to the public source-code repository. Basic TikTok profile data and API responses are used only for the authorized workflow. 3EN Creator does not sell TikTok data, use it for advertising, or provide it to data brokers.</p></div>
+
+<div class="card"><h2>Draft upload flow</h2>
+<ol>
+<li>The user authorizes 3EN Creator with TikTok.</li>
+<li>3EN Creator verifies the authorized profile and requested scopes.</li>
+<li>The user selects or approves a prepared short-form video.</li>
+<li>3EN Creator uploads the file to TikTok as a draft.</li>
+<li>The user continues the editing and publishing flow in TikTok.</li>
+</ol></div>
+
+<div class="card"><h2>Policies</h2>
+<p><a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a></p>
+<p>Use of TikTok-connected features is also subject to TikTok's applicable terms, policies and developer requirements.</p></div>
+
+<div class="card"><h2>Contact</h2>
+<p>Project contact information is available on <a href="https://3en4all.github.io/">3en4all.github.io</a>.</p></div>
+</main></body></html>
