@@ -1,5 +1,11 @@
 (() => {
     const LIVE_REFRESH_MS = 5 * 60 * 1000;
+    const PROJECT_LOG_PREVIEW = 5;
+    const AI_PULSE_PREVIEW = 3;
+    let showProjectArchive = false;
+    let showAiArchive = false;
+    let cachedProjectLog = [];
+    let cachedAiPulse = [];
 
     function currentLang() {
         return typeof getCurrentLanguage === 'function' ? getCurrentLanguage() : 'pl';
@@ -86,7 +92,8 @@
 
     function renderProjectLog(items) {
         if (!items.length) return `<div class="text-sm text-gray-500">${ui('Brak wpisów w dzienniku.', 'No project-log entries.')}</div>`;
-        return items.slice(0, 8).map(item => `<div class="relative pl-5 border-l border-emerald-500/30">
+        const visible = showProjectArchive ? items : items.slice(0, PROJECT_LOG_PREVIEW);
+        return visible.map(item => `<div class="relative pl-5 border-l border-emerald-500/30">
                 <span class="absolute -left-1 top-1.5 w-2 h-2 rounded-full bg-emerald-400"></span>
                 <div class="text-[10px] font-mono text-gray-500 mb-1">${esc(formatDate(item.published_at))}</div>
                 <h4 class="text-sm font-semibold text-white mb-1">${esc(pick(item, 'title'))}</h4>
@@ -96,7 +103,8 @@
 
     function renderAiPulse(items) {
         if (!items.length) return `<div class="text-sm text-gray-500">${ui('Brak wpisów AI Pulse.', 'No AI Pulse entries.')}</div>`;
-        return items.slice(0, 5).map(item => {
+        const visible = showAiArchive ? items : items.slice(0, AI_PULSE_PREVIEW);
+        return visible.map(item => {
             const source = item.source_url
                 ? `<a href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-cyan-400 hover:text-cyan-300">${ui('Źródło', 'Source')}: ${esc(pick(item, 'source_label') || 'link')} ↗</a>`
                 : '';
@@ -109,23 +117,62 @@
         }).join('');
     }
 
+
+    function updateArchiveButton(button, expanded, hasMore, plCollapsed, enCollapsed) {
+        if (!button) return;
+        button.classList.toggle('hidden', !hasMore);
+        const label = button.querySelector('[data-more-label]');
+        if (label) {
+            label.textContent = expanded ? ui('Pokaż mniej ↑', 'Show less ↑') : ui(plCollapsed, enCollapsed);
+        }
+        button.setAttribute('aria-expanded', String(expanded));
+    }
+
+    function bindArchiveButtons() {
+        const logButton = document.getElementById('project-log-more');
+        const pulseButton = document.getElementById('ai-pulse-more');
+
+        if (logButton && logButton.dataset.bound !== '1') {
+            logButton.dataset.bound = '1';
+            logButton.addEventListener('click', () => {
+                showProjectArchive = !showProjectArchive;
+                const logEl = document.getElementById('live-project-log');
+                if (logEl) logEl.innerHTML = renderProjectLog(cachedProjectLog);
+                updateArchiveButton(logButton, showProjectArchive, cachedProjectLog.length > PROJECT_LOG_PREVIEW, 'Starsze wpisy ↓', 'Older entries ↓');
+            });
+        }
+
+        if (pulseButton && pulseButton.dataset.bound !== '1') {
+            pulseButton.dataset.bound = '1';
+            pulseButton.addEventListener('click', () => {
+                showAiArchive = !showAiArchive;
+                const pulseEl = document.getElementById('live-ai-pulse');
+                if (pulseEl) pulseEl.innerHTML = renderAiPulse(cachedAiPulse);
+                updateArchiveButton(pulseButton, showAiArchive, cachedAiPulse.length > AI_PULSE_PREVIEW, 'Starsze aktualności ↓', 'Older updates ↓');
+            });
+        }
+
+        updateArchiveButton(logButton, showProjectArchive, cachedProjectLog.length > PROJECT_LOG_PREVIEW, 'Starsze wpisy ↓', 'Older entries ↓');
+        updateArchiveButton(pulseButton, showAiArchive, cachedAiPulse.length > AI_PULSE_PREVIEW, 'Starsze aktualności ↓', 'Older updates ↓');
+    }
+
     async function loadLiveFeed() {
         const root = document.getElementById('live-techm8');
         if (!root || typeof supabaseClient === 'undefined' || !supabaseClient) return false;
         try {
             const { data, error } = await supabaseClient
                 .from('live_updates')
-                .select('id,kind,title,title_en,body,body_en,source_url,source_label,source_label_en,published_at,priority')
-                .eq('is_active', true)
-                .order('priority', { ascending: false })
+                .select('id,kind,title,title_en,body,body_en,source_url,source_label,source_label_en,published_at,priority,is_active')
                 .order('published_at', { ascending: false })
-                .limit(30);
+                .limit(100);
             if (error) throw error;
             const items = data || [];
-            const now = items.filter(x => x.kind === 'NOW')[0];
-            const next = items.filter(x => x.kind === 'NEXT')[0];
+            const now = items.filter(x => x.kind === 'NOW' && x.is_active).sort((a, b) => (b.priority || 0) - (a.priority || 0))[0];
+            const next = items.filter(x => x.kind === 'NEXT' && x.is_active).sort((a, b) => (b.priority || 0) - (a.priority || 0))[0];
             const projectLog = items.filter(x => x.kind === 'PROJECT_LOG').sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
             const aiPulse = items.filter(x => x.kind === 'AI_PULSE').sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+            cachedProjectLog = projectLog;
+            cachedAiPulse = aiPulse;
 
             const nowEl = document.getElementById('live-now');
             const nextEl = document.getElementById('live-next');
@@ -138,6 +185,7 @@
             if (pulseEl) pulseEl.innerHTML = renderAiPulse(aiPulse);
             if (updateEl) updateEl.textContent = `${ui('Ostatnia synchronizacja', 'Last sync')}: ${formatDate(new Date().toISOString())}`;
             bindPrimaryCards();
+            bindArchiveButtons();
             return true;
         } catch (err) {
             console.error('Live TechM8 error:', err);
@@ -159,5 +207,12 @@
     }
 
     window.loadLiveFeed = loadLiveFeed;
+    window.addEventListener('techm8:languagechange', () => {
+        const logEl = document.getElementById('live-project-log');
+        const pulseEl = document.getElementById('live-ai-pulse');
+        if (logEl) logEl.innerHTML = renderProjectLog(cachedProjectLog);
+        if (pulseEl) pulseEl.innerHTML = renderAiPulse(cachedAiPulse);
+        bindArchiveButtons();
+    });
     window.addEventListener('load', startWhenMounted);
 })();
