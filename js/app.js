@@ -257,7 +257,7 @@ async function fetchProjects() {
 
         if (error) throw error;
         allProjects = (data || []).sort((a, b) => {
-            const priority = { 9: 100, 10: 90 };
+            const priority = { 11: 130, 12: 120, 13: 110, 9: 100, 10: 90 };
             const pa = priority[Number(a.id)] || 0;
             const pb = priority[Number(b.id)] || 0;
             if (pa !== pb) return pb - pa;
