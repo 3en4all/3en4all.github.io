@@ -32,6 +32,17 @@ function ui(pl, en) {
     return currentSiteLang() === 'en' ? en : pl;
 }
 
+function safeUrl(value, fallback = '#') {
+    const raw = String(value ?? '').trim();
+    if (!raw) return fallback;
+    try {
+        const parsed = new URL(raw, window.location.origin);
+        return (parsed.protocol === 'http:' || parsed.protocol === 'https:') ? raw : fallback;
+    } catch (e) {
+        return fallback;
+    }
+}
+
 function escapeHtml(value) {
     if (value === null || value === undefined) return '';
     return String(value)
@@ -230,7 +241,7 @@ function renderResearch() {
     }
 
     grid.innerHTML = filtered.map(r => `
-        <a href="${escapeHtml(r.url || '#')}" class="block bg-brand-card border border-brand-border hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
+        <a href="${escapeHtml(safeUrl(r.url))}" class="block bg-brand-card border border-brand-border hover:border-emerald-500/50 rounded-xl p-6 transition-all hover:-translate-y-1 group">
             <div class="flex gap-2 mb-3 text-xs">
                 ${r.tags ? r.tags.map((t, i) => `<span class="${i === 0 ? 'text-emerald-400' : 'text-cyan-400'}">${escapeHtml(t)}</span>`).join('') : ''}
             </div>

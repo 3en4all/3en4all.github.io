@@ -24,6 +24,17 @@
         return currentLang() === 'en' ? en : pl;
     }
 
+    function safeUrl(value) {
+        const raw = String(value ?? '').trim();
+        if (!raw) return '';
+        try {
+            const parsed = new URL(raw, window.location.origin);
+            return (parsed.protocol === 'http:' || parsed.protocol === 'https:') ? raw : '';
+        } catch (e) {
+            return '';
+        }
+    }
+
     function esc(value) {
         if (value === null || value === undefined) return '';
         return String(value)
@@ -105,8 +116,9 @@
         if (!items.length) return `<div class="text-sm text-gray-500">${ui('Brak wpisów AI Pulse.', 'No AI Pulse entries.')}</div>`;
         const visible = showAiArchive ? items : items.slice(0, AI_PULSE_PREVIEW);
         return visible.map(item => {
-            const source = item.source_url
-                ? `<a href="${esc(item.source_url)}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-cyan-400 hover:text-cyan-300">${ui('Źródło', 'Source')}: ${esc(pick(item, 'source_label') || 'link')} ↗</a>`
+            const sourceUrl = safeUrl(item.source_url);
+            const source = sourceUrl
+                ? `<a href="${esc(sourceUrl)}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-cyan-400 hover:text-cyan-300">${ui('Źródło', 'Source')}: ${esc(pick(item, 'source_label') || 'link')} ↗</a>`
                 : '';
             return `<article class="border-b border-brand-border/60 pb-4 last:border-0 last:pb-0">
                     <div class="text-[10px] font-mono text-gray-500 mb-1">${esc(formatDate(item.published_at))}</div>
