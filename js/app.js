@@ -118,15 +118,14 @@ async function handleContactSubmit(e) {
 
         const senderName = email.split('@')[0] || 'Anonim';
 
-        const { data, error } = await supabaseClient
+        const { error } = await supabaseClient
             .from('messages')
             .insert([{ 
                 sender_name: senderName,
                 email: email, 
                 message: message,
                 created_at: new Date().toISOString() 
-            }])
-            .select();
+            }]);
 
         if (error) throw error;
 
