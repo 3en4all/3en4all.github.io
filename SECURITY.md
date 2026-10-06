@@ -15,8 +15,6 @@ data), please report it privately rather than opening a public issue:
 
 - **Preferred:** open a [private security advisory](../../security/advisories/new)
   on this repository (GitHub Security tab → "Report a vulnerability").
-- **Alternative:** email jacekgrodnicki@[YOUR_DOMAIN] — replace with a real
-  contact address you check.
 
 Please include steps to reproduce and, if relevant, which endpoint or file
 is affected. I aim to acknowledge reports within a few days and to fix
