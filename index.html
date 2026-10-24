@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl" class="dark">
 <head>
     <meta charset="UTF-8">
@@ -26,6 +26,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css?v=20260905-5">
+    <link rel="stylesheet" href="css/tech.css?v=20261024-1">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -56,7 +57,7 @@
         .techm8-dock a:hover, .techm8-dock button:hover { transform: translateY(-1px); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black pb-20">
+<body class="tech min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black pb-20">
     <header class="sticky top-0 z-40 bg-[#0a0f1d]/90 backdrop-blur border-b border-brand-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -76,19 +77,25 @@
                 <button onclick="openBioModal()" class="text-xs px-2 sm:px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition">O mnie</button>
             </div>
         </div>
+        <div class="t-statusbar hidden md:block">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-7 flex items-center justify-between gap-6 font-mono">
+                <div class="flex items-center gap-5 min-w-0"><span>~/3en4all/techm8</span><span>stack: python · local-ai · security · infra</span></div>
+                <div class="flex items-center gap-5 shrink-0"><span><span class="t-ok">●</span> pages: up</span><span id="t-clock">--:--:-- UTC</span></div>
+            </div>
+        </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full space-y-12">
-        <div id="hero" data-include="components/hero.html?v=20261023-1"></div>
-        <div id="live" data-include="components/live.html?v=20261023-1"></div>
-        <div id="about" data-include="components/about-brand.html?v=20261023-1"></div>
-        <div id="insights" data-include="components/insights.html?v=20261023-1"></div>
-        <div id="projects" data-include="components/projects.html?v=20261023-1"></div>
+        <div id="hero" data-include="components/hero.html?v=20261024-t1"></div>
+        <div id="live" data-include="components/live.html?v=20261024-t1"></div>
+        <div id="about" data-include="components/about-brand.html?v=20261024-t1"></div>
+        <div id="insights" data-include="components/insights.html?v=20261024-t1"></div>
+        <div id="projects" data-include="components/projects.html?v=20261024-t1"></div>
 
         <section id="research" class="border-t border-brand-border pt-12 scroll-mt-24">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h2 class="text-2xl font-bold text-white flex items-center gap-2"><span class="text-emerald-500">&lt;</span>Lab & Research<span class="text-emerald-500">/&gt;</span></h2>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2"><span class="t-sec" aria-hidden="true"></span><span class="t-deco text-emerald-500">&lt;</span>Lab & Research<span class="t-deco text-emerald-500">/&gt;</span></h2>
                     <p class="text-sm text-gray-400 mt-1" data-pl="Popularnonaukowy tor 3en4all: fizyka, astronomia, kosmologia i pytania o naturę rzeczywistości — oddzielony od technicznej bazy wiedzy TechM8." data-en="The popular-science track of 3en4all: physics, astronomy, cosmology and questions about the nature of reality — kept separate from the technical TechM8 knowledge base.">Popularnonaukowy tor 3en4all: fizyka, astronomia, kosmologia i pytania o naturę rzeczywistości — oddzielony od technicznej bazy wiedzy TechM8.</p>
                 </div>
                 <div class="flex items-center gap-3">
@@ -128,7 +135,7 @@
             </div>
         </section>
 
-        <div id="contact" data-include="components/contact.html?v=20261023-1"></div>
+        <div id="contact" data-include="components/contact.html?v=20261024-t1"></div>
     </main>
 
     <footer class="border-t border-brand-border bg-[#0a0f1d] py-6 text-center text-xs text-gray-500">
@@ -150,18 +157,22 @@
         </div>
     </div>
 
-    <div data-include="components/modals.html?v=20261023-1"></div>
+    <div data-include="components/modals.html?v=20261024-t1"></div>
 
-    <script src="js/language.js?v=20261023-1"></script>
-    <script src="js/app.js?v=20261023-1"></script>
-    <script src="js/data-language.js?v=20261023-1"></script>
-    <script src="js/live.js?v=20261023-1"></script>
-    <script src="js/network-pulse.js?v=20261023-1"></script>
+    <script src="js/language.js?v=20261024-t1"></script>
+    <script src="js/app.js?v=20261024-t1"></script>
+    <script src="js/data-language.js?v=20261024-t1"></script>
+    <script src="js/live.js?v=20261024-t1"></script>
+    <script src="js/network-pulse.js?v=20261024-t1"></script>
     <script>
         (() => {
             const topButton = document.getElementById('back-to-top');
             const progress = document.getElementById('scroll-progress');
             if (topButton) topButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            const clock = document.getElementById('t-clock');
+            const tick = () => { if (clock) clock.textContent = new Date().toISOString().slice(11, 19) + ' UTC'; };
+            tick();
+            setInterval(tick, 1000);
             const updateScrollProgress = () => {
                 if (!progress) return;
                 const doc = document.documentElement;

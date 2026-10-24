@@ -1,0 +1,247 @@
+/*
+ * TechM8 — warstwa "technical"
+ * Nakładka na Tailwind: ostre krawędzie, siatka, płaskie panele, numerowane sekcje.
+ * Usunięcie tego pliku i klasy body.tech przywraca poprzedni wygląd.
+ */
+:root {
+    --t-bg: #07090d;
+    --t-panel: #0b0f15;
+    --t-panel-2: #0e131b;
+    --t-line: #1b222c;
+    --t-line-2: #27303c;
+    --t-text: #d7dde5;
+    --t-muted: #7d8794;
+    --t-dim: #4b5563;
+    --t-accent: #34d399;
+    --t-accent-2: #22d3ee;
+    --t-warn: #fbbf24;
+    --t-radius: 2px;
+}
+
+body.tech {
+    background-color: var(--t-bg);
+    background-image:
+        linear-gradient(rgba(148, 163, 184, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, .035) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-attachment: fixed;
+    color: var(--t-text);
+    font-feature-settings: "zero" 1, "ss01" 1;
+}
+
+/* ---------- geometria: ostre krawędzie ---------- */
+body.tech .rounded-2xl,
+body.tech .rounded-xl,
+body.tech .rounded-lg,
+body.tech .rounded-md,
+body.tech .rounded,
+body.tech .rounded-full[class*="px-"] {
+    border-radius: var(--t-radius) !important;
+}
+
+/* ---------- bez dekoracji: blur, poświaty, gradienty tła ---------- */
+body.tech .blur-3xl { display: none !important; }
+body.tech .glow-emerald,
+body.tech .glow-cyan { box-shadow: none !important; }
+body.tech [class*="bg-gradient-to-br"] { background-image: none !important; background-color: var(--t-panel) !important; }
+body.tech .bg-clip-text {
+    background: none !important;
+    -webkit-text-fill-color: currentColor;
+    color: var(--t-text) !important;
+}
+
+/* ---------- panele ---------- */
+body.tech .bg-brand-card,
+body.tech .bg-brand-card\/50,
+body.tech .bg-brand-card\/80 { background-color: var(--t-panel) !important; }
+body.tech .border-brand-border { border-color: var(--t-line) !important; }
+body.tech .bg-\[\#0a0f1d\],
+body.tech .bg-\[\#0a0f1d\]\/60 { background-color: var(--t-bg) !important; }
+
+body.tech .tile-hover,
+body.tech .tile-hover:hover { transform: none !important; box-shadow: none !important; }
+body.tech .tile-hover:hover,
+body.tech .tile-hover-cyan:hover { border-color: var(--t-line-2) !important; }
+body.tech [class*="hover:-translate-y"]:hover { transform: none !important; }
+
+/* kafelki kart (projekty, artykuły, research): znacznik akcentu przy najechaniu */
+body.tech #projects-grid > *,
+body.tech #articles-grid > *,
+body.tech #research-grid > a {
+    position: relative;
+    background-color: var(--t-panel) !important;
+}
+body.tech #projects-grid > *::before,
+body.tech #articles-grid > *::before,
+body.tech #research-grid > a::before {
+    content: "";
+    position: absolute;
+    left: -1px; top: -1px; bottom: -1px;
+    width: 2px;
+    background: transparent;
+    transition: background-color .15s ease;
+}
+body.tech #projects-grid > *:hover::before,
+body.tech #articles-grid > *:hover::before,
+body.tech #research-grid > a:hover::before { background: var(--t-accent); }
+
+/* pasek tytułu panelu (dodawany w markupie) */
+body.tech .t-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin: -1.25rem -1.25rem 1.25rem;
+    padding: .45rem .9rem;
+    border-bottom: 1px solid var(--t-line);
+    background: var(--t-panel-2);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--t-dim);
+}
+@media (min-width: 640px) {
+    body.tech .t-titlebar { margin: -1.5rem -1.5rem 1.5rem; }
+}
+@media (min-width: 1024px) {
+    body.tech .t-titlebar { margin: -1.75rem -1.75rem 1.75rem; }
+}
+body.tech .t-titlebar b { color: var(--t-muted); font-weight: 500; }
+
+/* ---------- nagłówki sekcji: numeracja SEC.0N ---------- */
+body.tech main { counter-reset: sec; }
+body.tech main h2 {
+    letter-spacing: -.02em !important;
+}
+body.tech main h2::before {
+    counter-increment: sec;
+    content: "SEC." counter(sec, decimal-leading-zero);
+    display: block;
+    margin-bottom: .55rem;
+    padding-bottom: .4rem;
+    border-bottom: 1px solid var(--t-line);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .2em;
+    color: var(--t-accent);
+}
+body.tech main h2.flex::before { display: none; }
+body.tech main h2.flex { flex-wrap: wrap; }
+body.tech main h2 > .t-sec {
+    flex-basis: 100%;
+    margin-bottom: .55rem;
+    padding-bottom: .4rem;
+    border-bottom: 1px solid var(--t-line);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .2em;
+    color: var(--t-accent);
+}
+body.tech main h2 > .t-sec::before { counter-increment: sec; content: "SEC." counter(sec, decimal-leading-zero); }
+/* sekcje formalne (API) nie są numerowane */
+body.tech #youtube-api h2::before,
+body.tech #tiktok-api h2::before { content: none; counter-increment: none; }
+/* dekoracyjne "//", "<" ">" w nagłówkach */
+body.tech main h2 > .t-deco { display: none; }
+
+/* ---------- tagi / pigułki ---------- */
+body.tech .rounded-full[class*="px-"] {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: .08em;
+}
+body.tech #projects-grid .rounded,
+body.tech #tag-filters .tag-btn { border-radius: var(--t-radius) !important; }
+body.tech #tag-filters .tag-btn { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+/* ---------- przyciski ---------- */
+body.tech a.bg-emerald-500,
+body.tech a.bg-emerald-600,
+body.tech button.bg-emerald-500 {
+    background-color: var(--t-accent) !important;
+    border-color: var(--t-accent) !important;
+    color: #04130c !important;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-size: 11px;
+}
+body.tech a.bg-emerald-500:hover,
+body.tech a.bg-emerald-600:hover,
+body.tech button.bg-emerald-500:hover { background-color: #6ee7b7 !important; }
+
+/* linki social w kontakcie: wyciszone, akcent dopiero przy najechaniu */
+body.tech #contact a[class*="00f2fe"] {
+    border-color: var(--t-line-2) !important;
+    color: var(--t-muted) !important;
+    font-weight: 400;
+}
+body.tech #contact a[class*="00f2fe"]:hover {
+    border-color: var(--t-accent) !important;
+    color: var(--t-accent) !important;
+    background: transparent !important;
+}
+
+/* ---------- pola formularzy ---------- */
+body.tech input,
+body.tech textarea {
+    background-color: var(--t-bg) !important;
+    border-color: var(--t-line-2) !important;
+    caret-color: var(--t-accent);
+}
+body.tech input:focus,
+body.tech textarea:focus { border-color: var(--t-accent) !important; outline: none; box-shadow: 0 0 0 1px var(--t-accent); }
+
+/* ---------- nagłówek strony: pasek statusu ---------- */
+body.tech > header {
+    background: var(--t-bg) !important;
+    backdrop-filter: none !important;
+    border-bottom-color: var(--t-line) !important;
+}
+body.tech .t-statusbar {
+    border-top: 1px solid var(--t-line);
+    background: var(--t-panel);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--t-dim);
+}
+body.tech .t-statusbar span.t-ok { color: var(--t-accent); }
+
+/* ---------- hero ---------- */
+body.tech #live-techm8 h1 { letter-spacing: -.04em !important; }
+body.tech #live-techm8 h1 .t-cursor {
+    display: inline-block;
+    width: .5em;
+    height: .9em;
+    margin-left: .08em;
+    vertical-align: -.06em;
+    background: var(--t-accent);
+    animation: t-blink 1.1s steps(1) infinite;
+}
+@keyframes t-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+    body.tech #live-techm8 h1 .t-cursor { animation: none; }
+}
+body.tech #live-techm8 .bg-gradient-to-r { background-image: none !important; background-color: var(--t-line) !important; }
+
+/* specyfikacja (dl) w hero */
+body.tech .t-spec { display: grid; grid-template-columns: max-content 1fr; gap: .3rem 1rem; }
+body.tech .t-spec dt { color: var(--t-dim); text-transform: uppercase; letter-spacing: .14em; }
+body.tech .t-spec dd { color: var(--t-muted); }
+
+/* ---------- stopka i dolny pasek ---------- */
+body.tech > footer { background: var(--t-bg) !important; border-top-color: var(--t-line) !important; }
+body.tech .techm8-dock {
+    background: rgba(9, 12, 17, .94) !important;
+    border-color: var(--t-line-2) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-radius: var(--t-radius) !important;
+}
+body.tech .techm8-dock a:hover,
+body.tech .techm8-dock button:hover { transform: none; }
+body.tech #scroll-progress { background-image: none !important; background-color: var(--t-accent) !important; }
+
+/* zaznaczenie i pasek przewijania */
+body.tech ::selection { background: var(--t-accent); color: #04130c; }
+body.tech { scrollbar-color: var(--t-line-2) var(--t-bg); }
