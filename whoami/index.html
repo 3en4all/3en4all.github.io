@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>srv01 // whoami</title>
+    <meta name="description" content="Coś dla tych, którzy zatrzymali film.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>_</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --tlo: #020a02; --zielony: #3cff6e; --przygaszony: #1eaa46; --blad: #ff5a5a; --zolty: #e8ff6a; }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; background: var(--tlo); color: var(--zielony); }
+        body { font: 15px/1.55 'JetBrains Mono', Consolas, monospace; min-height: 100vh; padding: 24px 16px 48px; }
+        body::after { content: ""; position: fixed; inset: 0; pointer-events: none;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,.25) 0 1px, transparent 1px 3px); }
+        main { max-width: 760px; margin: 0 auto; }
+        #ekran { white-space: pre-wrap; word-break: break-word; }
+        .p { color: var(--przygaszony); }
+        .b { color: var(--blad); }
+        .z { color: var(--zolty); }
+        .linia { display: flex; gap: 0; align-items: baseline; }
+        #wejscie { flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: var(--zielony);
+            font: inherit; caret-color: var(--zielony); padding: 0; }
+        #wejscie.ukryte { color: transparent; text-shadow: none; }
+        h2 { font-size: 15px; margin: 32px 0 8px; color: var(--przygaszony); font-weight: 400; }
+        #hall { list-style: none; margin: 0; padding: 0; columns: 2 220px; }
+        #hall li { break-inside: avoid; }
+        #hall .nr { color: var(--przygaszony); }
+        footer { margin-top: 32px; color: var(--przygaszony); font-size: 13px; }
+        footer a { color: var(--przygaszony); }
+    </style>
+</head>
+<body>
+<main>
+    <div id="ekran"></div>
+    <div class="linia"><span id="prompt"></span><input id="wejscie" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal"></div>
+    <h2 id="hallTytul"></h2>
+    <ol id="hall"></ol>
+    <footer><a href="../">3en4all.github.io</a></footer>
+</main>
+<script>
+(() => {
+    const URL_SB = 'https://yxhxrlmydbiblpninatx.supabase.co';
+    const KLUCZ = 'sb_publishable_bp2Xrh7oGCwC55rj2JTGxQ_LmlAiabw';
+    const PL = (navigator.language || 'pl').toLowerCase().startsWith('pl');
+    const T = PL ? {
+        powitanie: ['3EN4ALL // TechM8 — srv01', 'Jeśli tu jesteś, zatrzymałeś film we właściwym momencie.', 'Wszystko, czego potrzebujesz, padło w filmie.', ''],
+        login: 'srv01 login: ', haslo: 'Password: ', zle: 'Login incorrect',
+        pod1: 'podpowiedź: login widać przy ssh.',
+        pod2: 'podpowiedź: hasło = odpowiedź na whoami + rok, o którym pisał Clarke. Bez spacji.',
+        ok: ['', 'Access granted.', 'Witaj po drugiej stronie. Dopisz się do listy tych, którzy rozwiązali.', ''],
+        nick: 'nick (2–24 znaki: litery, cyfry, _ -): ',
+        zapisany: n => `Zapisano jako: ${n}. Dzięki!`,
+        bledy: { BAD_LENGTH: 'Nick musi mieć 2–24 znaki.', BAD_CHARS: 'Dozwolone: litery, cyfry, spacja, _ i -.',
+                 DUPLICATE: 'Taki nick już jest na liście.', TOO_MANY: 'Za dużo wpisów naraz, spróbuj za godzinę.',
+                 ACCESS_DENIED: 'Sesja wygasła, zaloguj się jeszcze raz.', INNY: 'Coś poszło nie tak, spróbuj ponownie.' },
+        siec: 'Brak połączenia z serwerem.',
+        hall: n => `$ cat hall_of_fame.txt   # rozwiązali: ${n}`,
+        pusto: '(jeszcze nikt — możesz być pierwszy)', koniec: 'logout'
+    } : {
+        powitanie: ['3EN4ALL // TechM8 — srv01', "If you're here, you paused the video at the right moment.", 'Everything you need was in the video.', ''],
+        login: 'srv01 login: ', haslo: 'Password: ', zle: 'Login incorrect',
+        pod1: 'hint: the login is visible next to ssh.',
+        pod2: 'hint: password = the answer to whoami + the year Clarke wrote about. No spaces.',
+        ok: ['', 'Access granted.', 'Welcome to the other side. Add yourself to the list of those who solved it.', ''],
+        nick: 'nick (2–24 chars: letters, digits, _ -): ',
+        zapisany: n => `Saved as: ${n}. Thanks!`,
+        bledy: { BAD_LENGTH: 'Nick must be 2–24 characters.', BAD_CHARS: 'Allowed: letters, digits, space, _ and -.',
+                 DUPLICATE: 'That nick is already on the list.', TOO_MANY: 'Too many entries right now, try again in an hour.',
+                 ACCESS_DENIED: 'Session expired, log in again.', INNY: 'Something went wrong, try again.' },
+        siec: 'Cannot reach the server.',
+        hall: n => `$ cat hall_of_fame.txt   # solved: ${n}`,
+        pusto: '(nobody yet — you can be the first)', koniec: 'logout'
+    };
+    document.documentElement.lang = PL ? 'pl' : 'en';
+
+    const ekran = document.getElementById('ekran');
+    const prompt = document.getElementById('prompt');
+    const wejscie = document.getElementById('wejscie');
+    let etap = 'login', login = '', haslo = '', proby = 0, zajety = false;
+
+    function pisz(tekst, klasa) {
+        const s = document.createElement('div');
+        if (klasa) s.className = klasa;
+        s.textContent = tekst;
+        ekran.appendChild(s);
+    }
+    function ustawEtap(e) {
+        etap = e;
+        prompt.textContent = e === 'login' ? T.login : e === 'haslo' ? T.haslo : e === 'nick' ? T.nick : '';
+        wejscie.classList.toggle('ukryte', e === 'haslo');
+        wejscie.disabled = e === 'koniec';
+        wejscie.value = '';
+        if (e !== 'koniec') wejscie.focus();
+    }
+    async function rpc(nazwa, dane) {
+        const r = await fetch(`${URL_SB}/rest/v1/rpc/${nazwa}`, {
+            method: 'POST',
+            headers: { apikey: KLUCZ, Authorization: `Bearer ${KLUCZ}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(dane)
+        });
+        const j = await r.json().catch(() => null);
+        if (!r.ok) throw new Error((j && j.message) || 'INNY');
+        return j;
+    }
+    async function wczytajHall() {
+        try {
+            const r = await fetch(`${URL_SB}/rest/v1/zagadka_hall?select=nick&order=id.asc&limit=500`,
+                { headers: { apikey: KLUCZ, Authorization: `Bearer ${KLUCZ}` } });
+            const lista = r.ok ? await r.json() : [];
+            document.getElementById('hallTytul').textContent = T.hall(lista.length);
+            const ol = document.getElementById('hall');
+            ol.replaceChildren();
+            if (!lista.length) {
+                const li = document.createElement('li');
+                li.textContent = T.pusto;
+                ol.appendChild(li);
+            }
+            lista.forEach((w, i) => {
+                const li = document.createElement('li');
+                const nr = document.createElement('span');
+                nr.className = 'nr';
+                nr.textContent = String(i + 1).padStart(3, '0') + '  ';
+                li.append(nr, document.createTextNode(w.nick));
+                ol.appendChild(li);
+            });
+        } catch (e) {
+            document.getElementById('hallTytul').textContent = T.hall('?');
+        }
+    }
+
+    wejscie.addEventListener('keydown', async ev => {
+        if (ev.key !== 'Enter' || zajety) return;
+        const v = wejscie.value;
+        if (etap === 'login') {
+            pisz(T.login + v);
+            login = v;
+            ustawEtap('haslo');
+        } else if (etap === 'haslo') {
+            pisz(T.haslo);
+            haslo = v;
+            zajety = true;
+            try {
+                const ok = await rpc('zagadka_sprawdz', { p_login: login, p_haslo: haslo });
+                if (ok === true) {
+                    T.ok.forEach(l => pisz(l, 'z'));
+                    ustawEtap('nick');
+                } else {
+                    proby++;
+                    pisz(T.zle, 'b');
+                    if (proby >= 4) pisz(T.pod2, 'p'); else if (proby >= 2) pisz(T.pod1, 'p');
+                    pisz('');
+                    ustawEtap('login');
+                }
+            } catch (e) {
+                pisz(T.siec, 'b');
+                ustawEtap('login');
+            }
+            zajety = false;
+        } else if (etap === 'nick') {
+            pisz(T.nick + v);
+            zajety = true;
+            try {
+                const zapisany = await rpc('zagadka_wpis', { p_login: login, p_haslo: haslo, p_nick: v });
+                pisz(T.zapisany(zapisany), 'z');
+                pisz(T.koniec, 'p');
+                ustawEtap('koniec');
+                wczytajHall();
+            } catch (e) {
+                pisz(T.bledy[e.message] || T.bledy.INNY, 'b');
+                if (e.message === 'ACCESS_DENIED') ustawEtap('login'); else ustawEtap('nick');
+            }
+            zajety = false;
+        }
+    });
+    document.addEventListener('click', () => { if (!wejscie.disabled) wejscie.focus(); });
+
+    T.powitanie.forEach(l => pisz(l));
+    ustawEtap('login');
+    wczytajHall();
+})();
+</script>
+</body>
+</html>
