@@ -59,7 +59,7 @@ async function start() {
         const t = (performance.now() - t0) / 1000;
         const kat = 0.9 + Math.sin(t * 0.25) * 0.55; // powolne kołysanie, bez pełnego obrotu
         camera.position.set(Math.sin(kat) * 1.75, 1.05 + Math.sin(t * 0.17) * 0.06, Math.cos(kat) * 1.75);
-        camera.lookAt(0, 0.28, 0);
+        camera.lookAt(0, 0.12, 0);
         renderer.render(scene, camera);
     });
 }
