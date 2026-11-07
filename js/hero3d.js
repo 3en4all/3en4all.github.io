@@ -38,6 +38,7 @@ async function start() {
 
     const rozmiar = () => {
         const w = host.clientWidth, h = host.clientHeight;
+        if (!w || !h) return;
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         // obiekt w prawej części panelu, tekst zostaje czytelny po lewej
@@ -45,7 +46,8 @@ async function start() {
         camera.updateProjectionMatrix();
     };
     rozmiar();
-    addEventListener('resize', rozmiar);
+    // panel dostaje pełną wysokość dopiero po wczytaniu treści, więc liczymy rozmiar przy każdej zmianie, nie tylko przy resize okna
+    new ResizeObserver(rozmiar).observe(host);
 
     await viewer.addSplatScene('assets/hero/plytka.splat', { format: GS.SceneFormat.Splat, showLoadingUI: false, progressiveLoad: false });
     panel.classList.add('is-live');
