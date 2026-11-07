@@ -9,21 +9,17 @@
         @media (prefers-reduced-motion: reduce) { #hero3d .h3d-canvas { display:none; } }
         /* Litery-klocki: tekst zostaje w .h3d-src dla czytników; warstwa k3 rysuje znaki przez attr(), bez węzłów tekstowych (tłumacz strony ich nie rusza). */
         #hero3d h1.k3-on .h3d-src { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
-        #hero3d .k3-layer { perspective:900px; }
-        #hero3d .k3w { display:inline-block; white-space:nowrap; transform-style:preserve-3d; }
-        #hero3d .k3 { display:inline-block; transform-style:preserve-3d; animation:k3wob var(--t,6s) ease-in-out var(--dl,0s) infinite alternate; }
-        #hero3d .k3 i { display:inline-block; font-style:normal; transition:transform .9s cubic-bezier(.2,.7,.2,1); }
-        #hero3d .k3 i::before { content:attr(data-c); color:var(--c,#fff); text-shadow:1px 1px 0 var(--d,#555), 2px 2px 0 var(--d,#555), 3px 3px 0 var(--d,#555), 4px 4px 0 var(--d,#555), 6px 7px 10px rgba(0,0,0,.55); }
+        #hero3d .k3w { display:inline-block; white-space:nowrap; }
+        #hero3d .k3 { display:inline-block; }
+        #hero3d .k3 i { display:inline-block; font-style:normal; }
+        #hero3d .k3 i::before { content:attr(data-c); color:var(--c,#fff); text-shadow:1px 1px 0 var(--d,#555), 2px 2px 0 var(--d,#555), 3px 4px 6px rgba(0,0,0,.45); }
         #hero3d .k3.sp { width:.28em; }
-        #hero3d .k3 i.pop { transform:translateZ(70px); }
-        @keyframes k3wob { from { transform:rotateX(var(--rx,4deg)) rotateY(var(--ry,-5deg)) translateY(-1px); } to { transform:rotateX(calc(var(--rx,4deg) * -1)) rotateY(calc(var(--ry,-5deg) * -1)) translateY(1px); } }
-        @media (prefers-reduced-motion: reduce) { #hero3d .k3 { animation:none; } #hero3d .k3 i { transition:none; } }
     </style>
     <img class="h3d-poster" src="assets/hero/plytka.jpg" alt="" aria-hidden="true" decoding="async">
     <div class="h3d-canvas" id="hero3d-canvas" aria-hidden="true"></div>
     <div class="h3d-shade"></div>
 
-    <div class="relative z-10 w-full p-6 sm:p-10 lg:p-14">
+    <div class="relative z-10 w-full p-6 sm:p-10 lg:p-14 lg:pb-[7.5rem]">
         <div class="t-titlebar font-mono max-w-4xl"><span><b>sys://techm8</b> / profile</span><span class="hidden sm:inline">pid 3en · rev 2026.11</span></div>
         <div class="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-[0.14em]">
             <span class="inline-flex items-center gap-2 text-cyan-300 bg-cyan-950/40 border border-cyan-500/30 px-3 py-1 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>System Architecture & Development</span>

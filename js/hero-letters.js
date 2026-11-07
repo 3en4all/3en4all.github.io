@@ -1,11 +1,9 @@
-// Nagłówek hero jako litery-klocki 3D: lekkie kołysanie + co chwilę jedna litera wysuwa się do ekranu.
+// Nagłówek hero jako statyczne litery z lekkim cieniem 3D.
 (() => {
     const GRAD = [[110, 231, 183], [103, 232, 249], [196, 181, 253]]; // emerald-300, cyan-300, violet-300
     const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
     const gradAt = t => t < .5 ? mix(GRAD[0], GRAD[1], t * 2) : mix(GRAD[1], GRAD[2], (t - .5) * 2);
     const rgb = c => `rgb(${c.join(',')})`;
-    const ruch = () => !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let timer = null;
 
     function tekst(el) {
         const lang = (window.getCurrentLanguage && window.getCurrentLanguage()) === 'en' ? 'data-en' : 'data-pl';
@@ -15,10 +13,6 @@
     function litera(ch, kolor, cien) {
         const s = document.createElement('span');
         s.className = ch === ' ' ? 'k3 sp' : 'k3';
-        s.style.setProperty('--t', (5 + Math.random() * 4).toFixed(2) + 's');
-        s.style.setProperty('--dl', (-Math.random() * 8).toFixed(2) + 's');
-        s.style.setProperty('--rx', (3 + Math.random() * 5).toFixed(1) + 'deg');
-        s.style.setProperty('--ry', (Math.random() < .5 ? -1 : 1) * (4 + Math.random() * 6) + 'deg');
         const i = document.createElement('i');
         if (ch !== ' ') {
             i.dataset.c = ch;
@@ -54,24 +48,10 @@
         h1.classList.add('k3-on');
     }
 
-    function wysuwaj(h1) {
-        clearInterval(timer);
-        if (!ruch()) return;
-        timer = setInterval(() => {
-            if (document.hidden) return;
-            const lit = h1.querySelectorAll('.k3 i[data-c]');
-            if (!lit.length) return;
-            const el = lit[Math.floor(Math.random() * lit.length)];
-            el.classList.add('pop');
-            setTimeout(() => el.classList.remove('pop'), 1100);
-        }, 1400);
-    }
-
     function start() {
         const h1 = document.querySelector('#hero3d h1');
         if (!h1) return false;
         zbuduj(h1);
-        wysuwaj(h1);
         window.addEventListener('techm8:languagechange', () => zbuduj(h1));
         return true;
     }
