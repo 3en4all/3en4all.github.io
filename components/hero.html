@@ -5,7 +5,6 @@
         #hero3d .h3d-canvas { position:absolute; inset:0; opacity:0; transition:opacity 1.2s ease; }
         #hero3d.is-live .h3d-canvas { opacity:1; }
         #hero3d .h3d-shade { position:absolute; inset:0; background:linear-gradient(90deg, rgba(5,7,13,.96) 0%, rgba(5,7,13,.78) 38%, rgba(5,7,13,.15) 72%, rgba(5,7,13,.35) 100%), linear-gradient(0deg, rgba(5,7,13,.9) 0%, transparent 45%); pointer-events:none; }
-        #hero3d .h3d-stat b { display:block; font-size:clamp(1.6rem,3.2vw,2.6rem); line-height:1; font-weight:800; letter-spacing:-.04em; }
         @media (max-width: 767px) { #hero3d .h3d-poster { object-position:62% 30%; opacity:.35; } }
         @media (prefers-reduced-motion: reduce) { #hero3d .h3d-canvas { display:none; } }
         /* Litery-klocki: tekst zostaje w .h3d-src dla czytników; warstwa k3 rysuje znaki przez attr(), bez węzłów tekstowych (tłumacz strony ich nie rusza). */
@@ -48,13 +47,6 @@
         <div class="mt-8 flex flex-wrap gap-3">
             <a href="#projects" class="rounded-xl bg-emerald-500 text-black font-bold text-sm px-5 py-3 hover:bg-emerald-400 transition" data-pl="Zobacz projekty" data-en="See projects">Zobacz projekty</a>
             <a href="#research" class="rounded-xl border border-white/15 bg-white/5 text-white text-sm px-5 py-3 hover:border-cyan-400/60 transition" data-pl="Lab & Research" data-en="Lab & Research">Lab & Research</a>
-        </div>
-
-        <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl">
-            <div class="h3d-stat"><b class="text-emerald-300">~20</b><span class="text-xs text-gray-400" data-pl="lat praktyki w IT" data-en="years in IT">lat praktyki w IT</span></div>
-            <div class="h3d-stat"><b class="text-cyan-300">4</b><span class="text-xs text-gray-400" data-pl="kanały YouTube Tech/Science PL/EN" data-en="YouTube channels Tech/Science PL/EN">kanały YouTube Tech/Science PL/EN</span></div>
-            <div class="h3d-stat"><b class="text-violet-300">2</b><span class="text-xs text-gray-400" data-pl="publiczne narzędzia Windows" data-en="public Windows tools">publiczne narzędzia Windows</span></div>
-            <div class="h3d-stat"><b class="text-amber-300">PL/EN</b><span class="text-xs text-gray-400" data-pl="strona i kanały w dwóch językach" data-en="site and channels in two languages">strona i kanały w dwóch językach</span></div>
         </div>
     </div>
 </section>
