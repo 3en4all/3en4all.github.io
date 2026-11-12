@@ -1,0 +1,16 @@
+{
+  "updated_at": "2026-11-12T05:40:00+01:00",
+  "repos": ["3en4all.github.io", "PhishingInspector", "sysMonBy3en4all"],
+  "now": {
+    "title": "Aplikacje 3EN w Microsoft Store",
+    "title_en": "3EN apps in the Microsoft Store",
+    "body": "Phishing Inspector i BlokerDanych są dostępne w Microsoft Store. sysMonBy3en4all 0.7 jest spakowany i przygotowany do zgłoszenia.",
+    "body_en": "Phishing Inspector and BlokerDanych are available in the Microsoft Store. sysMonBy3en4all 0.7 is packaged and ready for submission."
+  },
+  "next": {
+    "title": "sysMonBy3en4all w Microsoft Store",
+    "title_en": "sysMonBy3en4all in the Microsoft Store",
+    "body": "Zgłoszenie do certyfikacji i publiczna beta. Dziennik projektu na tej stronie buduje się już automatycznie z commitów na GitHubie.",
+    "body_en": "Certification submission and a public beta. The project log on this page is now built automatically from GitHub commits."
+  }
+}

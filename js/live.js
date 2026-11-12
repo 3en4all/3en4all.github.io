@@ -6,6 +6,61 @@
     let showAiArchive = false;
     let cachedProjectLog = [];
     let cachedAiPulse = [];
+    let cachedNow = null;
+    let cachedNext = null;
+
+    const STATUS_URL = '/data/status.json';
+    const GH_OWNER = '3en4all';
+    const COMMITS_PER_REPO = 8;
+    const COMMIT_CACHE_KEY = 'techm8-commits-v1';
+    const COMMIT_CACHE_MS = 30 * 60 * 1000;
+
+    function readCache() {
+        try { return JSON.parse(localStorage.getItem(COMMIT_CACHE_KEY) || 'null'); } catch (_) { return null; }
+    }
+
+    function writeCache(value) {
+        try { localStorage.setItem(COMMIT_CACHE_KEY, JSON.stringify(value)); } catch (_) { /* storage blocked */ }
+    }
+
+    async function loadStatus() {
+        try {
+            const res = await fetch(`${STATUS_URL}?t=${Date.now()}`, { cache: 'no-store' });
+            if (!res.ok) return null;
+            return await res.json();
+        } catch (_) {
+            return null;
+        }
+    }
+
+    // Project log z commitów publicznych repo (GitHub API, bez klucza; cache 30 min na limit 60 zapytań/h).
+    async function loadCommits(repos) {
+        const key = (repos || []).join(',');
+        const cached = readCache();
+        if (cached && cached.key === key && Date.now() - cached.at < COMMIT_CACHE_MS) return cached.items;
+        try {
+            const lists = await Promise.all((repos || []).map(async repo => {
+                const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${encodeURIComponent(repo)}/commits?per_page=${COMMITS_PER_REPO}`);
+                if (!res.ok) throw new Error(`GitHub ${res.status}`);
+                const data = await res.json();
+                return data
+                    .map(c => ({
+                        kind: 'PROJECT_LOG',
+                        title: String(c.commit?.message || '').split('\n')[0].trim(),
+                        body: `${repo} · ${String(c.sha || '').slice(0, 7)}`,
+                        published_at: c.commit?.committer?.date || c.commit?.author?.date,
+                        source_url: c.html_url
+                    }))
+                    .filter(c => c.title && !/^Merge (pull request|branch)/i.test(c.title));
+            }));
+            const items = lists.flat();
+            writeCache({ key, at: Date.now(), items });
+            return items;
+        } catch (err) {
+            console.warn('GitHub commits unavailable:', err);
+            return cached && cached.key === key ? cached.items : [];
+        }
+    }
 
     function currentLang() {
         return typeof getCurrentLanguage === 'function' ? getCurrentLanguage() : 'pl';
@@ -104,12 +159,18 @@
     function renderProjectLog(items) {
         if (!items.length) return `<div class="text-sm text-gray-500">${ui('Brak wpisów w dzienniku.', 'No project-log entries.')}</div>`;
         const visible = showProjectArchive ? items : items.slice(0, PROJECT_LOG_PREVIEW);
-        return visible.map(item => `<div class="relative pl-5 border-l border-emerald-500/30">
+        return visible.map(item => {
+            const url = safeUrl(item.source_url);
+            const body = url
+                ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-cyan-400/80 hover:text-cyan-300">${esc(pick(item, 'body'))} ↗</a>`
+                : `<p class="text-xs text-gray-400 leading-relaxed">${esc(pick(item, 'body'))}</p>`;
+            return `<div class="relative pl-5 border-l border-emerald-500/30">
                 <span class="absolute -left-1 top-1.5 w-2 h-2 rounded-full bg-emerald-400"></span>
                 <div class="text-[10px] font-mono text-gray-500 mb-1">${esc(formatDate(item.published_at))}</div>
                 <h4 class="text-sm font-semibold text-white mb-1">${esc(pick(item, 'title'))}</h4>
-                <p class="text-xs text-gray-400 leading-relaxed">${esc(pick(item, 'body'))}</p>
-            </div>`).join('');
+                ${body}
+            </div>`;
+        }).join('');
     }
 
     function renderAiPulse(items) {
@@ -170,18 +231,32 @@
 
     async function loadLiveFeed() {
         const root = document.getElementById('live-techm8');
-        if (!root || typeof supabaseClient === 'undefined' || !supabaseClient) return false;
+        if (!root) return false;
         try {
-            const { data, error } = await supabaseClient
-                .from('live_updates')
-                .select('id,kind,title,title_en,body,body_en,source_url,source_label,source_label_en,published_at,priority,is_active')
-                .order('published_at', { ascending: false })
-                .limit(100);
-            if (error) throw error;
-            const items = data || [];
-            const now = items.filter(x => x.kind === 'NOW' && x.is_active).sort((a, b) => (b.priority || 0) - (a.priority || 0))[0];
-            const next = items.filter(x => x.kind === 'NEXT' && x.is_active).sort((a, b) => (b.priority || 0) - (a.priority || 0))[0];
-            const projectLog = items.filter(x => x.kind === 'PROJECT_LOG').sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+            const status = await loadStatus();
+            const commitsPromise = loadCommits(status?.repos || []);
+            let items = [];
+            if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+                try {
+                    const { data, error } = await supabaseClient
+                        .from('live_updates')
+                        .select('id,kind,title,title_en,body,body_en,source_url,source_label,source_label_en,published_at,priority,is_active')
+                        .order('published_at', { ascending: false })
+                        .limit(100);
+                    if (error) throw error;
+                    items = data || [];
+                } catch (err) {
+                    console.warn('Supabase live_updates unavailable:', err);
+                }
+            }
+            const commits = await commitsPromise;
+            // NOW / NEXT: data/status.json ma pierwszeństwo przed Supabase.
+            const fromStatus = entry => entry ? { ...entry, published_at: entry.published_at || status.updated_at } : null;
+            const now = fromStatus(status?.now) || items.filter(x => x.kind === 'NOW' && x.is_active).sort((a, b) => (b.priority || 0) - (a.priority || 0))[0];
+            const next = fromStatus(status?.next) || items.filter(x => x.kind === 'NEXT' && x.is_active).sort((a, b) => (b.priority || 0) - (a.priority || 0))[0];
+            cachedNow = now;
+            cachedNext = next;
+            const projectLog = [...commits, ...items.filter(x => x.kind === 'PROJECT_LOG')].sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
             const aiPulse = items.filter(x => x.kind === 'AI_PULSE').sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
             cachedProjectLog = projectLog;
             cachedAiPulse = aiPulse;
@@ -222,8 +297,12 @@
     window.addEventListener('techm8:languagechange', () => {
         const logEl = document.getElementById('live-project-log');
         const pulseEl = document.getElementById('live-ai-pulse');
+        const nowEl = document.getElementById('live-now');
+        const nextEl = document.getElementById('live-next');
         if (logEl) logEl.innerHTML = renderProjectLog(cachedProjectLog);
         if (pulseEl) pulseEl.innerHTML = renderAiPulse(cachedAiPulse);
+        if (nowEl && cachedNow) nowEl.innerHTML = renderPrimary(cachedNow, 'text-emerald-400');
+        if (nextEl && cachedNext) nextEl.innerHTML = renderPrimary(cachedNext, 'text-cyan-400');
         bindArchiveButtons();
     });
     window.addEventListener('load', startWhenMounted);
