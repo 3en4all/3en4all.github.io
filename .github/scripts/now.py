@@ -38,7 +38,8 @@ def commit_count(repo, since):
         headers['Authorization'] = f"Bearer {os.environ['GITHUB_TOKEN']}"
     # shortcut: max 100 commits per repo counted, enough for a 14-day window.
     _, body = get(f'https://api.github.com/repos/{OWNER}/{repo}/commits?since={since}&per_page=100', headers)
-    return len(json.loads(body))
+    # Skip own commits, otherwise every run changes the count and commits again.
+    return sum(1 for c in json.loads(body) if not c['commit']['message'].startswith('status: auto-update'))
 
 
 def build_now(store_names, activity):
