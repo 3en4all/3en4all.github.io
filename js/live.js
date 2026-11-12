@@ -51,7 +51,7 @@
                         published_at: c.commit?.committer?.date || c.commit?.author?.date,
                         source_url: c.html_url
                     }))
-                    .filter(c => c.title && !/^Merge (pull request|branch)/i.test(c.title));
+                    .filter(c => c.title && !/^(Merge (pull request|branch)|status: auto-update)/i.test(c.title));
             }));
             const items = lists.flat();
             writeCache({ key, at: Date.now(), items });

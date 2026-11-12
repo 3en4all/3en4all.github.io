@@ -1,0 +1,30 @@
+name: Update NOW card
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-now
+  cancel-in-progress: false
+
+jobs:
+  now:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate data/status.json "now"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 .github/scripts/now.py
+      - name: Commit if changed
+        run: |
+          git diff --quiet data/status.json && exit 0
+          git config user.name 3en4all-bot
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "status: auto-update NOW" data/status.json
+          git push
