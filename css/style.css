@@ -40,3 +40,11 @@ body {
 .tile-hover-cyan:hover {
     border-color: rgba(34, 211, 238, 0.55) !important;
 }
+/* wejście treści przy przewijaniu; klasy dodaje i zdejmuje revealScan() w js/app.js */
+html .rv {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+    transition: opacity .8s ease, transform .8s cubic-bezier(.22, 1, .36, 1);
+    transition-delay: var(--rv-delay, 0ms);
+}
+html .rv.rv-in { opacity: 1; transform: none; }

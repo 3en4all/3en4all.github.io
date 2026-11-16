@@ -53,9 +53,54 @@ function escapeHtml(value) {
         .replace(/'/g, '&#39;');
 }
 
+/**
+ * Wejście treści przy przewijaniu (style .rv w css/style.css).
+ * Uruchamiane przez MutationObserver po każdym doładowaniu komponentu i wypełnieniu siatki;
+ * po animacji klasy są zdejmowane, żeby nie kolidowały z efektami hover.
+ */
+const RV_ON = 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+const rvSeen = new WeakSet();
+const rvGrids = '#articles-grid, #research-grid, #projects-grid';
+const rvObserver = RV_ON ? new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const n = e.target;
+    rvObserver.unobserve(n);
+    n.classList.add('rv-in');
+    setTimeout(() => { n.classList.remove('rv', 'rv-in'); n.style.removeProperty('--rv-delay'); }, 1200);
+}), { rootMargin: '0px 0px -8% 0px' }) : null;
+
+function revealScan() {
+    if (!RV_ON) return;
+    const nodes = [];
+    document.querySelectorAll('main > section:not(#hero3d)').forEach(s => {
+        if (s.matches('.bg-brand-card')) nodes.push(s);
+        else nodes.push(...[...s.children].filter(c => !c.matches(rvGrids + ', style, script')));
+    });
+    // karty w siatkach tylko przy pierwszym wypełnieniu — filtrowanie nie odpala animacji od nowa
+    document.querySelectorAll(rvGrids).forEach(g => {
+        if (g.dataset.rvDone || !g.querySelector(':scope > [onclick], :scope > a')) return;
+        g.dataset.rvDone = '1';
+        [...g.children].forEach((c, i) => { c.style.setProperty('--rv-delay', (i % 3) * 90 + 'ms'); nodes.push(c); });
+    });
+    nodes.forEach(n => {
+        if (rvSeen.has(n)) return;
+        rvSeen.add(n);
+        n.classList.add('rv');
+        rvObserver.observe(n);
+    });
+}
+
+// siatki wypełnia też js/data-language.js, więc zamiast wywołań w każdym renderze — jeden obserwator zmian
+if (RV_ON) document.addEventListener('DOMContentLoaded', () => {
+    const main = document.querySelector('main');
+    if (!main) return;
+    revealScan();
+    new MutationObserver(revealScan).observe(main, { childList: true, subtree: true });
+});
+
 async function loadComponents() {
     const includes = document.querySelectorAll('[data-include]');
-    
+
     for (const el of includes) {
         const file = el.getAttribute('data-include').replace(/\\/g, '/');
         try {
