@@ -55,19 +55,21 @@ function escapeHtml(value) {
 
 /**
  * Wejście treści przy przewijaniu (style .rv w css/style.css).
- * Uruchamiane przez MutationObserver po każdym doładowaniu komponentu i wypełnieniu siatki;
- * po animacji klasy są zdejmowane, żeby nie kolidowały z efektami hover.
+ * Uruchamiane przez MutationObserver po każdym doładowaniu komponentu i wypełnieniu siatki.
+ * Efekt odtwarza się przy każdym wejściu bloku w widok: rvShow pokazuje (z dołu albo z góry,
+ * zależnie od kierunku), rvHide chowa dopiero, gdy blok całkiem zniknie z ekranu.
  */
 const RV_ON = 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches;
 const rvSeen = new WeakSet();
 const rvGrids = '#articles-grid, #research-grid, #projects-grid';
-const rvObserver = RV_ON ? new IntersectionObserver(entries => entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    const n = e.target;
-    rvObserver.unobserve(n);
-    n.classList.add('rv-in');
-    setTimeout(() => { n.classList.remove('rv', 'rv-in'); n.style.removeProperty('--rv-delay'); }, 1200);
+const rvShow = RV_ON ? new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting || e.target.classList.contains('rv-in')) return;
+    e.target.style.setProperty('--rv-y', e.boundingClientRect.top < 0 ? '-20px' : '20px');
+    e.target.classList.add('rv-in');
 }), { rootMargin: '0px 0px -8% 0px' }) : null;
+const rvHide = RV_ON ? new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting) e.target.classList.remove('rv-in');
+})) : null;
 
 function revealScan() {
     if (!RV_ON) return;
@@ -86,7 +88,8 @@ function revealScan() {
         if (rvSeen.has(n)) return;
         rvSeen.add(n);
         n.classList.add('rv');
-        rvObserver.observe(n);
+        rvShow.observe(n);
+        rvHide.observe(n);
     });
 }
 

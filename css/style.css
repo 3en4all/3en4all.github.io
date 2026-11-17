@@ -40,11 +40,12 @@ body {
 .tile-hover-cyan:hover {
     border-color: rgba(34, 211, 238, 0.55) !important;
 }
-/* wejście treści przy przewijaniu; klasy dodaje i zdejmuje revealScan() w js/app.js */
-html .rv {
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
-    transition: opacity .8s ease, transform .8s cubic-bezier(.22, 1, .36, 1);
-    transition-delay: var(--rv-delay, 0ms);
+/* wejście treści przy przewijaniu, za każdym razem gdy blok wraca w widok (w dół i w górę);
+   klasy ustawia revealScan() w js/app.js. Animacja na osobnej właściwości `translate`,
+   więc nie gryzie się z hoverami Tailwinda (transform, transition). */
+html .rv:not(.rv-in) { opacity: 0; }
+html .rv.rv-in { animation: rv-in .8s cubic-bezier(.22, 1, .36, 1) var(--rv-delay, 0ms) both; }
+@keyframes rv-in {
+    from { opacity: 0; translate: 0 var(--rv-y, 20px); }
+    to { opacity: 1; translate: 0 0; }
 }
-html .rv.rv-in { opacity: 1; transform: none; }
